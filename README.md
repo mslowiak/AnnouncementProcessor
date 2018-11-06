@@ -6,7 +6,7 @@ This project is focused on flat rent announcements. Searching for an aparment is
 
 ## Application description
 The application tries to handle all of issues mentioned above. 
-It is builded on microservices as showed in image below.
+It is built on microservices as showed in image below.
 
 ![alt text](project_structure.png)
 
