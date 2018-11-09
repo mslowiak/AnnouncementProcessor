@@ -1,14 +1,28 @@
-activemq:
-  image: webcenter/activemq:latest
-  ports:
-    - 8161:8161
-    - 61616:61616
-    - 61613:61613
-  environment:
-    ACTIVEMQ_NAME: amq
-    ACTIVEMQ_REMOVE_DEFAULT_ACCOUNT: 'True'
-    ACTIVEMQ_ADMIN_LOGIN: admin
-    ACTIVEMQ_ADMIN_PASSWORD: admin
-  volumes:
-    - /container_data/activemq/data:/data/activemq
-    - /container_data/activemq/log:/var/log/activemq
+version: '3'
+
+services:
+
+  activemq:
+    image: webcenter/activemq:latest
+    container_name: activemq-service
+    ports:
+      - 8161:8161
+      - 61616:61616
+      - 61613:61613
+    environment:
+      ACTIVEMQ_NAME: amq
+      ACTIVEMQ_REMOVE_DEFAULT_ACCOUNT: 'True'
+      ACTIVEMQ_ADMIN_LOGIN: admin
+      ACTIVEMQ_ADMIN_PASSWORD: admin
+    volumes:
+      - /container_data/activemq/data:/data/activemq
+      - /container_data/activemq/log:/var/log/activemq
+
+  parser:
+      build: ./announcement-processor-parser
+      container_name: parser-service
+      ports:
+        - 8081:8081
+      volumes:
+        - ./announcement-processor-parser/src:/srv/announcement-processor/parser/src
+      command: java -jar ./target/parser-service.jar
