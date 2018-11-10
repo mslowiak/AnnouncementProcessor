@@ -3,6 +3,8 @@
 mvnw
 mvnw.cmd
 
+src/main/resources/application-prod.properties
+
 ### STS ###
 .apt_generated
 .classpath
