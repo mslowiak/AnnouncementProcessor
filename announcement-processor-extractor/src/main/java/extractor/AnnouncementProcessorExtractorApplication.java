@@ -14,10 +14,11 @@ public class AnnouncementProcessorExtractorApplication implements CommandLineRun
 
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(AnnouncementProcessorExtractorApplication.class);
+        app.run(args);
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
 
     }
 }
