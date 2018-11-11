@@ -26,3 +26,12 @@ services:
       volumes:
         - ./announcement-processor-parser/src:/srv/announcement-processor/parser/src
       command: java -jar ./target/parser-service.jar
+
+  api:
+    build: ./announcement-processor-api
+    container_name: api-service
+    ports:
+    - 8080:8080
+    volumes:
+    - ./announcement-processor-api/src:/srv/announcement-processor/api/src
+    command: java -jar -Dspring.profiles.active=dev ./target/api-service.jar
