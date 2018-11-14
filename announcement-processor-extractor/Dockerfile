@@ -11,6 +11,4 @@ COPY src /srv/announcement-processor/extractor/src
 
 RUN ["mvn", "clean", "install", "-DskipTests"]
 
-RUN cd target && ls
-
 CMD java -jar /srv/announcement-processor/extractor/target/extractor-service.jar
