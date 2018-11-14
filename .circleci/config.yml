@@ -36,7 +36,7 @@ jobs:
           key: circleci-announcement-processor-api-{{ checksum "announcement-processor-api/pom.xml" }}
 
       - run: cd announcement-processor-api && mvn dependency:go-offline # gets the project dependencies
-
+      
       - save_cache: # saves the project dependencies
           paths:
             - ~/.m2
