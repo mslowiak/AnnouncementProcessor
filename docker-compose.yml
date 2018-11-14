@@ -19,19 +19,29 @@ services:
       - /container_data/activemq/log:/var/log/activemq
 
   parser:
-      build: ./announcement-processor-parser
-      container_name: parser-service
-      ports:
-        - 8081:8081
-      volumes:
-        - ./announcement-processor-parser/src:/srv/announcement-processor/parser/src
-      command: java -jar ./target/parser-service.jar
+    build: ./announcement-processor-parser
+    container_name: parser-service
+    ports:
+      - 8081:8081
+    volumes:
+      - ./announcement-processor-parser/src:/srv/announcement-processor/parser/src
+    command: java -jar ./target/parser-service.jar
 
   api:
     build: ./announcement-processor-api
     container_name: api-service
     ports:
-    - 8080:8080
+      - 8080:8080
     volumes:
-    - ./announcement-processor-api/src:/srv/announcement-processor/api/src
+      - ./announcement-processor-api/src:/srv/announcement-processor/api/src
     command: java -jar -Dspring.profiles.active=dev ./target/api-service.jar
+  
+  extractor:
+    build: ./announcement-processor-extractor
+    container_name: extractor-service
+    ports:
+      - 8082:8082
+    volumes:
+      - ./announcement-processor-extractor/src:/srv/announcement-extractor/extractor/src
+  
+    command: java -jar ./target/extractor-service.jar

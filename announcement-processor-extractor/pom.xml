@@ -64,7 +64,7 @@
 
     <build>
         <finalName>
-            parser-service
+            extractor-service
         </finalName>
         <plugins>
             <plugin>
