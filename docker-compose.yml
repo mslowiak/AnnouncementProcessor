@@ -24,5 +24,16 @@ services:
       ports:
         - 8081:8081
       volumes:
-        - ./announcement-processor-parser/src:/srv/announcement-processor/parser/src
+        -  ./announcement-processor-parser/src:/srv/announcement-processor/parser/src
       command: java -jar ./target/parser-service.jar
+
+  extractor:
+      build: ./announcement-processor-extractor
+      container_name: extractor-service
+      ports:
+        - 8082:8082
+      volumes:
+        - ./announcement-processor-extractor/src:/srv/announcement-extractor/extractor/src
+
+      command: java -jar ./target/extractor-service.jar
+

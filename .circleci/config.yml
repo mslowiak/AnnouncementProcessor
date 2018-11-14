@@ -34,19 +34,19 @@ jobs:
 
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           key: circleci-announcement-processor-api-{{ checksum "announcement-processor-api/pom.xml" }}
-      
+
       - run: cd announcement-processor-api && mvn dependency:go-offline # gets the project dependencies
       
       - save_cache: # saves the project dependencies
           paths:
             - ~/.m2
           key: circleci-announcement-processor-api-{{ checksum "announcement-processor-api/pom.xml" }}
-      
+
       - run: cd announcement-processor-api && mvn package # run the actual tests
 
-      - store_test_results: # uploads the test metadata from the `target/surefire-reports` directory so that it can show up in the CircleCI dashboard. 
+      - store_test_results: # uploads the test metadata from the `target/surefire-reports` directory so that it can show up in the CircleCI dashboard.
           path: announcement-processor-api/target/surefire-reports
-      
+
       - store_artifacts:
           path: announcement-processor-api/target/api-service.jar
 
