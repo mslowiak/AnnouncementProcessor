@@ -1,9 +1,9 @@
-package parser;
+package parser.scrapper;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public interface SinglePageParser {
+interface SinglePageParser {
     String parseTitle();
     BigDecimal parsePrice();
     LocalDateTime parseCreationDate();
