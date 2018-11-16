@@ -11,18 +11,55 @@ interface SinglePageParser {
     String parseProvider();
     String parseUrl();
 
-    String parseLessor();
-    String parserLessorName();
-    String parsePhoneNumber();
+    default String parseLessor() {
+        return null;
+    }
 
-    String parsePropertyType();
-    Double parseFlatArea();
-    Integer parseRoomAmount();
-    Integer parseBathAmount();
-    Boolean parseParking();
-    Boolean parserSmokers();
-    Boolean parserPetFriendly();
-    BigDecimal parseAdditionalRentCost();
-    String parseLevel();
-    String parseFurnishings();
+    default String parserLessorName() {
+        return null;
+    }
+
+    default String parsePhoneNumber() {
+        return null;
+    }
+
+    default String parsePropertyType() {
+        return null;
+    }
+
+    default Double parseFlatArea(){
+        return null;
+    }
+
+    default Integer parseRoomAmount(){
+        return null;
+    }
+
+    default Integer parseBathAmount(){
+        return null;
+    }
+
+    default Boolean parseParking(){
+        return null;
+    }
+
+    default Boolean parserSmokers(){
+        return null;
+    }
+
+    default Boolean parserPetFriendly(){
+        return null;
+    }
+
+    default BigDecimal parseAdditionalRentCost(){
+        return null;
+    }
+
+    default String parseLevel(){
+        return null;
+    }
+
+    default String parseFurnishings(){
+        return null;
+    }
 }
