@@ -39,7 +39,7 @@ interface SinglePageParser {
         return null;
     }
 
-    default Boolean parseParking(Element parkingElement){
+    default String parseParking(Element parkingElement){
         return null;
     }
 

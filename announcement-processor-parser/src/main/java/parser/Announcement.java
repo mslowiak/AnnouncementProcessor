@@ -17,7 +17,7 @@ public class Announcement {
     private Double flatArea;
     private Integer roomAmount;
     private Integer bathAmount;
-    private Boolean isParkingAvailable;
+    private String parkingAvailability;
     private Boolean isSmokingAllowed;
     private Boolean isPetFriendly;
     private String lessorName;
@@ -41,7 +41,7 @@ public class Announcement {
         this.flatArea = builder.flatArea;
         this.roomAmount = builder.roomAmount;
         this.bathAmount = builder.bathAmount;
-        this.isParkingAvailable = builder.isParkingAvailable;
+        this.parkingAvailability = builder.parkingAvailability;
         this.isSmokingAllowed = builder.isSmokingAllowed;
         this.isPetFriendly = builder.isPetFriendly;
         this.lessorName = builder.lessorName;
@@ -67,7 +67,7 @@ public class Announcement {
         private Double flatArea;
         private Integer roomAmount;
         private Integer bathAmount;
-        private Boolean isParkingAvailable;
+        private String parkingAvailability;
         private Boolean isSmokingAllowed;
         private Boolean isPetFriendly;
         private String lessorName;
@@ -119,8 +119,8 @@ public class Announcement {
             return this;
         }
 
-        AnnouncementBuilder isParkingAvailable(Boolean isParkingAvailable) {
-            this.isParkingAvailable = isParkingAvailable;
+        AnnouncementBuilder parkingAvailability(String parkingAvailability) {
+            this.parkingAvailability = parkingAvailability;
             return this;
         }
 
@@ -135,7 +135,7 @@ public class Announcement {
         }
 
         AnnouncementBuilder lessorName(String lessorName) {
-            this.lessor = lessorName;
+            this.lessorName = lessorName;
             return this;
         }
 

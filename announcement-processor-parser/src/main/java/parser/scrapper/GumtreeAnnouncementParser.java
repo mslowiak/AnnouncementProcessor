@@ -80,7 +80,7 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
     }
 
     @Override
-    public Boolean parseParking(Element parkingElement) {
+    public String parseParking(Element parkingElement) {
         return null;
     }
 
