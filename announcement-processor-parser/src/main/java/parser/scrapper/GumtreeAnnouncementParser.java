@@ -37,6 +37,7 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
                     .flatArea(parseFlatArea(details))
                     .roomAmount(parseRoomAmount(details))
                     .bathAmount(parseBathAmount(details))
+                    .parkingAvailability(parseParking(details))
                     .build();
         } catch (IOException e) {
             throw new GumtreePageParseException("Cannot parser announcement from url: " + url);
@@ -188,7 +189,8 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
 
     @Override
     public String parseParking(Element parkingElement) {
-        return "";
+        Elements liElements = parkingElement.select("li");
+        return getValueForAttributeFromLiElements("Parking", liElements);
     }
 
     @Override
