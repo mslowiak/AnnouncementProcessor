@@ -33,6 +33,7 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
 //                    .description(parseDescription(pageContent.selectFirst(".description")))
                     .lessor(parseLessor(details))
                     .phoneNumber(parsePhoneNumber(pageContent.selectFirst(".vip.vip-contact")))
+                    .propertyType(parsePropertyType(details))
                     .build();
         } catch (IOException e) {
             throw new GumtreePageParseException("Cannot parser announcement from url: " + url);
@@ -106,7 +107,8 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
 
     @Override
     public String parsePropertyType(Element propertyTypeElement) {
-        return "";
+        Elements liElements = propertyTypeElement.select("li");
+        return getValueForAttributeFromLiElements("Rodzaj nieruchomości", liElements);
     }
 
     @Override
