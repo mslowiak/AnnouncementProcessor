@@ -38,6 +38,7 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
                     .roomAmount(parseRoomAmount(details))
                     .bathAmount(parseBathAmount(details))
                     .parkingAvailability(parseParking(details))
+                    .isSmokingAllowed(parseSmokers(details))
                     .build();
         } catch (IOException e) {
             throw new GumtreePageParseException("Cannot parser announcement from url: " + url);
@@ -195,7 +196,20 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
 
     @Override
     public Boolean parseSmokers(Element smokersElement) {
-        return false;
+        Elements liElements = smokersElement.select("li");
+        String smokers = getValueForAttributeFromLiElements("Palący", liElements);
+
+        Boolean forSmokers = null;
+
+        if(smokers != null){
+            if (smokers.equals("Tak")) {
+                forSmokers = true;
+            } else if (smokers.equals("Nie")) {
+                forSmokers = false;
+            }
+        }
+
+        return forSmokers;
     }
 
     @Override
