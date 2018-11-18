@@ -34,6 +34,7 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
                     .lessor(parseLessor(details))
                     .phoneNumber(parsePhoneNumber(pageContent.selectFirst(".vip.vip-contact")))
                     .propertyType(parsePropertyType(details))
+                    .flatArea(parseFlatArea(details))
                     .build();
         } catch (IOException e) {
             throw new GumtreePageParseException("Cannot parser announcement from url: " + url);
@@ -113,7 +114,14 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
 
     @Override
     public Double parseFlatArea(Element flatAreaElement) {
-        return 0d;
+        Elements liElements = flatAreaElement.select("li");
+        String flatAreaInText = getValueForAttributeFromLiElements("Wielkość (m2)", liElements);
+
+        if(flatAreaInText != null){
+            return Double.valueOf(flatAreaInText);
+        }
+
+        return null;
     }
 
     @Override
