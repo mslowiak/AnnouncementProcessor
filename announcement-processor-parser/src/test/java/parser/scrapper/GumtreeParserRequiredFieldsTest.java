@@ -82,7 +82,7 @@ public class GumtreeParserRequiredFieldsTest {
     @Test
     public void testCreationDate() {
         // given
-        Element detailsElement = spyDoc.selectFirst(".vip.vip-contact");
+        Element detailsElement = spyDoc.selectFirst(".vip-details");
 
         // when
         LocalDateTime dateTime = gumtreeParser.parseCreationDate(detailsElement);

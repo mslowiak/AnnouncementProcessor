@@ -3,13 +3,17 @@ package parser.scrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import parser.Announcement;
 import parser.exceptions.GumtreePageParseException;
 import parser.exceptions.PropertyNotValidForGumtreeProviderException;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 @Slf4j
 public class GumtreeAnnouncementParser extends AnnouncementParser implements SinglePageParser {
@@ -19,10 +23,13 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
             Document pageContent = getPageContent(url);
             log.info("Received content from url: " + url);
 
+            Element details = pageContent.selectFirst(".vip-details");
+
             return Announcement.builder()
                     .title(parseTitle(pageContent.selectFirst(".item-title")))
                     .price(parsePrice(pageContent.selectFirst(".price")))
                     .lessorName(parseLessorName(pageContent.selectFirst(".username")))
+                    .creationDate(parseCreationDate(details))
                     .build();
         } catch (IOException e) {
             throw new GumtreePageParseException("Cannot parser announcement from url: " + url);
@@ -61,7 +68,16 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
 
     @Override
     public LocalDateTime parseCreationDate(Element creationDateElement) {
-        return LocalDateTime.MIN;
+        LocalDateTime output = null;
+
+        Elements liElements = creationDateElement.select("li");
+        String dateInText = getValueForAttributeFromLiElements("Data dodania", liElements);
+
+        if (dateInText != null) {
+            output = LocalDateTime.of(LocalDate.parse(dateInText, DateTimeFormatter.ofPattern("d/MM/yyyy")), LocalTime.of(0, 0));
+        }
+
+        return output;
     }
 
     @Override
@@ -127,5 +143,17 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
     @Override
     public String parseFurnishings(Element furnishingsElement) {
         throw new PropertyNotValidForGumtreeProviderException("furnishings");
+    }
+
+    private String getValueForAttributeFromLiElements(String attributeName, Elements liElements) {
+        if (liElements != null) {
+            for (Element singleLiElement : liElements) {
+                String text = singleLiElement.selectFirst(".attribute > .name").text();
+                if (text.equals(attributeName)) {
+                    return singleLiElement.selectFirst(".attribute > .value").text();
+                }
+            }
+        }
+        return null;
     }
 }
