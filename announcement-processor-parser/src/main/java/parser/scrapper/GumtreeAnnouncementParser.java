@@ -19,15 +19,17 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
             Document pageContent = getPageContent(url);
             log.info("Received content from url: " + url);
 
-            return null;
+            return Announcement.builder()
+                    .title(parseTitle(pageContent.selectFirst(".item-title")))
+                    .build();
         } catch (IOException e) {
-            throw new GumtreePageParseException("Nie można przetworzyć ogłoszenia o podanym url: " + url);
+            throw new GumtreePageParseException("Cannot parser announcement from url: " + url);
         }
     }
 
     @Override
     public String parseTitle(Element titleElement) {
-        return "";
+        return titleElement.text();
     }
 
     @Override
