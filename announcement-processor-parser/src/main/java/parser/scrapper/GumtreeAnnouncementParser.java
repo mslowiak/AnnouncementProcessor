@@ -35,6 +35,7 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
                     .phoneNumber(parsePhoneNumber(pageContent.selectFirst(".vip.vip-contact")))
                     .propertyType(parsePropertyType(details))
                     .flatArea(parseFlatArea(details))
+                    .roomAmount(parseRoomAmount(details))
                     .build();
         } catch (IOException e) {
             throw new GumtreePageParseException("Cannot parser announcement from url: " + url);
@@ -100,7 +101,7 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
     public String parsePhoneNumber(Element phoneNumberElement) {
         Element element = phoneNumberElement.selectFirst("div > a");
         String telephone = element.attr("href");
-        if(telephone.contains("tel:")){
+        if (telephone.contains("tel:")) {
             return telephone.replaceAll("tel:", "");
         }
         return null;
@@ -117,7 +118,7 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
         Elements liElements = flatAreaElement.select("li");
         String flatAreaInText = getValueForAttributeFromLiElements("Wielkość (m2)", liElements);
 
-        if(flatAreaInText != null){
+        if (flatAreaInText != null) {
             return Double.valueOf(flatAreaInText);
         }
 
@@ -126,7 +127,35 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
 
     @Override
     public Integer parseRoomAmount(Element roomAmountElement) {
-        return -1;
+        Elements liElements = roomAmountElement.select("li");
+        String roomAmountText = getValueForAttributeFromLiElements("Liczba pokoi", liElements);
+
+        Integer roomAmount = null;
+
+        if (roomAmountText != null) {
+            switch (roomAmountText) {
+                case "Kawalerka lub garsoniera":
+                    roomAmount = 1;
+                    break;
+                case "2 pokoje":
+                    roomAmount = 2;
+                    break;
+                case "3 pokoje":
+                    roomAmount = 3;
+                    break;
+                case "4 pokoje":
+                    roomAmount = 4;
+                    break;
+                case "5 pokoi":
+                    roomAmount = 5;
+                    break;
+                case "6 lub więcej pokoi":
+                    roomAmount = 6;
+                    break;
+            }
+        }
+
+        return roomAmount;
     }
 
     @Override
