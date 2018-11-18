@@ -22,6 +22,7 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
             return Announcement.builder()
                     .title(parseTitle(pageContent.selectFirst(".item-title")))
                     .price(parsePrice(pageContent.selectFirst(".price")))
+                    .lessorName(parseLessorName(pageContent.selectFirst(".username")))
                     .build();
         } catch (IOException e) {
             throw new GumtreePageParseException("Cannot parser announcement from url: " + url);
@@ -52,6 +53,13 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
     }
 
     @Override
+    public String parseLessorName(Element lessorNameElement) {
+        Element href = lessorNameElement.selectFirst("a");
+        String text = href.text();
+        return text.replaceAll("\\(Zobacz więcej ogłoszeń\\)", "").trim();
+    }
+
+    @Override
     public LocalDateTime parseCreationDate(Element creationDateElement) {
         return LocalDateTime.MIN;
     }
@@ -63,11 +71,6 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
 
     @Override
     public String parseLessor(Element lessorElement) {
-        return "";
-    }
-
-    @Override
-    public String parseLessorName(Element lessorNameElement) {
         return "";
     }
 
