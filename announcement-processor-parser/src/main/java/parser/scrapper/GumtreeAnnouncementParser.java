@@ -39,6 +39,7 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
                     .bathAmount(parseBathAmount(details))
                     .parkingAvailability(parseParking(details))
                     .isSmokingAllowed(parseSmokers(details))
+                    .isPetFriendly(parsePetFriendly(details))
                     .build();
         } catch (IOException e) {
             throw new GumtreePageParseException("Cannot parser announcement from url: " + url);
@@ -199,22 +200,15 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
         Elements liElements = smokersElement.select("li");
         String smokers = getValueForAttributeFromLiElements("Palący", liElements);
 
-        Boolean forSmokers = null;
-
-        if(smokers != null){
-            if (smokers.equals("Tak")) {
-                forSmokers = true;
-            } else if (smokers.equals("Nie")) {
-                forSmokers = false;
-            }
-        }
-
-        return forSmokers;
+        return getBooleanFromYesNoSentence(smokers);
     }
 
     @Override
     public Boolean parsePetFriendly(Element petFriendlyElement) {
-        return true;
+        Elements liElements = petFriendlyElement.select("li");
+        String pets = getValueForAttributeFromLiElements("Przyjazne zwierzakom", liElements);
+
+        return getBooleanFromYesNoSentence(pets);
     }
 
     @Override
@@ -239,6 +233,17 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
                 if (text.equals(attributeName)) {
                     return singleLiElement.selectFirst(".attribute > .value").text();
                 }
+            }
+        }
+        return null;
+    }
+
+    private Boolean getBooleanFromYesNoSentence(String sentence) {
+        if (sentence != null) {
+            if (sentence.equals("Tak")) {
+                return true;
+            } else if (sentence.equals("Nie")) {
+                return false;
             }
         }
         return null;
