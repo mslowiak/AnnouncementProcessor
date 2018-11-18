@@ -67,7 +67,7 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
     }
 
     @Override
-    public String parserLessorName(Element lessorNameElement) {
+    public String parseLessorName(Element lessorNameElement) {
         return "";
     }
 
@@ -102,12 +102,12 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
     }
 
     @Override
-    public Boolean parserSmokers(Element smokersElement) {
+    public Boolean parseSmokers(Element smokersElement) {
         return false;
     }
 
     @Override
-    public Boolean parserPetFriendly(Element petFriendlyElement) {
+    public Boolean parsePetFriendly(Element petFriendlyElement) {
         return true;
     }
 

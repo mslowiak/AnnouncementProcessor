@@ -15,7 +15,7 @@ interface SinglePageParser {
         return null;
     }
 
-    default String parserLessorName(Element lessorNameElement) {
+    default String parseLessorName(Element lessorNameElement) {
         return null;
     }
 
@@ -43,11 +43,11 @@ interface SinglePageParser {
         return null;
     }
 
-    default Boolean parserSmokers(Element smokersElement){
+    default Boolean parseSmokers(Element smokersElement){
         return null;
     }
 
-    default Boolean parserPetFriendly(Element petFriendlyElement){
+    default Boolean parsePetFriendly(Element petFriendlyElement){
         return null;
     }
 

@@ -206,7 +206,7 @@ public class GumtreeParserNonRequiredFieldsTest {
         Element detailsElement = spyDocWithoutLessor.selectFirst(".vip-details");
 
         // when
-        Boolean smokers = gumtreeParser.parserSmokers(detailsElement);
+        Boolean smokers = gumtreeParser.parseSmokers(detailsElement);
 
         // then
         Assert.assertEquals(GumtreeExpectedProperties.expectedSmokers, smokers);
@@ -219,7 +219,7 @@ public class GumtreeParserNonRequiredFieldsTest {
         Element detailsElement = spyDocWithoutLessor.selectFirst(".vip-details");
 
         // when
-        Boolean smokers = gumtreeParser.parserSmokers(detailsElement);
+        Boolean smokers = gumtreeParser.parseSmokers(detailsElement);
 
         // then
         Assert.assertNull(smokers);
@@ -232,7 +232,7 @@ public class GumtreeParserNonRequiredFieldsTest {
         Element detailsElement = spyDocWithoutLessor.selectFirst(".vip-details");
 
         // when
-        Boolean petFriendly = gumtreeParser.parserPetFriendly(detailsElement);
+        Boolean petFriendly = gumtreeParser.parsePetFriendly(detailsElement);
 
         // then
         Assert.assertEquals(GumtreeExpectedProperties.expectedPetFriendly, petFriendly);
@@ -245,7 +245,7 @@ public class GumtreeParserNonRequiredFieldsTest {
         Element detailsElement = spyDocWithoutLessor.selectFirst(".vip-details");
 
         // when
-        Boolean petFriendly = gumtreeParser.parserPetFriendly(detailsElement);
+        Boolean petFriendly = gumtreeParser.parsePetFriendly(detailsElement);
 
         // then
         Assert.assertNull(petFriendly);

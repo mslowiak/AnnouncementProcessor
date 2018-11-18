@@ -72,7 +72,7 @@ public class GumtreeParserRequiredFieldsTest {
         Element lessorNameElement = spyDoc.selectFirst(".username");
 
         // when
-        String lessorName = gumtreeParser.parserLessorName(lessorNameElement);
+        String lessorName = gumtreeParser.parseLessorName(lessorNameElement);
 
         // then
         Assert.assertEquals(GumtreeExpectedProperties.expectedLessorName, lessorName);

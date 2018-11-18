@@ -24,7 +24,7 @@ public class GumtreePetFriendlyOptionsTests {
         Element detailsElement = spyDoc.selectFirst(".vip-details");
 
         // when
-        Boolean petFriendly = gumtreeParser.parserPetFriendly(detailsElement);
+        Boolean petFriendly = gumtreeParser.parsePetFriendly(detailsElement);
 
         // then
         Assert.assertTrue(petFriendly);
@@ -37,7 +37,7 @@ public class GumtreePetFriendlyOptionsTests {
         Element detailsElement = spyDoc.selectFirst(".vip-details");
 
         // when
-        Boolean petFriendly = gumtreeParser.parserPetFriendly(detailsElement);
+        Boolean petFriendly = gumtreeParser.parsePetFriendly(detailsElement);
 
         // then
         Assert.assertFalse(petFriendly);

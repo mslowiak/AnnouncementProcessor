@@ -24,7 +24,7 @@ public class GumtreeSmokerOptionsTests {
         Element detailsElement = spyDoc.selectFirst(".vip-details");
 
         // when
-        Boolean smokers = gumtreeParser.parserSmokers(detailsElement);
+        Boolean smokers = gumtreeParser.parseSmokers(detailsElement);
 
         // then
         Assert.assertTrue(smokers);
@@ -37,7 +37,7 @@ public class GumtreeSmokerOptionsTests {
         Element detailsElement = spyDoc.selectFirst(".vip-details");
 
         // when
-        Boolean smokers = gumtreeParser.parserSmokers(detailsElement);
+        Boolean smokers = gumtreeParser.parseSmokers(detailsElement);
 
         // then
         Assert.assertFalse(smokers);
