@@ -47,5 +47,11 @@ class GumtreeExpectedProperties {
             "\n" +
             "nioobi (malpa) op (kropka) pl\n" +
             "\n" +
-            "Pośrednikom z góry dziękuję za zainteresowanie!\n";
+            "\n" +
+            "Możliwość oglądnięcia mieszkania\n" +
+            "\n" +
+            "Palić papierosy można na dużym balkonie ;)\n" +
+            "\n" +
+            "\n" +
+            "Pośrednikom z góry dziękuję za zainteresowanie!";
 }

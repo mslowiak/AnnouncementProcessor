@@ -1,6 +1,7 @@
 package parser.scrapper;
 
 import lombok.extern.slf4j.Slf4j;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -92,7 +93,23 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
 
     @Override
     public String parseDescription(Element element) {
-        return "";
+        Element span = element.selectFirst("span");
+        String textWithoutBoldings = span.html().replaceAll("<b>|</b>", "");
+        Document parse = Jsoup.parse(textWithoutBoldings);
+
+        Elements allElements = parse.body().getAllElements();
+        StringBuilder sb = new StringBuilder();
+        for (Element elem : allElements) {
+            String ownText = elem.ownText();
+            if (!ownText.equals("")) {
+                sb.append(elem.ownText()).append("\n");
+            } else {
+                if (elem.html().equals("<br>")) {
+                    sb.append("\n");
+                }
+            }
+        }
+        return sb.toString().trim();
     }
 
     @Override
