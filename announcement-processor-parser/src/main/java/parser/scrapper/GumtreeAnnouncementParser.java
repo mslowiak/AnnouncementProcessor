@@ -21,6 +21,7 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
 
             return Announcement.builder()
                     .title(parseTitle(pageContent.selectFirst(".item-title")))
+                    .price(parsePrice(pageContent.selectFirst(".price")))
                     .build();
         } catch (IOException e) {
             throw new GumtreePageParseException("Cannot parser announcement from url: " + url);
@@ -34,7 +35,20 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
 
     @Override
     public BigDecimal parsePrice(Element priceElement) {
-        return BigDecimal.ZERO;
+        BigDecimal output = BigDecimal.ZERO;
+        Element span = priceElement.selectFirst("span");
+        String text = span.text();
+
+        if (text.contains("zł")) {
+            String number = text.replaceAll("zł", "").replaceAll(" ", "");
+            output = new BigDecimal(number);
+        } else if (text.equals("Proszę o kontakt")) {
+            output = null;
+        } else if (text.equals("Wymiana/zamiana")) {
+            output = new BigDecimal(-1);
+        }
+
+        return output;
     }
 
     @Override
