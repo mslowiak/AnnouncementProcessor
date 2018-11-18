@@ -3,9 +3,9 @@ package parser.scrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.springframework.cglib.core.Local;
 import parser.Announcement;
 import parser.exceptions.GumtreePageParseException;
+import parser.exceptions.PropertyNotValidForGumtreeProviderException;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -97,16 +97,16 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
 
     @Override
     public BigDecimal parseAdditionalRentCost(Element additionalRentCostElement) {
-        return BigDecimal.ZERO;
+        throw new PropertyNotValidForGumtreeProviderException("additional rent cost");
     }
 
     @Override
     public String parseLevel(Element levelElement) {
-        return "";
+        throw new PropertyNotValidForGumtreeProviderException("level");
     }
 
     @Override
     public String parseFurnishings(Element furnishingsElement) {
-        return "";
+        throw new PropertyNotValidForGumtreeProviderException("furnishings");
     }
 }
