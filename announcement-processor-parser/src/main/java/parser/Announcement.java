@@ -54,7 +54,7 @@ public class Announcement {
         this.phoneNumber = builder.phoneNumber;
     }
 
-    static AnnouncementBuilder builder() {
+    public static AnnouncementBuilder builder() {
         return new AnnouncementBuilder();
     }
 
@@ -79,102 +79,102 @@ public class Announcement {
         private String url;
         private String phoneNumber;
 
-        AnnouncementBuilder title(String title) {
+        public AnnouncementBuilder title(String title) {
             this.title = title;
             return this;
         }
 
-        AnnouncementBuilder price(BigDecimal price) {
+        public AnnouncementBuilder price(BigDecimal price) {
             this.price = price;
             return this;
         }
 
-        AnnouncementBuilder creationDate(LocalDateTime creationDate) {
+        public AnnouncementBuilder creationDate(LocalDateTime creationDate) {
             this.creationDate = creationDate;
             return this;
         }
 
-        AnnouncementBuilder lessor(String lessor) {
+        public AnnouncementBuilder lessor(String lessor) {
             this.lessor = lessor;
             return this;
         }
 
-        AnnouncementBuilder propertyType(String propertyType) {
+        public AnnouncementBuilder propertyType(String propertyType) {
             this.propertyType = propertyType;
             return this;
         }
 
-        AnnouncementBuilder flatArea(Double flatArea) {
+        public AnnouncementBuilder flatArea(Double flatArea) {
             this.flatArea = flatArea;
             return this;
         }
 
-        AnnouncementBuilder roomAmount(Integer roomAmount) {
+        public AnnouncementBuilder roomAmount(Integer roomAmount) {
             this.roomAmount = roomAmount;
             return this;
         }
 
-        AnnouncementBuilder bathAmount(Integer bathAmount) {
+        public AnnouncementBuilder bathAmount(Integer bathAmount) {
             this.bathAmount = bathAmount;
             return this;
         }
 
-        AnnouncementBuilder parkingAvailability(String parkingAvailability) {
+        public AnnouncementBuilder parkingAvailability(String parkingAvailability) {
             this.parkingAvailability = parkingAvailability;
             return this;
         }
 
-        AnnouncementBuilder isSmokingAllowed(Boolean isSmokingAllowed) {
+        public AnnouncementBuilder isSmokingAllowed(Boolean isSmokingAllowed) {
             this.isSmokingAllowed = isSmokingAllowed;
             return this;
         }
 
-        AnnouncementBuilder isPetFriendly(Boolean isPetFriendly) {
+        public AnnouncementBuilder isPetFriendly(Boolean isPetFriendly) {
             this.isPetFriendly = isPetFriendly;
             return this;
         }
 
-        AnnouncementBuilder lessorName(String lessorName) {
+        public AnnouncementBuilder lessorName(String lessorName) {
             this.lessorName = lessorName;
             return this;
         }
 
-        AnnouncementBuilder additionalRentCost(BigDecimal additionalRentCost) {
+        public AnnouncementBuilder additionalRentCost(BigDecimal additionalRentCost) {
             this.additionalRentCost = additionalRentCost;
             return this;
         }
 
-        AnnouncementBuilder level(String level) {
+        public AnnouncementBuilder level(String level) {
             this.level = level;
             return this;
         }
 
-        AnnouncementBuilder furnishing(String furnishing) {
+        public AnnouncementBuilder furnishing(String furnishing) {
             this.furnishing = furnishing;
             return this;
         }
 
-        AnnouncementBuilder description(String description) {
+        public AnnouncementBuilder description(String description) {
             this.description = description;
             return this;
         }
 
-        AnnouncementBuilder provider(String provider) {
+        public AnnouncementBuilder provider(String provider) {
             this.provider = provider;
             return this;
         }
 
-        AnnouncementBuilder url(String url) {
+        public AnnouncementBuilder url(String url) {
             this.url = url;
             return this;
         }
 
-        AnnouncementBuilder phoneNumber(String phoneNumber) {
+        public AnnouncementBuilder phoneNumber(String phoneNumber) {
             this.phoneNumber = phoneNumber;
             return this;
         }
 
-        Announcement build() {
+        public Announcement build() {
             return new Announcement(this);
         }
     }
