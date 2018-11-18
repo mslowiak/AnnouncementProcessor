@@ -32,6 +32,7 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
                     .creationDate(parseCreationDate(details))
 //                    .description(parseDescription(pageContent.selectFirst(".description")))
                     .lessor(parseLessor(details))
+                    .phoneNumber(parsePhoneNumber(pageContent.selectFirst(".vip.vip-contact")))
                     .build();
         } catch (IOException e) {
             throw new GumtreePageParseException("Cannot parser announcement from url: " + url);
@@ -95,7 +96,12 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
 
     @Override
     public String parsePhoneNumber(Element phoneNumberElement) {
-        return "";
+        Element element = phoneNumberElement.selectFirst("div > a");
+        String telephone = element.attr("href");
+        if(telephone.contains("tel:")){
+            return telephone.replaceAll("tel:", "");
+        }
+        return null;
     }
 
     @Override
