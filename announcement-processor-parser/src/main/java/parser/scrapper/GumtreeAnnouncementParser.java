@@ -36,6 +36,7 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
                     .propertyType(parsePropertyType(details))
                     .flatArea(parseFlatArea(details))
                     .roomAmount(parseRoomAmount(details))
+                    .bathAmount(parseBathAmount(details))
                     .build();
         } catch (IOException e) {
             throw new GumtreePageParseException("Cannot parser announcement from url: " + url);
@@ -160,7 +161,29 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
 
     @Override
     public Integer parseBathAmount(Element bathAmountElement) {
-        return -1;
+        Elements liElements = bathAmountElement.select("li");
+        String bathAmountText = getValueForAttributeFromLiElements("Liczba łazienek", liElements);
+
+        Integer bathAmount = null;
+
+        if (bathAmountText != null) {
+            switch (bathAmountText) {
+                case "1 łazienka":
+                    bathAmount = 1;
+                    break;
+                case "2 łazienki":
+                    bathAmount = 2;
+                    break;
+                case "3 łazienki":
+                    bathAmount = 3;
+                    break;
+                case "4 lub więcej łazienek":
+                    bathAmount = 4;
+                    break;
+            }
+        }
+
+        return bathAmount;
     }
 
     @Override
