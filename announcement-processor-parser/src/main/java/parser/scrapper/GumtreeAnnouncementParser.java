@@ -31,7 +31,7 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
                     .price(parsePrice(pageContent.selectFirst(".price")))
                     .lessorName(parseLessorName(pageContent.selectFirst(".username")))
                     .creationDate(parseCreationDate(details))
-//                    .description(parseDescription(pageContent.selectFirst(".description")))
+                    .description(parseDescription(pageContent.selectFirst(".description")))
                     .lessor(parseLessor(details))
                     .phoneNumber(parsePhoneNumber(pageContent.selectFirst(".vip.vip-contact")))
                     .propertyType(parsePropertyType(details))
