@@ -41,6 +41,8 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
                     .parkingAvailability(parseParking(details))
                     .isSmokingAllowed(parseSmokers(details))
                     .isPetFriendly(parsePetFriendly(details))
+                    .url(url)
+                    .provider("Gumtree")
                     .build();
         } catch (IOException e) {
             throw new GumtreePageParseException("Cannot parser announcement from url: " + url);
