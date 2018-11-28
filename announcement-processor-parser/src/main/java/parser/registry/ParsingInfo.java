@@ -27,4 +27,7 @@ public class ParsingInfo {
 
     @Column(name = "COUNTER_PER_DATE")
     Integer counterPerDate;
+
+    @Column(name = "PROVIDER")
+    String provider;
 }
