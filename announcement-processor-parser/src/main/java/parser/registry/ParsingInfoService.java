@@ -10,5 +10,4 @@ public class ParsingInfoService {
     public ParsingInfoService(ParsingInfoRepository parsingInfoRepository) {
         this.parsingInfoRepository = parsingInfoRepository;
     }
-
 }
