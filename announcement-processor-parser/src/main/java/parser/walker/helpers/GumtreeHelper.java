@@ -52,6 +52,7 @@ public class GumtreeHelper extends ProviderHelper {
                 } while (pageToBeFound == null && scannedPageNumber <= totalPage);
 
                 if (pageToBeFound != null) {
+                    log.debug("\nURL: " + parsingInfoToFind.getUrl() + "\n\t at page: " + scannedPageNumber);
                     returnValues = new HashMap<>();
                     returnValues.put("url", urlToScan);
                     returnValues.put("pageDocument", pageToBeFound.get("pageDocument"));
@@ -106,9 +107,6 @@ public class GumtreeHelper extends ProviderHelper {
             return BASE_ANNOUNCEMENTS_URL;
         }
         String[] splitted = previousUrl.split("(krakow/)(page-[0-9]+/)*");
-        for (String s : splitted) {
-            System.out.println(s);
-        }
-        return splitted[0] + "krakow/page-" + nextPageNumber + "/" + splitted[1].replaceAll("p[0-9]", "p" + nextPageNumber);
+        return splitted[0] + "krakow/page-" + nextPageNumber + "/" + splitted[1].replaceAll("p[0-9]+", "p" + nextPageNumber);
     }
 }
