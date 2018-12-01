@@ -2,6 +2,7 @@ package parser.walker;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import parser.walker.states.StopState;
 import parser.walker.states.WalkerState;
 
 @Service
@@ -15,5 +16,8 @@ public class GumtreePageWalker extends PageWalker {
 
     @Override
     public void walk(String startPageUrl) {
+        while(walkerState != null && !(walkerState instanceof StopState)){
+            walkerState = walkerState.run();
+        }
     }
 }
