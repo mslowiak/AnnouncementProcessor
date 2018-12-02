@@ -50,7 +50,7 @@ public class AnnouncementConsumerFromString implements AnnouncementConsumer {
             "}";
 
     public AnnouncementConsumerFromString() {
-        this.mapperService = new MapperService();
+        this.mapperService = new MapperService(); // pass as argument
     }
 
     @Override
