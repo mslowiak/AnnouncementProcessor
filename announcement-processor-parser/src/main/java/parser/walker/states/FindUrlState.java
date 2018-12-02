@@ -1,20 +1,28 @@
 package parser.walker.states;
 
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import parser.registry.ParsingInfo;
 import parser.walker.helpers.ProviderHelper;
 
-@Component
-@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+import java.util.HashMap;
+import java.util.Optional;
+
 public class FindUrlState extends WalkerState {
 
-    public FindUrlState(ProviderHelper providerHelper) {
+    private ParsingInfo parsingInfoToFind;
+
+    FindUrlState(ProviderHelper providerHelper, ParsingInfo parsingInfoToFind) {
         super(providerHelper);
+        this.parsingInfoToFind = parsingInfoToFind;
     }
 
     @Override
     public WalkerState run() {
-        return null;
+        Optional<HashMap<String, Object>> pageWithAnnouncement = providerHelper.findPageWithAnnouncement(parsingInfoToFind);
+
+        if (pageWithAnnouncement.isPresent()) {
+            return new ProcessPageState(providerHelper);
+        } else {
+            return new FetchRegistryState(providerHelper);
+        }
     }
 }
