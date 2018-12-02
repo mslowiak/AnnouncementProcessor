@@ -7,8 +7,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class Lessor {
 
-    String name;
-    String lessorType; // to enum
-    String phoneNumber;
-    String email;
+    private String name;
+    private String lessorType; // to enum
+    private String phoneNumber;
+    private String email;
 }

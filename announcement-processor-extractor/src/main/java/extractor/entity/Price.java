@@ -15,7 +15,7 @@ public class Price {
 
     // Integers may be changed to a custom Money type
     private Integer basePrice;
-    Map<String, Integer> additionalPrices;
+    private Map<String, Integer> additionalPrices;
 
     public Integer getSummedPrice() {
         return basePrice + additionalPrices.values()
@@ -23,5 +23,4 @@ public class Price {
                 .mapToInt(i -> i)
                 .sum();
     }
-
 }

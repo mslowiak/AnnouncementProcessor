@@ -7,14 +7,13 @@ import lombok.Data;
 @AllArgsConstructor
 public class PropertyData {
 
-    String propertyType; // to enum?
-    Float area;
-    Boolean isSmokingAllowed;
-    Boolean isPerFriendly;
-    Integer roomNumber;
-    Integer bathroomNumber;
-    String parkingAvailability;
-    Integer level;
-    String furnishing;
-
+    private String propertyType; // to enum?
+    private Float area;
+    private Boolean isSmokingAllowed;
+    private Boolean isPerFriendly;
+    private Integer roomNumber;
+    private Integer bathroomNumber;
+    private String parkingAvailability;
+    private Integer level;
+    private String furnishing;
 }

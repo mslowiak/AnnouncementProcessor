@@ -17,6 +17,4 @@ public class Location {
     private String buildingNumber;
     private String flatNumber;
     private String district;
-
-
 }
