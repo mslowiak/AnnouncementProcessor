@@ -3,7 +3,7 @@ package extractor.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /*
 * Contains extracted data which is sourced by the parser service.
@@ -19,7 +19,7 @@ public class Announcement {
     private Location location;
     private PropertyData propertyData;
     private Lessor lessor;
-    private LocalDate creationDate;
+    private LocalDateTime creationDate;
     private String url;
     private String description;
     private String provider; // to enum
