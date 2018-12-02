@@ -1,14 +1,12 @@
 package extractor.consumer;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import extractor.dto.AnnouncementDto;
+import extractor.service.MapperService;
 
-import java.io.IOException;
 
 public class AnnouncementConsumerFromString implements AnnouncementConsumer {
 
-    private ObjectMapper mapper;
+    private MapperService mapperService;
     private final String json = "{" +
             "\"title\":" +
             "\"Kawalerka 40m Głowackiego 4 Kraków PRZESTRONNE niskie koszty WIDOK na PANORAMĘ Krakowa POŁUDNIE\"," +
@@ -52,13 +50,11 @@ public class AnnouncementConsumerFromString implements AnnouncementConsumer {
             "}";
 
     public AnnouncementConsumerFromString() {
-        this.mapper = new ObjectMapper()
-                .registerModule(new JavaTimeModule());
+        this.mapperService = new MapperService();
     }
 
     @Override
-    public AnnouncementDto consumeAnnouncement() throws IOException {
-        AnnouncementDto  announcementDto = mapper.readValue(this.json, AnnouncementDto.class);
-        return announcementDto;
+    public AnnouncementDto consumeAnnouncement() {
+        return mapperService.getAnnouncementDtoFromJsonString(this.json);
     }
 }

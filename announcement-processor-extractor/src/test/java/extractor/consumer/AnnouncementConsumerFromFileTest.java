@@ -4,16 +4,16 @@ import extractor.dto.AnnouncementDto;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+
 public class AnnouncementConsumerFromFileTest {
 
-    AnnouncementConsumerFromString announcementConsumer = new AnnouncementConsumerFromString();
+    private AnnouncementConsumerFromString announcementConsumer = new AnnouncementConsumerFromString();
 
     @Test
-    public void consumeAnnouncementTest() throws IOException {
+    public void consumeAnnouncementTest() {
         String title = "Kawalerka 40m Głowackiego 4 Kraków PRZESTRONNE niskie koszty WIDOK na PANORAMĘ Krakowa POŁUDNIE";
         Integer price = 1300;
         String strDate = "2018-11-17 00:00:00";
