@@ -15,7 +15,7 @@ public class AnnouncementDto {
     private LocalDateTime creationDate;
     private String lessor;
     private String propertyType;
-    private Float flatArea;
+    private Double flatArea;
     private Integer roomAmount;
     private Integer bathAmount;
     private String parkingAvailability;
@@ -36,7 +36,7 @@ public class AnnouncementDto {
             @JsonProperty("creationDate") LocalDateTime creationDate,
             @JsonProperty("lessor") String lessor,
             @JsonProperty("propertyType") String propertyType,
-            @JsonProperty("flatArea") Float flatArea,
+            @JsonProperty("flatArea") Double flatArea,
             @JsonProperty("roomAmount") Integer roomAmount,
             @JsonProperty("bathAmount") Integer bathAmount,
             @JsonProperty("parkingAvailability") String parkingAvailability,
