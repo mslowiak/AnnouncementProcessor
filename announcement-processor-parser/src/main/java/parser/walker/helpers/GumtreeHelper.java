@@ -9,6 +9,9 @@ import parser.registry.ParsingInfo;
 import parser.registry.ParsingInfoService;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -39,20 +42,24 @@ public class GumtreeHelper extends ProviderHelper {
         if (parsingInfoToFind != null) {
             try {
                 String urlToScan = null;
-                HashMap<String, Object> pageToBeFound;
+                HashMap<String, Object> pageToBeFound = null;
                 int scannedPageNumber = 0;
-                int totalPage;
+                int totalPage = -1;
+                LocalDate date;
 
                 do {
                     scannedPageNumber++;
                     urlToScan = getNextPageUrl(urlToScan, scannedPageNumber);
                     Document scannedPage = getPageAsDocumentFromUrl(urlToScan);
-                    pageToBeFound = findAnnouncementUrlOnPage(scannedPage, parsingInfoToFind.getUrl());
-                    totalPage = getNumberOfTotalPages(scannedPage);
-                } while (pageToBeFound == null && scannedPageNumber <= totalPage);
+                    date = getEarliestDateOnAnnouncementPage(scannedPage);
+                    if (date != null && !date.isBefore(parsingInfoToFind.getDate())) {
+                        pageToBeFound = findAnnouncementUrlOnPage(scannedPage, parsingInfoToFind.getUrl());
+                        totalPage = getNumberOfTotalPages(scannedPage);
+                    }
+                }
+                while (pageToBeFound == null && date != null && !date.isBefore(parsingInfoToFind.getDate()) && scannedPageNumber <= totalPage);
 
                 if (pageToBeFound != null) {
-                    log.debug("\nURL: " + parsingInfoToFind.getUrl() + "\n\t at page: " + scannedPageNumber);
                     returnValues = new HashMap<>();
                     returnValues.put("url", urlToScan);
                     returnValues.put("pageDocument", pageToBeFound.get("pageDocument"));
@@ -66,6 +73,42 @@ public class GumtreeHelper extends ProviderHelper {
         return Optional.ofNullable(returnValues);
     }
 
+    private LocalDate getEarliestDateOnAnnouncementPage(Document scannedPage) {
+        Elements elementsWithData = getElementsWithDataFromPage(scannedPage);
+        Optional<LocalDate> first = elementsWithData.stream()
+                .map(element -> element.selectFirst(".creation-date").text())
+                .map(this::convertStringToLocalDate)
+                .min(Comparator.reverseOrder());
+        return first.orElse(null);
+    }
+
+    private LocalDate convertStringToLocalDate(String date) {
+        LocalDateTime actualDateTime = LocalDateTime.now();
+        LocalDate toReturn;
+
+        if (date.contains("temu")) {
+            String[] partsOfDate = date.split(" ");
+            if (partsOfDate[1].equals("min")) {
+                actualDateTime = actualDateTime.minusMinutes(Integer.parseInt(partsOfDate[0]));
+            } else {
+                actualDateTime = actualDateTime.minusHours(Integer.parseInt(partsOfDate[0]) + 1);
+            }
+            toReturn = actualDateTime.toLocalDate();
+        } else {
+            String[] dayMonth = date.split("-");
+            toReturn = LocalDate.of(actualDateTime.getYear(), Integer.parseInt(dayMonth[1]), Integer.parseInt(dayMonth[0]));
+        }
+        return toReturn;
+    }
+
+    @Override
+    Elements getElementsWithDataFromPage(Document page) {
+        return page
+                .select(".view").get(divElementWithAnnouncementsNumber)
+                .selectFirst("ul")
+                .select("li");
+    }
+
     @Override
     String getPageUrlFromElement(Element element) {
         return element.selectFirst(".title > a").attr("abs:href");
@@ -73,10 +116,7 @@ public class GumtreeHelper extends ProviderHelper {
 
     @Override
     HashMap<String, Object> findAnnouncementUrlOnPage(Document page, String url) {
-        Elements liElementsWithData = page
-                .select(".view").get(divElementWithAnnouncementsNumber)
-                .selectFirst("ul")
-                .select("li");
+        Elements liElementsWithData = getElementsWithDataFromPage(page);
         for (int i = 0; i < liElementsWithData.size(); ++i) {
             String elementUrl = getPageUrlFromElement(liElementsWithData.get(i));
             if (elementUrl.equals(url)) {

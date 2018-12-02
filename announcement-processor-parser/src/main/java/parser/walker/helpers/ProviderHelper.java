@@ -3,6 +3,7 @@ package parser.walker.helpers;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 import parser.registry.ParsingInfo;
 import parser.registry.ParsingInfoService;
@@ -29,6 +30,8 @@ public abstract class ProviderHelper {
     public abstract Optional<HashMap<String, Object>> findPageWithAnnouncement(ParsingInfo parsingInfoToFind);
 
     abstract HashMap<String, Object> findAnnouncementUrlOnPage(Document page, String url);
+
+    abstract Elements getElementsWithDataFromPage(Document page);
 
     abstract String getPageUrlFromElement(Element element);
 
