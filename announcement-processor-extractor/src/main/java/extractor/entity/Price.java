@@ -2,6 +2,7 @@ package extractor.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import java.util.Map;
  * */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Price {
 
     // Integers may be changed to a custom Money type
