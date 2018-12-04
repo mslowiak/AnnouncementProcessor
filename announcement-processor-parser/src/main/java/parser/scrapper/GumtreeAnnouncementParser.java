@@ -5,6 +5,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Component;
 import parser.Announcement;
 import parser.exceptions.GumtreePageParseException;
 import parser.exceptions.PropertyNotValidForGumtreeProviderException;
@@ -17,6 +18,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 @Slf4j
+@Component
 public class GumtreeAnnouncementParser extends AnnouncementParser implements SinglePageParser {
     @Override
     public Announcement parsePage(String url) {
