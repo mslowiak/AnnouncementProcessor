@@ -15,6 +15,8 @@ import java.util.Optional;
 @Component
 public abstract class ProviderHelper {
     ParsingInfoService parsingInfoService;
+    String actualPageURL;
+    int actualPageURLNumber;
     ParsingInfo lastParsedAnnouncement;
 
     public ProviderHelper(ParsingInfoService parsingInfoService) {

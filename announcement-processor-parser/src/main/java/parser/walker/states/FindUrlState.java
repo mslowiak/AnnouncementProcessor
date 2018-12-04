@@ -19,10 +19,8 @@ public class FindUrlState extends WalkerState {
     public WalkerState run() {
         Optional<HashMap<String, Object>> pageWithAnnouncement = providerHelper.findPageWithAnnouncement(parsingInfoToFind);
 
-        if (pageWithAnnouncement.isPresent()) {
-            return new ProcessPageState(providerHelper);
-        } else {
-            return new FetchRegistryState(providerHelper);
-        }
+        return pageWithAnnouncement
+                .<WalkerState>map(stringObjectHashMap -> new ProcessPageState(providerHelper, stringObjectHashMap))
+                .orElseGet(() -> new FetchRegistryState(providerHelper));
     }
 }

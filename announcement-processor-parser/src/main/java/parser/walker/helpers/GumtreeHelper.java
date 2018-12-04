@@ -61,10 +61,10 @@ public class GumtreeHelper extends ProviderHelper {
 
                 if (pageToBeFound != null) {
                     returnValues = new HashMap<>();
-                    returnValues.put("url", urlToScan);
+                    actualPageURL = urlToScan;
+                    actualPageURLNumber = scannedPageNumber;
                     returnValues.put("pageDocument", pageToBeFound.get("pageDocument"));
                     returnValues.put("divNumber", pageToBeFound.get("divNumber"));
-                    returnValues.put("scannedPageNumber", scannedPageNumber);
                 }
             } catch (IOException e) {
                 log.error("Error during finding page with announcement with url: " + parsingInfoToFind.getUrl());
