@@ -55,6 +55,18 @@ public class GumtreeParserRequiredFieldsTest {
     }
 
     @Test
+    public void testParseTitleNull() {
+        // given
+        Element titleElement = null;
+
+        // when
+        String title = gumtreeParser.parseTitle(titleElement);
+
+        // then
+        Assert.assertNull(title);
+    }
+
+    @Test
     public void testParsePrice() {
         // given
         Element priceElement = spyDoc.selectFirst(".price");
@@ -64,6 +76,15 @@ public class GumtreeParserRequiredFieldsTest {
 
         // then
         Assert.assertEquals(GumtreeExpectedProperties.expectedPrice, price);
+    }
+
+    @Test
+    public void testParsePriceNull() {
+        // when
+        BigDecimal price = gumtreeParser.parsePrice(null);
+
+        // then
+        Assert.assertEquals(BigDecimal.ZERO, price);
     }
 
     @Test
@@ -78,6 +99,14 @@ public class GumtreeParserRequiredFieldsTest {
         Assert.assertEquals(GumtreeExpectedProperties.expectedLessorName, lessorName);
     }
 
+    @Test
+    public void testLessorNameNull() {
+        // when
+        String lessorName = gumtreeParser.parseLessorName(null);
+
+        // then
+        Assert.assertNull(lessorName);
+    }
 
     @Test
     public void testCreationDate() {
@@ -92,6 +121,15 @@ public class GumtreeParserRequiredFieldsTest {
     }
 
     @Test
+    public void testCreationDateNull() {
+        // when
+        LocalDateTime dateTime = gumtreeParser.parseCreationDate(null);
+
+        // then
+        Assert.assertNull(dateTime);
+    }
+
+    @Test
     public void testDescription() {
         // given
         Element descriptionElement = spyDoc.selectFirst(".description");
@@ -101,5 +139,14 @@ public class GumtreeParserRequiredFieldsTest {
 
         // then
         Assert.assertEquals(GumtreeExpectedProperties.expectedDescription, description);
+    }
+
+    @Test
+    public void testDescriptionNull() {
+        // when
+        String description = gumtreeParser.parseDescription(null);
+
+        // then
+        Assert.assertNull(description);
     }
 }
