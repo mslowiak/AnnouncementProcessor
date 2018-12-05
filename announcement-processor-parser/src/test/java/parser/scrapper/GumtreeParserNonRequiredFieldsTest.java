@@ -44,6 +44,15 @@ public class GumtreeParserNonRequiredFieldsTest {
     }
 
     @Test
+    public void testPhoneNumberElementNull() {
+        // when
+        String phoneNumber = gumtreeParser.parsePhoneNumber(null);
+
+        // then
+        Assert.assertNull(phoneNumber);
+    }
+
+    @Test
     public void testLessorFieldExists() {
         // given
         Document spyDocWithLessor = ReaderUtil.getDocumentToTest("/gumtree/sample-details-box-with-all-elements.html");
@@ -64,6 +73,15 @@ public class GumtreeParserNonRequiredFieldsTest {
 
         // when
         String lessor = gumtreeParser.parseLessor(detailsElement);
+
+        // then
+        Assert.assertNull(lessor);
+    }
+
+    @Test
+    public void testLessorFieldElementNull() {
+        // when
+        String lessor = gumtreeParser.parseLessor(null);
 
         // then
         Assert.assertNull(lessor);
@@ -96,6 +114,15 @@ public class GumtreeParserNonRequiredFieldsTest {
     }
 
     @Test
+    public void testPropertyTypeElementNull() {
+        // when
+        String propertyType = gumtreeParser.parsePropertyType(null);
+
+        // then
+        Assert.assertNull(propertyType);
+    }
+
+    @Test
     public void testFlatAreaFieldExists() {
         // given
         Document spyDocWithoutLessor = ReaderUtil.getDocumentToTest("/gumtree/sample-details-box-with-all-elements.html");
@@ -116,6 +143,15 @@ public class GumtreeParserNonRequiredFieldsTest {
 
         // when
         Double flatArea = gumtreeParser.parseFlatArea(detailsElement);
+
+        // then
+        Assert.assertNull(flatArea);
+    }
+
+    @Test
+    public void testFlatAreaElementNull() {
+        // when
+        Double flatArea = gumtreeParser.parseFlatArea(null);
 
         // then
         Assert.assertNull(flatArea);
@@ -148,6 +184,15 @@ public class GumtreeParserNonRequiredFieldsTest {
     }
 
     @Test
+    public void testRoomAmountElementNull() {
+        // when
+        Integer roomAmount = gumtreeParser.parseRoomAmount(null);
+
+        // then
+        Assert.assertNull(roomAmount);
+    }
+
+    @Test
     public void testBathAmountFieldExists() {
         // given
         Document spyDocWithoutLessor = ReaderUtil.getDocumentToTest("/gumtree/sample-details-box-with-all-elements.html");
@@ -168,6 +213,15 @@ public class GumtreeParserNonRequiredFieldsTest {
 
         // when
         Integer bathAmount = gumtreeParser.parseBathAmount(detailsElement);
+
+        // then
+        Assert.assertNull(bathAmount);
+    }
+
+    @Test
+    public void testBathAmountElementNull() {
+        // when
+        Integer bathAmount = gumtreeParser.parseBathAmount(null);
 
         // then
         Assert.assertNull(bathAmount);
@@ -200,6 +254,15 @@ public class GumtreeParserNonRequiredFieldsTest {
     }
 
     @Test
+    public void testParkingFieldElementNull() {
+        // when
+        String parking = gumtreeParser.parseParking(null);
+
+        // then
+        Assert.assertNull(parking);
+    }
+
+    @Test
     public void testSmokersFieldExists() {
         // given
         Document spyDocWithoutLessor = ReaderUtil.getDocumentToTest("/gumtree/sample-details-box-with-all-elements.html");
@@ -226,6 +289,15 @@ public class GumtreeParserNonRequiredFieldsTest {
     }
 
     @Test
+    public void testSmokersFieldElementNull() {
+        // when
+        Boolean isForSmokers = gumtreeParser.parseSmokers(null);
+
+        // then
+        Assert.assertNull(isForSmokers);
+    }
+
+    @Test
     public void testPetFriendlyFieldExists() {
         // given
         Document spyDocWithoutLessor = ReaderUtil.getDocumentToTest("/gumtree/sample-details-box-with-all-elements.html");
@@ -249,5 +321,15 @@ public class GumtreeParserNonRequiredFieldsTest {
 
         // then
         Assert.assertNull(petFriendly);
+    }
+
+
+    @Test
+    public void testPetFriendlyElementNull() {
+        // when
+        Boolean isPetFriendly = gumtreeParser.parsePetFriendly(null);
+
+        // then
+        Assert.assertNull(isPetFriendly);
     }
 }

@@ -51,22 +51,31 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
 
     @Override
     public String parseTitle(Element titleElement) {
-        return titleElement.text();
+        String title = null;
+
+        if (titleElement != null) {
+            title = titleElement.text();
+        }
+
+        return title;
     }
 
     @Override
     public BigDecimal parsePrice(Element priceElement) {
         BigDecimal output = BigDecimal.ZERO;
-        Element span = priceElement.selectFirst("span");
-        String text = span.text();
 
-        if (text.contains("zł")) {
-            String number = text.replaceAll("zł", "").replaceAll(" ", "");
-            output = new BigDecimal(number);
-        } else if (text.equals("Proszę o kontakt")) {
-            output = null;
-        } else if (text.equals("Wymiana/zamiana")) {
-            output = new BigDecimal(-1);
+        if (priceElement != null) {
+            Element span = priceElement.selectFirst("span");
+            String text = span.text();
+
+            if (text.contains("zł")) {
+                String number = text.replaceAll("zł", "").replaceAll(" ", "");
+                output = new BigDecimal(number);
+            } else if (text.equals("Proszę o kontakt")) {
+                output = null;
+            } else if (text.equals("Wymiana/zamiana")) {
+                output = new BigDecimal(-1);
+            }
         }
 
         return output;
@@ -74,20 +83,28 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
 
     @Override
     public String parseLessorName(Element lessorNameElement) {
-        Element href = lessorNameElement.selectFirst("a");
-        String text = href.text();
-        return text.replaceAll("\\(Zobacz więcej ogłoszeń\\)", "").trim();
+        String lessorName = null;
+
+        if (lessorNameElement != null) {
+            Element href = lessorNameElement.selectFirst("a");
+            String text = href.text();
+            lessorName = text.replaceAll("\\(Zobacz więcej ogłoszeń\\)", "").trim();
+        }
+
+        return lessorName;
     }
 
     @Override
     public LocalDateTime parseCreationDate(Element creationDateElement) {
         LocalDateTime output = null;
 
-        Elements liElements = creationDateElement.select("li");
-        String dateInText = getValueForAttributeFromLiElements("Data dodania", liElements);
+        if (creationDateElement != null) {
+            Elements liElements = creationDateElement.select("li");
+            String dateInText = getValueForAttributeFromLiElements("Data dodania", liElements);
 
-        if (dateInText != null) {
-            output = LocalDateTime.of(LocalDate.parse(dateInText, DateTimeFormatter.ofPattern("d/MM/yyyy")), LocalTime.of(0, 0));
+            if (dateInText != null) {
+                output = LocalDateTime.of(LocalDate.parse(dateInText, DateTimeFormatter.ofPattern("d/MM/yyyy")), LocalTime.of(0, 0));
+            }
         }
 
         return output;
@@ -95,86 +112,114 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
 
     @Override
     public String parseDescription(Element element) {
-        Element span = element.selectFirst("span");
-        String textWithoutBoldings = span.html().replaceAll("<b>|</b>", "");
-        Document parse = Jsoup.parse(textWithoutBoldings);
+        String description = null;
 
-        Elements allElements = parse.body().getAllElements();
-        StringBuilder sb = new StringBuilder();
-        for (Element elem : allElements) {
-            String ownText = elem.ownText();
-            if (!ownText.equals("")) {
-                sb.append(elem.ownText()).append("\n");
-            } else {
-                if (elem.html().equals("<br>")) {
-                    sb.append("\n");
+        if (element != null) {
+            Element span = element.selectFirst("span");
+            String textWithoutBoldings = span.html().replaceAll("<b>|</b>", "");
+            Document parse = Jsoup.parse(textWithoutBoldings);
+
+            Elements allElements = parse.body().getAllElements();
+            StringBuilder sb = new StringBuilder();
+            for (Element elem : allElements) {
+                String ownText = elem.ownText();
+                if (!ownText.equals("")) {
+                    sb.append(elem.ownText()).append("\n");
+                } else {
+                    if (elem.html().equals("<br>")) {
+                        sb.append("\n");
+                    }
                 }
             }
+            description = sb.toString().trim();
         }
-        return sb.toString().trim();
+
+        return description;
     }
 
     @Override
     public String parseLessor(Element lessorElement) {
-        Elements liElements = lessorElement.select("li");
-        return getValueForAttributeFromLiElements("Do wynajęcia przez", liElements);
+        String lessor = null;
+
+        if (lessorElement != null) {
+            Elements liElements = lessorElement.select("li");
+            lessor = getValueForAttributeFromLiElements("Do wynajęcia przez", liElements);
+        }
+
+        return lessor;
     }
 
     @Override
     public String parsePhoneNumber(Element phoneNumberElement) {
-        Element element = phoneNumberElement.selectFirst("div > a");
-        String telephone = element.attr("href");
-        if (telephone.contains("tel:")) {
-            return telephone.replaceAll("tel:", "");
+        String phoneNumber = null;
+
+        if (phoneNumberElement != null) {
+            Element element = phoneNumberElement.selectFirst("div > a");
+            String telephone = element.attr("href");
+            if (telephone.contains("tel:")) {
+                phoneNumber = telephone.replaceAll("tel:", "");
+            }
         }
-        return null;
+        return phoneNumber;
     }
 
     @Override
     public String parsePropertyType(Element propertyTypeElement) {
-        Elements liElements = propertyTypeElement.select("li");
-        return getValueForAttributeFromLiElements("Rodzaj nieruchomości", liElements);
+        String propertyType = null;
+
+        if (propertyTypeElement != null) {
+            Elements liElements = propertyTypeElement.select("li");
+            propertyType = getValueForAttributeFromLiElements("Rodzaj nieruchomości", liElements);
+        }
+
+        return propertyType;
     }
 
     @Override
     public Double parseFlatArea(Element flatAreaElement) {
-        Elements liElements = flatAreaElement.select("li");
-        String flatAreaInText = getValueForAttributeFromLiElements("Wielkość (m2)", liElements);
+        Double flatArea = null;
 
-        if (flatAreaInText != null) {
-            return Double.valueOf(flatAreaInText);
+        if (flatAreaElement != null) {
+            Elements liElements = flatAreaElement.select("li");
+            String flatAreaInText = getValueForAttributeFromLiElements("Wielkość (m2)", liElements);
+
+            if (flatAreaInText != null) {
+                flatArea = Double.valueOf(flatAreaInText);
+            }
         }
 
-        return null;
+        return flatArea;
     }
 
     @Override
     public Integer parseRoomAmount(Element roomAmountElement) {
-        Elements liElements = roomAmountElement.select("li");
-        String roomAmountText = getValueForAttributeFromLiElements("Liczba pokoi", liElements);
-
         Integer roomAmount = null;
 
-        if (roomAmountText != null) {
-            switch (roomAmountText) {
-                case "Kawalerka lub garsoniera":
-                    roomAmount = 1;
-                    break;
-                case "2 pokoje":
-                    roomAmount = 2;
-                    break;
-                case "3 pokoje":
-                    roomAmount = 3;
-                    break;
-                case "4 pokoje":
-                    roomAmount = 4;
-                    break;
-                case "5 pokoi":
-                    roomAmount = 5;
-                    break;
-                case "6 lub więcej pokoi":
-                    roomAmount = 6;
-                    break;
+        if (roomAmountElement != null) {
+            Elements liElements = roomAmountElement.select("li");
+            String roomAmountText = getValueForAttributeFromLiElements("Liczba pokoi", liElements);
+
+            if (roomAmountText != null) {
+                switch (roomAmountText) {
+                    case "Kawalerka lub garsoniera":
+                        roomAmount = 1;
+                        break;
+                    case "2 pokoje":
+                        roomAmount = 2;
+                        break;
+                    case "3 pokoje":
+                        roomAmount = 3;
+                        break;
+                    case "4 pokoje":
+                        roomAmount = 4;
+                        break;
+                    case "5 pokoi":
+                        roomAmount = 5;
+                        break;
+                    case "6 lub więcej pokoi":
+                        roomAmount = 6;
+                        break;
+                }
             }
         }
 
@@ -183,25 +228,27 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
 
     @Override
     public Integer parseBathAmount(Element bathAmountElement) {
-        Elements liElements = bathAmountElement.select("li");
-        String bathAmountText = getValueForAttributeFromLiElements("Liczba łazienek", liElements);
-
         Integer bathAmount = null;
 
-        if (bathAmountText != null) {
-            switch (bathAmountText) {
-                case "1 łazienka":
-                    bathAmount = 1;
-                    break;
-                case "2 łazienki":
-                    bathAmount = 2;
-                    break;
-                case "3 łazienki":
-                    bathAmount = 3;
-                    break;
-                case "4 lub więcej łazienek":
-                    bathAmount = 4;
-                    break;
+        if (bathAmountElement != null) {
+            Elements liElements = bathAmountElement.select("li");
+            String bathAmountText = getValueForAttributeFromLiElements("Liczba łazienek", liElements);
+
+            if (bathAmountText != null) {
+                switch (bathAmountText) {
+                    case "1 łazienka":
+                        bathAmount = 1;
+                        break;
+                    case "2 łazienki":
+                        bathAmount = 2;
+                        break;
+                    case "3 łazienki":
+                        bathAmount = 3;
+                        break;
+                    case "4 lub więcej łazienek":
+                        bathAmount = 4;
+                        break;
+                }
             }
         }
 
@@ -210,24 +257,40 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
 
     @Override
     public String parseParking(Element parkingElement) {
-        Elements liElements = parkingElement.select("li");
-        return getValueForAttributeFromLiElements("Parking", liElements);
+        String parking = null;
+
+        if (parkingElement != null) {
+            Elements liElements = parkingElement.select("li");
+            parking = getValueForAttributeFromLiElements("Parking", liElements);
+        }
+
+        return parking;
     }
 
     @Override
     public Boolean parseSmokers(Element smokersElement) {
-        Elements liElements = smokersElement.select("li");
-        String smokers = getValueForAttributeFromLiElements("Palący", liElements);
+        Boolean isForSmokers = null;
 
-        return getBooleanFromYesNoSentence(smokers);
+        if (smokersElement != null) {
+            Elements liElements = smokersElement.select("li");
+            String smokers = getValueForAttributeFromLiElements("Palący", liElements);
+            isForSmokers = getBooleanFromYesNoSentence(smokers);
+        }
+
+        return isForSmokers;
     }
 
     @Override
     public Boolean parsePetFriendly(Element petFriendlyElement) {
-        Elements liElements = petFriendlyElement.select("li");
-        String pets = getValueForAttributeFromLiElements("Przyjazne zwierzakom", liElements);
+        Boolean isPetFriendly = null;
 
-        return getBooleanFromYesNoSentence(pets);
+        if (petFriendlyElement != null) {
+            Elements liElements = petFriendlyElement.select("li");
+            String pets = getValueForAttributeFromLiElements("Przyjazne zwierzakom", liElements);
+            isPetFriendly = getBooleanFromYesNoSentence(pets);
+        }
+
+        return isPetFriendly;
     }
 
     @Override
