@@ -312,10 +312,11 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
 
     private String getValueForAttributeFromLiElements(String attributeName, Elements liElements) {
         if (liElements != null) {
-            for (Element singleLiElement : liElements) {
-                String text = singleLiElement.selectFirst(".attribute > .name").text();
+            Elements attributes = liElements.select(".attribute");
+            for (Element singleAttributeElement : attributes) {
+                String text = singleAttributeElement.selectFirst(".name").text();
                 if (text.equals(attributeName)) {
-                    return singleLiElement.selectFirst(".attribute > .value").text();
+                    return singleAttributeElement.selectFirst(".value").text();
                 }
             }
         }
