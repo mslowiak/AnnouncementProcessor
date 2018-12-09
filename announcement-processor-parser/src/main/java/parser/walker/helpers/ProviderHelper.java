@@ -10,6 +10,7 @@ import parser.registry.ParsingInfoService;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -31,6 +32,8 @@ public abstract class ProviderHelper {
 
     public abstract Optional<HashMap<String, Object>> findPageWithAnnouncement(ParsingInfo parsingInfoToFind);
 
+    public abstract List<String> getUrlsToParse(Document document, int divNumber);
+
     abstract HashMap<String, Object> findAnnouncementUrlOnPage(Document page, String url);
 
     abstract Elements getElementsWithDataFromPage(Document page);
@@ -40,4 +43,16 @@ public abstract class ProviderHelper {
     abstract String getNextPageUrl(String previousUrl, int nextPageNumber);
 
     abstract int getNumberOfTotalPages(Document scannedPage);
+
+    public String getActualPageURL() {
+        return actualPageURL;
+    }
+
+    public int getActualPageURLNumber() {
+        return actualPageURLNumber;
+    }
+
+    public ParsingInfo getLastParsedAnnouncement() {
+        return lastParsedAnnouncement;
+    }
 }

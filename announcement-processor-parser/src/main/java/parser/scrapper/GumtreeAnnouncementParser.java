@@ -24,8 +24,6 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
     public Announcement parsePage(String url) {
         try {
             Document pageContent = getPageContent(url);
-            log.info("Received content from url: " + url);
-
             Element details = pageContent.selectFirst(".vip-details");
 
             return Announcement.builder()
@@ -48,6 +46,8 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
                     .build();
         } catch (IOException e) {
             throw new GumtreePageParseException("Cannot parser announcement from url: " + url);
+        } finally {
+            log.info("Announcement from page: " + url + " has been parsed");
         }
     }
 

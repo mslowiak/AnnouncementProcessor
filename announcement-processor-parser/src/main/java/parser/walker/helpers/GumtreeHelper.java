@@ -13,9 +13,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -71,6 +73,15 @@ public class GumtreeHelper extends ProviderHelper {
             }
         }
         return Optional.ofNullable(returnValues);
+    }
+
+    @Override
+    public List<String> getUrlsToParse(Document document, int divNumber) {
+        log.info("Geeting urls to parse");
+        return getElementsWithDataFromPage(document)
+                .stream()
+                .limit(divNumber).map(this::getPageUrlFromElement)
+                .collect(Collectors.toList());
     }
 
     private LocalDate getEarliestDateOnAnnouncementPage(Document scannedPage) {

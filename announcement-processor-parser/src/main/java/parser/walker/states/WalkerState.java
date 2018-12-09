@@ -14,9 +14,14 @@ public abstract class WalkerState {
         this.providerHelper = providerHelper;
     }
 
+    public WalkerState(ProviderHelper providerHelper, AnnouncementParser announcementParser) {
+        this.providerHelper = providerHelper;
+        this.announcementParser = announcementParser;
+    }
+
     public abstract WalkerState run();
 
     public void setAnnouncementParser(GumtreeAnnouncementParser gumtreeAnnouncementParser){
         this.announcementParser = gumtreeAnnouncementParser;
-    };
+    }
 }
