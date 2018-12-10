@@ -84,17 +84,17 @@ public class GumtreeHelper extends ProviderHelper {
                 .collect(Collectors.toList());
     }
 
-    private LocalDate getEarliestDateOnAnnouncementPage(Document scannedPage) {
+    LocalDate getEarliestDateOnAnnouncementPage(Document scannedPage) {
         Elements elementsWithData = getElementsWithDataFromPage(scannedPage);
+        LocalDateTime actualDateTime = LocalDateTime.now();
         Optional<LocalDate> first = elementsWithData.stream()
                 .map(element -> element.selectFirst(".creation-date").text())
-                .map(this::convertStringToLocalDate)
+                .map(date -> convertStringToLocalDate(date, actualDateTime))
                 .min(Comparator.reverseOrder());
         return first.orElse(null);
     }
 
-    private LocalDate convertStringToLocalDate(String date) {
-        LocalDateTime actualDateTime = LocalDateTime.now();
+    LocalDate convertStringToLocalDate(String date, LocalDateTime actualDateTime) {
         LocalDate toReturn;
 
         if (date.contains("temu")) {

@@ -24,6 +24,18 @@ public class ReaderUtil {
         return spyDoc;
     }
 
+    public static Document getDocumentToTestWithBaseUrl(String resourceName, String baseUrl){
+        Document spyDoc = null;
+        try {
+            String path = Paths.get(ReaderUtil.class.getResource(resourceName).toURI()).toString();
+            String fileContent = ReaderUtil.readAllLinesFromFile(path);
+            spyDoc = Jsoup.parse(fileContent, baseUrl);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return spyDoc;
+    }
+
     private static String readAllLinesFromFile(String filePath) {
         StringBuilder contentBuilder = new StringBuilder();
         try (Stream<String> stream = Files.lines(Paths.get(filePath), StandardCharsets.UTF_8)) {
