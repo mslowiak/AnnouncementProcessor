@@ -55,4 +55,8 @@ public abstract class ProviderHelper {
     public ParsingInfo getLastParsedAnnouncement() {
         return lastParsedAnnouncement;
     }
+
+    public ParsingInfoService getParsingInfoService() {
+        return parsingInfoService;
+    }
 }

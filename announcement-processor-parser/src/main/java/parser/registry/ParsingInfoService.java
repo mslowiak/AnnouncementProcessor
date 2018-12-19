@@ -1,6 +1,7 @@
 package parser.registry;
 
 import org.springframework.stereotype.Service;
+import parser.Announcement;
 
 import java.util.Optional;
 
@@ -31,5 +32,16 @@ public class ParsingInfoService {
             }
         }
         return announcement;
+    }
+
+    public void saveAnnouncementToRegistry(String provider, Announcement announcement, int counterNumber) {
+        ParsingInfo parsingInfo = new ParsingInfo();
+        parsingInfo.setCounterPerDate(counterNumber);
+        parsingInfo.setDate(announcement.getCreationDate().toLocalDate());
+        parsingInfo.setProvider(provider);
+        parsingInfo.setUrl(announcement.getUrl());
+        parsingInfo.setPageHash("" + announcement.hashCode());
+
+        parsingInfoRepository.save(parsingInfo);
     }
 }

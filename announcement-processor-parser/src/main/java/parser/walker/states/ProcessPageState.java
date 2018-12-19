@@ -32,16 +32,22 @@ public class ProcessPageState extends WalkerState {
         Document pageDocument = (Document) pageWithAnnouncement.get("pageDocument");
         int divNumber = (int) pageWithAnnouncement.get("divNumber");
         List<String> urlsToParse = providerHelper.getUrlsToParse(pageDocument, divNumber);
+        Integer counterPerDate = providerHelper.getLastParsedAnnouncement().getCounterPerDate();
 
         log.info("Number of pages to parse: " + urlsToParse.size());
 
         try {
             ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
-            for (String urlToParse : urlsToParse) {
+            for (int i = 0; i < urlsToParse.size(); ++i) {
+                String url = urlsToParse.get(i);
+                int finalI = i;
                 executorService.submit(() -> {
-                    Announcement announcement = announcementParser.parsePage(urlToParse);
+                    int counterPerPageForParsed = counterPerDate + urlsToParse.size() - finalI;
+                    Announcement announcement = announcementParser.parsePage(url);
+                    if (announcement != null) {
+                        providerHelper.getParsingInfoService().saveAnnouncementToRegistry("GUMTREE", announcement, counterPerPageForParsed);
+                    }
                 });
-                // TODO: Save record to DB_PARSER with valid counter
             }
             executorService.shutdown();
             executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
