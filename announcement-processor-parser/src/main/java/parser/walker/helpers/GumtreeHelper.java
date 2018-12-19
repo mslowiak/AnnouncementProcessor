@@ -80,7 +80,8 @@ public class GumtreeHelper extends ProviderHelper {
         log.info("Geeting urls to parse");
         return getElementsWithDataFromPage(document)
                 .stream()
-                .limit(divNumber).map(this::getPageUrlFromElement)
+                .limit(divNumber)
+                .map(this::getPageUrlFromElement)
                 .collect(Collectors.toList());
     }
 
@@ -90,7 +91,7 @@ public class GumtreeHelper extends ProviderHelper {
         Optional<LocalDate> first = elementsWithData.stream()
                 .map(element -> element.selectFirst(".creation-date").text())
                 .map(date -> convertStringToLocalDate(date, actualDateTime))
-                .min(Comparator.reverseOrder());
+                .max(Comparator.naturalOrder());
         return first.orElse(null);
     }
 
