@@ -55,6 +55,7 @@ public class ProcessPageState extends WalkerState {
         } catch (InterruptedException e) {
             log.error("Interrupted exception");
         }
+        providerHelper.updateLastParsedAnnouncement();
         log.info("Parsing urls from page " + providerHelper.getActualPageURLNumber() + " done. Go to VisibleAfterReloadState");
 
         return new VisibleAfterReloadState(providerHelper);

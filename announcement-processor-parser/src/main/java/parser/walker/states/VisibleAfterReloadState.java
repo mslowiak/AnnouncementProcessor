@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import parser.walker.helpers.ProviderHelper;
 
+import java.util.List;
+
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class VisibleAfterReloadState extends WalkerState {
@@ -15,6 +17,16 @@ public class VisibleAfterReloadState extends WalkerState {
 
     @Override
     public WalkerState run() {
-        return null;
+        List<String> allUrls = providerHelper.getAllUrlsOnPage();
+        boolean isStillOnSamePage = allUrls.contains(providerHelper.getLastParsedAnnouncement().getUrl());
+        WalkerState state;
+
+        if (isStillOnSamePage) {
+            state = new TopElementState(providerHelper);
+        } else {
+            state = new FetchRegistryState(providerHelper, announcementParser);
+        }
+
+        return state;
     }
 }

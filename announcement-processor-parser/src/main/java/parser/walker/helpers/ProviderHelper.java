@@ -34,6 +34,10 @@ public abstract class ProviderHelper {
 
     public abstract List<String> getUrlsToParse(Document document, int divNumber);
 
+    public abstract List<String> getAllUrlsOnPage();
+
+    public abstract void updateLastParsedAnnouncement();
+
     abstract HashMap<String, Object> findAnnouncementUrlOnPage(Document page, String url);
 
     abstract Elements getElementsWithDataFromPage(Document page);

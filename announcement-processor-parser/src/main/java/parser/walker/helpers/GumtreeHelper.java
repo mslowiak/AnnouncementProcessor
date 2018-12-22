@@ -85,6 +85,19 @@ public class GumtreeHelper extends ProviderHelper {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<String> getAllUrlsOnPage() {
+        try {
+            Document document = getPageAsDocumentFromUrl(actualPageURL);
+            Elements elements = getElementsWithDataFromPage(document);
+
+            return elements.stream().map(this::getPageUrlFromElement).collect(Collectors.toList());
+        } catch (IOException e) {
+            log.error("Error in getAllUrlsOnPage");
+            return null;
+        }
+    }
+
     LocalDate getEarliestDateOnAnnouncementPage(Document scannedPage) {
         Elements elementsWithData = getElementsWithDataFromPage(scannedPage);
         LocalDateTime actualDateTime = LocalDateTime.now();
@@ -160,5 +173,13 @@ public class GumtreeHelper extends ProviderHelper {
         }
         String[] splitted = previousUrl.split("(krakow/)(page-[0-9]+/)*");
         return splitted[0] + "krakow/page-" + nextPageNumber + "/" + splitted[1].replaceAll("p[0-9]+", "p" + nextPageNumber);
+    }
+
+    @Override
+    public void updateLastParsedAnnouncement() {
+        Optional<ParsingInfo> lastParsed = parsingInfoService
+                .fetchLastRecordForProvider("GUMTREE", null);
+
+        lastParsed.ifPresent(parsingInfo -> lastParsedAnnouncement = parsingInfo);
     }
 }
