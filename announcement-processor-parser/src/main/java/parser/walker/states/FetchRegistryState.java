@@ -22,15 +22,16 @@ public class FetchRegistryState extends WalkerState {
     @Override
     public WalkerState run() {
         Optional<ParsingInfo> parsingInfoToFind = providerHelper.fetchLatestRecord();
+        WalkerState state;
 
         if (parsingInfoToFind.isPresent()) {
             log.info("Url fetched: " + parsingInfoToFind.get().getUrl());
+            state = new FindUrlState(providerHelper, announcementParser, parsingInfoToFind.get());
         } else {
             log.info("Url cannot be fetched.");
+            state = new StopState(providerHelper);
         }
 
-        return parsingInfoToFind
-                .map(parsingInfo -> new FindUrlState(providerHelper, announcementParser, parsingInfo))
-                .orElseGet(() -> new FindUrlState(providerHelper, announcementParser, null));
+        return state;
     }
 }
