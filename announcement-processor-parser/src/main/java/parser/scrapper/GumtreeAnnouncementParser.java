@@ -47,7 +47,7 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
         } catch (IOException e) {
             throw new GumtreePageParseException("Cannot parser announcement from url: " + url);
         } finally {
-            log.info("Announcement from page: " + url + " has been parsed");
+            log.info("Announcement from url: " + url.split("/krakow")[1] + " has been parsed");
         }
     }
 

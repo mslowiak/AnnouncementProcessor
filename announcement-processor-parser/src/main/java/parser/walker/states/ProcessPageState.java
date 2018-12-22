@@ -46,6 +46,7 @@ public class ProcessPageState extends WalkerState {
                     Announcement announcement = announcementParser.parsePage(url);
                     if (announcement != null) {
                         providerHelper.getParsingInfoService().saveAnnouncementToRegistry("GUMTREE", announcement, counterPerPageForParsed);
+                        // TODO: Send announcement via JMS
                     }
                 });
             }

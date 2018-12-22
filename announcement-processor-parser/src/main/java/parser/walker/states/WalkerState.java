@@ -2,7 +2,6 @@ package parser.walker.states;
 
 import org.springframework.stereotype.Component;
 import parser.scrapper.AnnouncementParser;
-import parser.scrapper.GumtreeAnnouncementParser;
 import parser.walker.helpers.ProviderHelper;
 
 @Component
@@ -20,8 +19,4 @@ public abstract class WalkerState {
     }
 
     public abstract WalkerState run();
-
-    public void setAnnouncementParser(GumtreeAnnouncementParser gumtreeAnnouncementParser){
-        this.announcementParser = gumtreeAnnouncementParser;
-    }
 }
