@@ -16,7 +16,6 @@ import parser.registry.ParsingInfoService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -94,13 +93,14 @@ public class GumtreeHelperTest {
         // given
         String resourcePath = "/gumtree/walker/announcements-list.html";
         Document documentToTest = ReaderUtil.getDocumentToTest(resourcePath);
+        LocalDate localDate = LocalDate.now();
 
         // when
         LocalDate returnedDate = gumtreeHelper.getEarliestDateOnAnnouncementPage(documentToTest);
 
         // then
-        Assert.assertEquals(Month.DECEMBER, returnedDate.getMonth());
-        Assert.assertEquals(10, returnedDate.getDayOfMonth());
+        Assert.assertEquals(localDate.getMonth(), returnedDate.getMonth());
+        Assert.assertEquals(localDate.getDayOfMonth(), returnedDate.getDayOfMonth());
     }
 
     @Test
