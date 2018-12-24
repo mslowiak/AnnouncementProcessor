@@ -16,7 +16,6 @@ import parser.registry.ParsingInfoService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +38,7 @@ public class GumtreeHelperTest {
         // given
 
         // when
-        Optional<HashMap<String, Object>> pageWithAnnouncement = gumtreeHelper.findPageWithAnnouncement(null);
+        Optional<WalkerInfo> pageWithAnnouncement = gumtreeHelper.findPageWithAnnouncement(null);
 
         // then
         Assert.assertEquals(Optional.empty(), pageWithAnnouncement);
@@ -53,11 +52,13 @@ public class GumtreeHelperTest {
         Document documentToTest = ReaderUtil.getDocumentToTestWithBaseUrl(resourcePath, baseUrl);
 
         // when
-        HashMap<String, Object> announcementUrlOnPage = gumtreeHelper.findAnnouncementUrlOnPage(documentToTest,
-                "https://www.gumtree.pl/a-mieszkania-i-domy-do-wynajecia/krakow/przytulna-kawalerka-do-wynaj%C4%99cia/1003754341000911379548809");
+        int announcementDivNumberOnPage = gumtreeHelper.findAnnouncementDivNumberOnPage(
+                documentToTest,
+                "https://www.gumtree.pl/a-mieszkania-i-domy-do-wynajecia/krakow/przytulna-kawalerka-do-wynaj%C4%99cia/1003754341000911379548809"
+        );
 
         // then
-        Assert.assertNotNull(announcementUrlOnPage);
+        Assert.assertNotEquals(-1, announcementDivNumberOnPage);
     }
 
     @Test
@@ -68,11 +69,11 @@ public class GumtreeHelperTest {
         Document documentToTest = ReaderUtil.getDocumentToTestWithBaseUrl(resourcePath, baseUrl);
 
         // when
-        HashMap<String, Object> announcementUrlOnPage = gumtreeHelper.findAnnouncementUrlOnPage(documentToTest,
+        int announcementDivNumberOnPage = gumtreeHelper.findAnnouncementDivNumberOnPage(documentToTest,
                 "https://www.gumtree.pl/a-mieszkania-i-domy-do-wynajecia/krakow/123213213dsadasdsa9");
 
         // then
-        Assert.assertNull(announcementUrlOnPage);
+        Assert.assertEquals(-1, announcementDivNumberOnPage);
     }
 
     @Test

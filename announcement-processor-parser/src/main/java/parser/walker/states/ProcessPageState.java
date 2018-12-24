@@ -9,7 +9,6 @@ import parser.Announcement;
 import parser.scrapper.AnnouncementParser;
 import parser.walker.helpers.ProviderHelper;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -19,18 +18,16 @@ import java.util.concurrent.TimeUnit;
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ProcessPageState extends WalkerState {
-    private HashMap<String, Object> pageWithAnnouncement;
     private final int THREAD_POOL_SIZE = 10;
 
-    public ProcessPageState(ProviderHelper providerHelper, AnnouncementParser announcementParser, HashMap<String, Object> pageWithAnnouncement) {
+    public ProcessPageState(ProviderHelper providerHelper, AnnouncementParser announcementParser) {
         super(providerHelper, announcementParser);
-        this.pageWithAnnouncement = pageWithAnnouncement;
     }
 
     @Override
     public WalkerState run() {
-        Document pageDocument = (Document) pageWithAnnouncement.get("pageDocument");
-        int divNumber = (int) pageWithAnnouncement.get("divNumber");
+        Document pageDocument = providerHelper.getWalkerInfo().getWalkPageDocument();
+        int divNumber = providerHelper.getWalkerInfo().getRequestedAnnouncementDivNumber();
         List<String> urlsToParse = providerHelper.getUrlsToParse(pageDocument, divNumber);
         Integer counterPerDate = providerHelper.getLastParsedAnnouncement().getCounterPerDate();
 
@@ -56,7 +53,7 @@ public class ProcessPageState extends WalkerState {
             log.error("Interrupted exception");
         }
         providerHelper.updateLastParsedAnnouncement();
-        log.info("Parsing urls from page " + providerHelper.getActualPageURLNumber() + " done. Go to VisibleAfterReloadState");
+        log.info("Parsing urls from page " + providerHelper.getWalkerInfo().getWalkPageUrlNumber() + " done. Go to VisibleAfterReloadState");
 
         return new VisibleAfterReloadState(providerHelper);
     }

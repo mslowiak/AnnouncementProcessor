@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -38,13 +37,12 @@ public class GumtreeHelper extends ProviderHelper {
     }
 
     @Override
-    public Optional<HashMap<String, Object>> findPageWithAnnouncement(ParsingInfo parsingInfoToFind) {
-        HashMap<String, Object> returnValues = null;
-
+    public Optional<WalkerInfo> findPageWithAnnouncement(ParsingInfo parsingInfoToFind) {
         if (parsingInfoToFind != null) {
             try {
                 String urlToScan = null;
-                HashMap<String, Object> pageToBeFound = null;
+                int requestedAnnouncementDivNumber = -1;
+                Document scannedPage = null;
                 int scannedPageNumber = 0;
                 int totalPage = -1;
                 LocalDate date;
@@ -52,27 +50,27 @@ public class GumtreeHelper extends ProviderHelper {
                 do {
                     scannedPageNumber++;
                     urlToScan = getNextPageUrl(urlToScan, scannedPageNumber);
-                    Document scannedPage = getPageAsDocumentFromUrl(urlToScan);
+                    scannedPage = getPageAsDocumentFromUrl(urlToScan);
                     date = getEarliestDateOnAnnouncementPage(scannedPage);
                     if (date != null && !date.isBefore(parsingInfoToFind.getDate())) {
-                        pageToBeFound = findAnnouncementUrlOnPage(scannedPage, parsingInfoToFind.getUrl());
+                        requestedAnnouncementDivNumber = findAnnouncementDivNumberOnPage(scannedPage, parsingInfoToFind.getUrl());
                         totalPage = getNumberOfTotalPages(scannedPage);
                     }
                 }
-                while (pageToBeFound == null && date != null && !date.isBefore(parsingInfoToFind.getDate()) && scannedPageNumber <= totalPage);
+                while (requestedAnnouncementDivNumber == -1 && date != null && !date.isBefore(parsingInfoToFind.getDate()) && scannedPageNumber <= totalPage);
 
-                if (pageToBeFound != null) {
-                    returnValues = new HashMap<>();
-                    actualPageURL = urlToScan;
-                    actualPageURLNumber = scannedPageNumber;
-                    returnValues.put("pageDocument", pageToBeFound.get("pageDocument"));
-                    returnValues.put("divNumber", pageToBeFound.get("divNumber"));
+                if (requestedAnnouncementDivNumber != -1) {
+                    walkerInfo = new WalkerInfo();
+                    walkerInfo.setWalkPageUrl(urlToScan);
+                    walkerInfo.setWalkPageUrlNumber(scannedPageNumber);
+                    walkerInfo.setRequestedAnnouncementDivNumber(requestedAnnouncementDivNumber);
+                    walkerInfo.setWalkPageDocument(scannedPage);
                 }
             } catch (IOException e) {
                 log.error("Error during finding page with announcement with url: " + parsingInfoToFind.getUrl());
             }
         }
-        return Optional.ofNullable(returnValues);
+        return Optional.ofNullable(walkerInfo);
     }
 
     @Override
@@ -88,7 +86,7 @@ public class GumtreeHelper extends ProviderHelper {
     @Override
     public List<String> getAllUrlsOnPage() {
         try {
-            Document document = getPageAsDocumentFromUrl(actualPageURL);
+            Document document = getPageAsDocumentFromUrl(walkerInfo.getWalkPageUrl());
             Elements elements = getElementsWithDataFromPage(document);
 
             return elements.stream().map(this::getPageUrlFromElement).collect(Collectors.toList());
@@ -140,18 +138,15 @@ public class GumtreeHelper extends ProviderHelper {
     }
 
     @Override
-    HashMap<String, Object> findAnnouncementUrlOnPage(Document page, String url) {
+    int findAnnouncementDivNumberOnPage(Document page, String url) {
         Elements liElementsWithData = getElementsWithDataFromPage(page);
         for (int i = 0; i < liElementsWithData.size(); ++i) {
             String elementUrl = getPageUrlFromElement(liElementsWithData.get(i));
             if (elementUrl.equals(url)) {
-                HashMap<String, Object> returnMap = new HashMap<>();
-                returnMap.put("pageDocument", page);
-                returnMap.put("divNumber", i);
-                return returnMap;
+                return i;
             }
         }
-        return null;
+        return -1;
     }
 
     @Override

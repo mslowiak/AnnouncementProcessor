@@ -9,16 +9,14 @@ import parser.registry.ParsingInfo;
 import parser.registry.ParsingInfoService;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
 @Component
 public abstract class ProviderHelper {
     ParsingInfoService parsingInfoService;
-    String actualPageURL;
-    int actualPageURLNumber;
     ParsingInfo lastParsedAnnouncement;
+    WalkerInfo walkerInfo;
 
     public ProviderHelper(ParsingInfoService parsingInfoService) {
         this.parsingInfoService = parsingInfoService;
@@ -30,7 +28,7 @@ public abstract class ProviderHelper {
 
     public abstract Optional<ParsingInfo> fetchLatestRecord();
 
-    public abstract Optional<HashMap<String, Object>> findPageWithAnnouncement(ParsingInfo parsingInfoToFind);
+    public abstract Optional<WalkerInfo> findPageWithAnnouncement(ParsingInfo parsingInfoToFind);
 
     public abstract List<String> getUrlsToParse(Document document, int divNumber);
 
@@ -38,7 +36,7 @@ public abstract class ProviderHelper {
 
     public abstract void updateLastParsedAnnouncement();
 
-    abstract HashMap<String, Object> findAnnouncementUrlOnPage(Document page, String url);
+    abstract int findAnnouncementDivNumberOnPage(Document page, String url);
 
     abstract Elements getElementsWithDataFromPage(Document page);
 
@@ -48,19 +46,15 @@ public abstract class ProviderHelper {
 
     abstract int getNumberOfTotalPages(Document scannedPage);
 
-    public String getActualPageURL() {
-        return actualPageURL;
-    }
-
-    public int getActualPageURLNumber() {
-        return actualPageURLNumber;
-    }
-
     public ParsingInfo getLastParsedAnnouncement() {
         return lastParsedAnnouncement;
     }
 
     public ParsingInfoService getParsingInfoService() {
         return parsingInfoService;
+    }
+
+    public WalkerInfo getWalkerInfo() {
+        return walkerInfo;
     }
 }
