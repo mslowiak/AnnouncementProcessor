@@ -87,6 +87,7 @@ public class GumtreeHelper extends ProviderHelper {
     public List<String> getAllUrlsOnPage() {
         try {
             Document document = getPageAsDocumentFromUrl(walkerInfo.getWalkPageUrl());
+            walkerInfo.setWalkPageDocument(document);
             Elements elements = getElementsWithDataFromPage(document);
 
             return elements.stream().map(this::getPageUrlFromElement).collect(Collectors.toList());

@@ -55,6 +55,6 @@ public class ProcessPageState extends WalkerState {
         providerHelper.updateLastParsedAnnouncement();
         log.info("Parsing urls from page " + providerHelper.getWalkerInfo().getWalkPageUrlNumber() + " done. Go to VisibleAfterReloadState");
 
-        return new VisibleAfterReloadState(providerHelper);
+        return new VisibleAfterReloadState(providerHelper, announcementParser);
     }
 }

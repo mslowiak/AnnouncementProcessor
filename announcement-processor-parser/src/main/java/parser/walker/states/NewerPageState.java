@@ -1,16 +1,12 @@
 package parser.walker.states;
 
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import parser.scrapper.AnnouncementParser;
 import parser.walker.helpers.ProviderHelper;
 
-@Component
-@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class NewerPageState extends WalkerState {
 
-    public NewerPageState(ProviderHelper providerHelper) {
-        super(providerHelper);
+    public NewerPageState(ProviderHelper providerHelper, AnnouncementParser announcementParser) {
+        super(providerHelper, announcementParser);
     }
 
     @Override
