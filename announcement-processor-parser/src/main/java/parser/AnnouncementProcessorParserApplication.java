@@ -1,21 +1,18 @@
 package parser;
 
-import lombok.extern.java.Log;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import parser.walker.PageWalker;
 
-@Log
+@EnableJpaRepositories
 @SpringBootApplication
-@EnableScheduling
-public class AnnouncementProcessorParserApplication implements CommandLineRunner {
-    public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(AnnouncementProcessorParserApplication.class);
-        app.run(args);
-    }
+public class AnnouncementProcessorParserApplication {
 
-    @Override
-    public void run(String... args) {
+    public static void main(String[] args) {
+        ConfigurableApplicationContext run = SpringApplication.run(AnnouncementProcessorParserApplication.class, args);
+        PageWalker pageWalker = (PageWalker) run.getBean("gumtreePageWalker");
+        pageWalker.walk("www.example.com");
     }
 }

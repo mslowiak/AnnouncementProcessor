@@ -1,20 +1,35 @@
 package parser.walker.states;
 
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import lombok.extern.slf4j.Slf4j;
+import parser.registry.ParsingInfo;
+import parser.scrapper.AnnouncementParser;
 import parser.walker.helpers.ProviderHelper;
+import parser.walker.helpers.WalkerInfo;
 
-@Component
-@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+import java.util.Optional;
+
+@Slf4j
 public class FindUrlState extends WalkerState {
 
-    public FindUrlState(ProviderHelper providerHelper) {
-        super(providerHelper);
+    private ParsingInfo parsingInfoToFind;
+
+    FindUrlState(ProviderHelper providerHelper, AnnouncementParser announcementParser, ParsingInfo parsingInfoToFind) {
+        super(providerHelper, announcementParser);
+        this.parsingInfoToFind = parsingInfoToFind;
     }
 
     @Override
     public WalkerState run() {
-        return null;
+        Optional<WalkerInfo> walkerInfo = providerHelper.findPageWithAnnouncement(parsingInfoToFind);
+
+        if (walkerInfo.isPresent()) {
+            log.info("Page has been found on page number: " + providerHelper.getWalkerInfo().getWalkPageUrlNumber() + ". Go to ProcessPageState");
+        } else {
+            log.info("Page not found. Go to FetchRegistryState");
+        }
+
+        return walkerInfo
+                .<WalkerState>map(walker -> new ProcessPageState(providerHelper, announcementParser))
+                .orElseGet(() -> new FetchRegistryState(providerHelper, announcementParser));
     }
 }

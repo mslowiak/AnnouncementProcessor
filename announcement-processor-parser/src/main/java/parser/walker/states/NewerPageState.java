@@ -1,20 +1,27 @@
 package parser.walker.states;
 
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import lombok.extern.slf4j.Slf4j;
+import parser.scrapper.AnnouncementParser;
 import parser.walker.helpers.ProviderHelper;
 
-@Component
-@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+@Slf4j
 public class NewerPageState extends WalkerState {
 
-    public NewerPageState(ProviderHelper providerHelper) {
-        super(providerHelper);
+    NewerPageState(ProviderHelper providerHelper, AnnouncementParser announcementParser) {
+        super(providerHelper, announcementParser);
     }
 
     @Override
     public WalkerState run() {
-        return null;
+        int walkPageUrlNumber = providerHelper.getWalkerInfo().getWalkPageUrlNumber();
+
+        if (walkPageUrlNumber == 1) {
+            log.info("It is newest page, go to StopState");
+            return new StopState(providerHelper);
+        }
+
+        providerHelper.goToNewerPageWithDocumentUpdate();
+        log.info("It is not a newest page, go to ProcessPageState");
+        return new ProcessPageState(providerHelper, announcementParser);
     }
 }
