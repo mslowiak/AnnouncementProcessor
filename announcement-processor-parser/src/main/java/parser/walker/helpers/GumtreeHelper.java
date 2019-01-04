@@ -50,6 +50,7 @@ public class GumtreeHelper extends ProviderHelper {
                 do {
                     scannedPageNumber++;
                     urlToScan = getNextPageUrl(urlToScan, scannedPageNumber);
+                    log.debug("\tFind page on page with number " + scannedPageNumber + ": " + urlToScan);
                     scannedPage = getPageAsDocumentFromUrl(urlToScan);
                     date = getEarliestDateOnAnnouncementPage(scannedPage);
                     if (date != null && !date.isBefore(parsingInfoToFind.getDate())) {
@@ -75,7 +76,7 @@ public class GumtreeHelper extends ProviderHelper {
 
     @Override
     public List<String> getUrlsToParse(Document document, int divNumber) {
-        log.info("Geeting urls to parse");
+        log.debug("Geeting urls to parse");
         return getElementsWithDataFromPage(document)
                 .stream()
                 .limit(divNumber)
@@ -84,17 +85,48 @@ public class GumtreeHelper extends ProviderHelper {
     }
 
     @Override
-    public List<String> getAllUrlsOnPage() {
-        try {
-            Document document = getPageAsDocumentFromUrl(walkerInfo.getWalkPageUrl());
-            walkerInfo.setWalkPageDocument(document);
-            Elements elements = getElementsWithDataFromPage(document);
-
-            return elements.stream().map(this::getPageUrlFromElement).collect(Collectors.toList());
-        } catch (IOException e) {
-            log.error("Error in getAllUrlsOnPage");
-            return null;
+    public List<String> getAllUrlsOnPage(boolean refreshPage) {
+        if (refreshPage) {
+            try {
+                walkerInfo.setWalkPageDocument(getPageAsDocumentFromUrl(walkerInfo.getWalkPageUrl()));
+            } catch (IOException e) {
+                log.error("Error in getAllUrlsOnPage");
+            }
         }
+
+        Elements elements = getElementsWithDataFromPage(walkerInfo.getWalkPageDocument());
+        return elements.stream().map(this::getPageUrlFromElement).collect(Collectors.toList());
+    }
+
+    @Override
+    public void goToNewerPageWithDocumentUpdate() {
+        String previousPageUrl = getPreviousPageUrl(walkerInfo.getWalkPageUrl());
+        if (previousPageUrl != null) {
+            try {
+                walkerInfo.setWalkPageUrl(previousPageUrl);
+                Document pageDocument = getPageAsDocumentFromUrl(previousPageUrl);
+                walkerInfo.setWalkPageUrlNumber(getPageNumberFromPageDocument(pageDocument));
+
+                String partOfUrl = lastParsedAnnouncement.getUrl().split("/krakow/")[1];
+
+                String fakeAnnouncement = "<li class=\"result pictures\">\n" +
+                        "\t<div class=\"title\">\n" +
+                        "\t\t<a class=\"href-link\" href=\"" + partOfUrl + "\">Title</a>\n" +
+                        "\t</div>" +
+                        "</li>";
+                pageDocument.select(".view").get(divElementWithAnnouncementsNumber)
+                        .selectFirst("ul").children().last().before(fakeAnnouncement);
+                walkerInfo.setWalkPageDocument(pageDocument);
+                walkerInfo.setRequestedAnnouncementDivNumber(getAllUrlsOnPage(false).size());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private int getPageNumberFromPageDocument(Document pageDocument) {
+        Element element = pageDocument.body().selectFirst(".pagination span.current");
+        return Integer.valueOf(element.html());
     }
 
     LocalDate getEarliestDateOnAnnouncementPage(Document scannedPage) {
@@ -172,9 +204,29 @@ public class GumtreeHelper extends ProviderHelper {
     }
 
     @Override
+    String getPreviousPageUrl(String actualUrl) {
+        if (actualUrl != null && actualUrl.contains("page")) { // page is > 1
+            Pattern compile = Pattern.compile("(/page-)([0-9]+)(/)");
+            Matcher matcher = compile.matcher(actualUrl);
+
+            if (matcher.find()) {
+                int pageNumber = Integer.valueOf(matcher.group(2));
+                if (pageNumber != 1) {
+                    int previousPageNumber = pageNumber - 1;
+                    return actualUrl
+                            .replace("page-" + pageNumber, "page-" + previousPageNumber)
+                            .replace("p" + pageNumber, "p" + previousPageNumber);
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
     public void updateLastParsedAnnouncement() {
         Optional<ParsingInfo> lastParsed = parsingInfoService
                 .fetchLastRecordForProvider("GUMTREE", null);
+        lastParsed.ifPresent(lp -> log.info("update last parsed: " + lp.getUrl()));
 
         lastParsed.ifPresent(parsingInfo -> lastParsedAnnouncement = parsingInfo);
     }

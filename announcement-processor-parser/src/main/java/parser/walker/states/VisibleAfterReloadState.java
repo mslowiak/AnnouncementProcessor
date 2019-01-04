@@ -15,6 +15,7 @@ public class VisibleAfterReloadState extends WalkerState {
 
     @Override
     public WalkerState run() {
+        log.info("Refresh page: " + providerHelper.getWalkerInfo().getWalkPageUrl() + " => number: " + providerHelper.getWalkerInfo().getWalkPageUrlNumber());
         int divIndex = getDivIndexIfInList();
         WalkerState state;
 
@@ -32,7 +33,7 @@ public class VisibleAfterReloadState extends WalkerState {
 
     private int getDivIndexIfInList() {
         String desiredUrl = providerHelper.getLastParsedAnnouncement().getUrl();
-        List<String> allUrlsOnPage = providerHelper.getAllUrlsOnPage();
+        List<String> allUrlsOnPage = providerHelper.getAllUrlsOnPage(true);
         for (int i = 0; i < allUrlsOnPage.size(); i++) {
             if (allUrlsOnPage.get(i).equals(desiredUrl)) {
                 return i;

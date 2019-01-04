@@ -32,9 +32,11 @@ public abstract class ProviderHelper {
 
     public abstract List<String> getUrlsToParse(Document document, int divNumber);
 
-    public abstract List<String> getAllUrlsOnPage();
+    public abstract List<String> getAllUrlsOnPage(boolean refreshPage);
 
     public abstract void updateLastParsedAnnouncement();
+
+    public abstract void goToNewerPageWithDocumentUpdate();
 
     abstract int findAnnouncementDivNumberOnPage(Document page, String url);
 
@@ -43,6 +45,8 @@ public abstract class ProviderHelper {
     abstract String getPageUrlFromElement(Element element);
 
     abstract String getNextPageUrl(String previousUrl, int nextPageNumber);
+
+    abstract String getPreviousPageUrl(String actualUrl);
 
     abstract int getNumberOfTotalPages(Document scannedPage);
 

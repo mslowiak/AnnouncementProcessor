@@ -250,4 +250,38 @@ public class GumtreeHelperTest {
         // then
         Assert.assertEquals(expectedUrl, returnedUrl);
     }
+
+    @Test
+    public void getPreviousPageUrlWhenActualUrlIsNull() {
+        // when
+        String returnedUrl = gumtreeHelper.getPreviousPageUrl(null);
+
+        // then
+        Assert.assertNull(returnedUrl);
+    }
+
+    @Test
+    public void getPreviousPageUrlWhenActualUrlIsNotNullAndOverOne() {
+        // given
+        String previousUrl = "https://www.gumtree.pl/s-mieszkania-i-domy-do-wynajecia/krakow/page-3/v1c9008l3200208p3";
+        String expectedUrl = "https://www.gumtree.pl/s-mieszkania-i-domy-do-wynajecia/krakow/page-2/v1c9008l3200208p2";
+
+        // when
+        String returnedUrl = gumtreeHelper.getPreviousPageUrl(previousUrl);
+
+        // then
+        Assert.assertEquals(expectedUrl, returnedUrl);
+    }
+
+    @Test
+    public void getPreviousPageUrlWhenActualUrlIsOne() {
+        // given
+        String previousUrl = "https://www.gumtree.pl/s-mieszkania-i-domy-do-wynajecia/krakow/page-1/v1c9008l3200208p1";
+
+        // when
+        String returnedUrl = gumtreeHelper.getPreviousPageUrl(previousUrl);
+
+        // then
+        Assert.assertNull(returnedUrl);
+    }
 }
