@@ -2,6 +2,8 @@ package parser;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.Getter;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +29,8 @@ public class AnnouncementSender {
             MessageProducer messageProducer = session.createProducer(queue);
 
             ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.registerModule(new JavaTimeModule());
+            objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
             Message message = session.createTextMessage(objectMapper.writeValueAsString(announcement));
             messageProducer.send(message);
