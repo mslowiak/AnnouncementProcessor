@@ -1,10 +1,12 @@
 package parser.walker.helpers;
 
+import lombok.Getter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
+import parser.AnnouncementSender;
 import parser.registry.ParsingInfo;
 import parser.registry.ParsingInfoService;
 
@@ -12,11 +14,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+@Getter
 @Component
 public abstract class ProviderHelper {
     ParsingInfoService parsingInfoService;
     ParsingInfo lastParsedAnnouncement;
     WalkerInfo walkerInfo;
+    AnnouncementSender announcementSender;
 
     public ProviderHelper(ParsingInfoService parsingInfoService) {
         this.parsingInfoService = parsingInfoService;
@@ -50,15 +54,11 @@ public abstract class ProviderHelper {
 
     abstract int getNumberOfTotalPages(Document scannedPage);
 
-    public ParsingInfo getLastParsedAnnouncement() {
-        return lastParsedAnnouncement;
+    public void setAnnouncementSender(AnnouncementSender announcementSender) {
+        this.announcementSender = announcementSender;
     }
 
-    public ParsingInfoService getParsingInfoService() {
-        return parsingInfoService;
-    }
-
-    public WalkerInfo getWalkerInfo() {
-        return walkerInfo;
+    public void setLastParsedAnnouncement(ParsingInfo lastParsedAnnouncement) {
+        this.lastParsedAnnouncement = lastParsedAnnouncement;
     }
 }
