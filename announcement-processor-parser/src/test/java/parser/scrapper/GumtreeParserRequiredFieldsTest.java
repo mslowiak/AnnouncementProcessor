@@ -39,7 +39,7 @@ public class GumtreeParserRequiredFieldsTest {
         Mockito.doThrow(GumtreePageParseException.class).when(spy).getPageContent(Mockito.anyString());
 
         // then
-        spy.parsePage("test");
+        spy.parsePage("https://www.gumtree.pl/a-mieszkania-i-domy-do-wynajecia/krakow/ul-kapelanka-d%C4%99bniki-trzy-pokoje-61-m2/1003845275080911021282609");
     }
 
     @Test

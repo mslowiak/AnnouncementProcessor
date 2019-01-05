@@ -1,5 +1,6 @@
 package parser;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 public class Announcement {
     private String title;
     private BigDecimal price;

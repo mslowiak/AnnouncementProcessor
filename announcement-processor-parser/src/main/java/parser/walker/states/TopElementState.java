@@ -1,20 +1,26 @@
 package parser.walker.states;
 
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import lombok.extern.slf4j.Slf4j;
+import parser.scrapper.AnnouncementParser;
 import parser.walker.helpers.ProviderHelper;
 
-@Component
-@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+@Slf4j
 public class TopElementState extends WalkerState {
 
-    public TopElementState(ProviderHelper providerHelper) {
-        super(providerHelper);
+    public TopElementState(ProviderHelper providerHelper, AnnouncementParser announcementParser) {
+        super(providerHelper, announcementParser);
     }
 
     @Override
     public WalkerState run() {
-        return null;
+        int divNumber = providerHelper.getWalkerInfo().getRequestedAnnouncementDivNumber();
+
+        if (divNumber == 0) {
+            log.info("Element is at the top of the page. Go to NewerPageState");
+            return new NewerPageState(providerHelper, announcementParser);
+        } else {
+            log.info("Element is not at the top of the page. Go to ProcessPageState");
+            return new ProcessPageState(providerHelper, announcementParser);
+        }
     }
 }

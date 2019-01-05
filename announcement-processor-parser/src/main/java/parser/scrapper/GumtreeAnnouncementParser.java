@@ -5,6 +5,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Component;
 import parser.Announcement;
 import parser.exceptions.GumtreePageParseException;
 import parser.exceptions.PropertyNotValidForGumtreeProviderException;
@@ -17,13 +18,12 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 @Slf4j
+@Component
 public class GumtreeAnnouncementParser extends AnnouncementParser implements SinglePageParser {
     @Override
     public Announcement parsePage(String url) {
         try {
             Document pageContent = getPageContent(url);
-            log.info("Received content from url: " + url);
-
             Element details = pageContent.selectFirst(".vip-details");
 
             return Announcement.builder()
@@ -46,6 +46,8 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
                     .build();
         } catch (IOException e) {
             throw new GumtreePageParseException("Cannot parser announcement from url: " + url);
+        } finally {
+            log.info("Announcement from url: " + url.split("/krakow")[1] + " has been parsed");
         }
     }
 
@@ -310,10 +312,11 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
 
     private String getValueForAttributeFromLiElements(String attributeName, Elements liElements) {
         if (liElements != null) {
-            for (Element singleLiElement : liElements) {
-                String text = singleLiElement.selectFirst(".attribute > .name").text();
+            Elements attributes = liElements.select(".attribute");
+            for (Element singleAttributeElement : attributes) {
+                String text = singleAttributeElement.selectFirst(".name").text();
                 if (text.equals(attributeName)) {
-                    return singleLiElement.selectFirst(".attribute > .value").text();
+                    return singleAttributeElement.selectFirst(".value").text();
                 }
             }
         }
