@@ -26,7 +26,9 @@ public class ReceivementScheduler {
 
         log.info("Executing ReceivementScheduler scheduledTask");
         AnnouncementDto announcementDto = consumer.consumeAnnouncement();
+        log.debug("Received announcementDto: {}", announcementDto);
         Announcement announcement = extractor.extractFromAnnouncementDto(announcementDto);
+        log.debug("Converted announcementDto to announcement: {}", announcement);
         // TODO save to the DB
     }
 }
