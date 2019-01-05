@@ -41,9 +41,9 @@ public class ProcessPageState extends WalkerState {
                 executorService.submit(() -> {
                     int counterPerPageForParsed = counterPerDate + urlsToParse.size() - finalI;
                     Announcement announcement = announcementParser.parsePage(url);
-                    if (announcement != null) {
+                    if (announcement != null && isDifferentThanLastParsed(announcement)) {
                         providerHelper.getParsingInfoService().saveAnnouncementToRegistry("GUMTREE", announcement, counterPerPageForParsed);
-                        // TODO: Send announcement via JMS
+                        providerHelper.getAnnouncementSender().sendAnnouncement(announcement);
                     }
                 });
             }
@@ -56,5 +56,11 @@ public class ProcessPageState extends WalkerState {
         log.info("Parsing urls from page " + providerHelper.getWalkerInfo().getWalkPageUrlNumber() + " done. Go to VisibleAfterReloadState");
 
         return new VisibleAfterReloadState(providerHelper, announcementParser);
+    }
+
+    private boolean isDifferentThanLastParsed(Announcement announcement) {
+        String lastParsedHash = providerHelper.getLastParsedAnnouncement().getPageHash();
+        String lastParsedUrl = providerHelper.getLastParsedAnnouncement().getUrl();
+        return !lastParsedUrl.equals(announcement.getUrl()) && !lastParsedHash.equals("" + announcement.hashCode());
     }
 }

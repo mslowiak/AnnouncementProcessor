@@ -1,9 +1,11 @@
 package parser.walker.states;
 
+import lombok.Getter;
 import org.springframework.stereotype.Component;
 import parser.scrapper.AnnouncementParser;
 import parser.walker.helpers.ProviderHelper;
 
+@Getter
 @Component
 public abstract class WalkerState {
     ProviderHelper providerHelper;

@@ -42,7 +42,7 @@ public class GumtreeHelper extends ProviderHelper {
             try {
                 String urlToScan = null;
                 int requestedAnnouncementDivNumber = -1;
-                Document scannedPage = null;
+                Document scannedPage;
                 int scannedPageNumber = 0;
                 int totalPage = -1;
                 LocalDate date;
@@ -76,7 +76,6 @@ public class GumtreeHelper extends ProviderHelper {
 
     @Override
     public List<String> getUrlsToParse(Document document, int divNumber) {
-        log.debug("Geeting urls to parse");
         return getElementsWithDataFromPage(document)
                 .stream()
                 .limit(divNumber)
@@ -93,7 +92,6 @@ public class GumtreeHelper extends ProviderHelper {
                 log.error("Error in getAllUrlsOnPage");
             }
         }
-
         Elements elements = getElementsWithDataFromPage(walkerInfo.getWalkPageDocument());
         return elements.stream().map(this::getPageUrlFromElement).collect(Collectors.toList());
     }
