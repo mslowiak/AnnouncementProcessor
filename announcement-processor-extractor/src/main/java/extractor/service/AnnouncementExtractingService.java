@@ -48,6 +48,7 @@ public class AnnouncementExtractingService {
         price.setBasePrice(announcementDto.getPrice());
         // TODO more advanced extraction e.g. description data extraction
         Map<String, Integer> pricesMap = new HashMap<>();
+        parseDescriptionPrice(announcementDto.getDescription(), pricesMap);
         pricesMap.put("SomePrice", announcementDto.getAdditionalRentCost());
         price.setAdditionalPrices(pricesMap);
         return price;
@@ -66,5 +67,9 @@ public class AnnouncementExtractingService {
         propertyData.setRoomNumber(announcementDto.getRoomAmount());
         // TODO more advanced extraction e.g. description data extraction
         return propertyData;
+    }
+
+    private void parseDescriptionPrice(String description, Map<String, Integer> pricesMap) {
+
     }
 }

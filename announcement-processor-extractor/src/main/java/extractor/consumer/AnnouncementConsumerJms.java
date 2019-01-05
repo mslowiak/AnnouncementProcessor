@@ -2,6 +2,7 @@ package extractor.consumer;
 
 import extractor.dto.AnnouncementDto;
 import extractor.service.MapperService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,9 @@ import org.springframework.stereotype.Service;
 import javax.jms.*;
 
 @Service
+@Slf4j
 public class AnnouncementConsumerJms implements AnnouncementConsumer, ExceptionListener {
+
     @Value("${brokerURL}")
     private String brokerUrl;
     @Value("${queue}")
@@ -22,8 +25,8 @@ public class AnnouncementConsumerJms implements AnnouncementConsumer, ExceptionL
 
     @Override
     public AnnouncementDto consumeAnnouncement() {
-        System.out.println(brokerUrl);
-        System.out.println(queueName);
+
+        log.debug("Running consumeAnnouncement, brokerUrl: {}, queueName: {}", brokerUrl, queueName);
         try {
             ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(brokerUrl);
 
@@ -39,22 +42,22 @@ public class AnnouncementConsumerJms implements AnnouncementConsumer, ExceptionL
             MessageConsumer consumer = session.createConsumer(destination);
 
             Message message = consumer.receive(100);
-
+            log.debug("Received message: {}", message);
             AnnouncementDto announcementDto = null;
 
             if (message instanceof TextMessage) {
                 TextMessage textMessage = (TextMessage) message;
-                // TODO check if message can be a list of announcements
+                log.info("Received text message: {}", textMessage.getText());
                 announcementDto = mapperService.getAnnouncementDtoFromJsonString(textMessage.getText());
             }
 
             consumer.close();
             session.close();
             connection.close();
+            log.debug("Finished consumeAnnouncement");
             return announcementDto;
 
         } catch (Exception e) {
-            System.out.println("Caught: " + e);
             e.printStackTrace();
             return null;
         }
@@ -62,7 +65,6 @@ public class AnnouncementConsumerJms implements AnnouncementConsumer, ExceptionL
 
     @Override
     public void onException(JMSException e) {
-
-        System.out.println("JMS exception: " + e);
+        log.error("JMS exception: {}" , e);
     }
 }
