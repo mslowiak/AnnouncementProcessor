@@ -16,12 +16,12 @@ public class ReceivementScheduler {
     private AnnouncementConsumerJms consumer;
     private AnnouncementExtractingService extractor;
 
-    public ReceivementScheduler() {
-        this.consumer = new AnnouncementConsumerJms();
-        this.extractor = new AnnouncementExtractingService();
+    public ReceivementScheduler(AnnouncementConsumerJms consumer, AnnouncementExtractingService extractor) {
+        this.consumer = consumer;
+        this.extractor = extractor;
     }
 
-    @Scheduled(cron= "0 */2 * * * *")
+    @Scheduled(cron = "*/10 * * * * *")
     private void scheduleTask() {
 
         log.info("Executing ReceivementScheduler scheduledTask");

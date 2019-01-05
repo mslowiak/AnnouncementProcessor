@@ -3,22 +3,29 @@ package extractor.consumer;
 import extractor.dto.AnnouncementDto;
 import extractor.service.MapperService;
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import javax.jms.*;
 
+@Service
 public class AnnouncementConsumerJms implements AnnouncementConsumer, ExceptionListener {
-
+    @Value("${brokerURL}")
+    private String brokerUrl;
+    @Value("${queue}")
+    private String queueName;
     private MapperService mapperService;
 
-    public AnnouncementConsumerJms() {
+    AnnouncementConsumerJms() {
         this.mapperService = new MapperService();
     }
 
     @Override
     public AnnouncementDto consumeAnnouncement() {
-
+        System.out.println(brokerUrl);
+        System.out.println(queueName);
         try {
-            ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory("vm://localhost");
+            ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(brokerUrl);
 
             Connection connection = connectionFactory.createConnection();
             connection.start();
@@ -27,7 +34,7 @@ public class AnnouncementConsumerJms implements AnnouncementConsumer, ExceptionL
 
             Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
-            Destination destination = session.createQueue("ANNOUNCEMENTS");
+            Destination destination = session.createQueue(queueName);
 
             MessageConsumer consumer = session.createConsumer(destination);
 
