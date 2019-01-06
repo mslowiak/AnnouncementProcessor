@@ -24,5 +24,5 @@ public class Announcement {
     private LocalDateTime creationDate;
     private String url;
     private String description;
-    private String provider; // to enum
+    private String provider;
 }
