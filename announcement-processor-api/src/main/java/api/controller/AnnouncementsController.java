@@ -1,12 +1,14 @@
 package api.controller;
 
+import api.dto.AnnouncementDto;
 import api.service.ExtractorDataService;
 import api.service.FrontEndDataService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/announcements")
 public class AnnouncementsController {
@@ -19,12 +21,10 @@ public class AnnouncementsController {
     }
 
     @PostMapping("/send")
-    public void receiveAnnouncement() {
+    public ResponseEntity<AnnouncementDto> receiveAnnouncement(@RequestBody AnnouncementDto announcementDto) {
+        log.debug("Received receiveAnnouncement POST request with body: {}", announcementDto);
+        log.info("Received receiveAnnouncement POST request with announcement URL: {}", announcementDto.getUrl());
 
-    }
-
-    @GetMapping("/lala")
-    public void qubec() {
-        System.out.println("lala");
+        return new ResponseEntity<>(announcementDto, HttpStatus.OK);
     }
 }

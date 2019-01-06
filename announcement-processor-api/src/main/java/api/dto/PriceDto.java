@@ -1,4 +1,4 @@
-package api.dto.announcementElements;
+package api.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,9 +8,9 @@ import java.util.Map;
 
 @Data
 @AllArgsConstructor
-public class Price {
+public class PriceDto {
 
     private BigDecimal basePrice;
-    private String currency = "PLN";
+    private String currency;
     private Map<String, BigDecimal> additionalPrices;
 }

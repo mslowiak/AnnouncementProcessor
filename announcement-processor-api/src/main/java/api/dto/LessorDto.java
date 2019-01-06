@@ -1,11 +1,11 @@
-package api.dto.announcementElements;
+package api.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Lessor {
+public class LessorDto {
 
     private String name;
     private String lessorType; // to enum

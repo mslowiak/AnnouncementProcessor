@@ -1,21 +1,20 @@
 package api.dto;
 
-import api.dto.announcementElements.Lessor;
-import api.dto.announcementElements.Location;
-import api.dto.announcementElements.Price;
-import api.dto.announcementElements.PropertyData;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import lombok.Data;
+import lombok.ToString;
 import java.time.LocalDateTime;
 
+@ToString
+@Data
 public class AnnouncementDto {
 
     public AnnouncementDto(
             @JsonProperty("title") String title,
-            @JsonProperty("price") Price price,
-            @JsonProperty("location") Location location,
-            @JsonProperty("propertyData") PropertyData propertyData,
-            @JsonProperty("lessor") Lessor lessor,
+            @JsonProperty("price") PriceDto price,
+            @JsonProperty("location") LocationDto location,
+            @JsonProperty("propertyData") PropertyDataDto propertyData,
+            @JsonProperty("lessor") LessorDto lessor,
             @JsonProperty("creationDate") LocalDateTime creationDate,
             @JsonProperty("url") String url,
             @JsonProperty("description") String description,
@@ -32,10 +31,10 @@ public class AnnouncementDto {
     }
 
     private String title;
-    private Price price;
-    private Location location;
-    private PropertyData propertyData;
-    private Lessor lessor;
+    private PriceDto price;
+    private LocationDto location;
+    private PropertyDataDto propertyData;
+    private LessorDto lessor;
     private LocalDateTime creationDate;
     private String url;
     private String description;
