@@ -17,6 +17,7 @@ public class Price {
 
     // Integers may be changed to a custom Money type
     private Integer basePrice;
+    private String currency = "PLN";
     private Map<String, Integer> additionalPrices;
 
     public Integer getSummedPrice() {
