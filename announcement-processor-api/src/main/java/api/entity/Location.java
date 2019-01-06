@@ -36,10 +36,4 @@ public class Location {
 
     @OneToOne(mappedBy = "location")
     private Announcement announcement;
-
-    public String getFullLocation() {
-        return city + " " + zipCode + " " + district + "\n"
-                + street + " " + buildingNumber + " / " + flatNumber + "\n"
-                + country;
-    }
 }
