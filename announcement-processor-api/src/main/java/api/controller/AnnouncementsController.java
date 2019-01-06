@@ -22,32 +22,32 @@ public class AnnouncementsController {
     }
 
     @GetMapping("/get/all")
-    public ResponseEntity<List<GeneralAnnouncementInfo>> getAllAnnouncements(@RequestParam String currency) {
+    public ResponseEntity<List<GeneralAnnouncementInfo>> getAllAnnouncements(@RequestParam(required = false) String currency) {
         List<GeneralAnnouncementInfo> allAnnouncements = frontEndDataService.getAllAnnouncements(currency);
         if (allAnnouncements != null) {
             return new ResponseEntity<>(allAnnouncements, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 
     @GetMapping("get/{id}/detailed-info")
-    public ResponseEntity<DetailedAnnouncementInfo> getDetailedInfoAnnouncement(@PathVariable Integer id, @RequestParam String currency) {
+    public ResponseEntity<DetailedAnnouncementInfo> getDetailedInfoAnnouncement(@PathVariable Integer id, @RequestParam(required = false) String currency) {
         DetailedAnnouncementInfo detailedInfoAnnouncement = frontEndDataService.getDetailedInfoAnnouncement(id, currency);
         if (detailedInfoAnnouncement != null) {
             return new ResponseEntity<>(detailedInfoAnnouncement, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 
     @GetMapping("get/{id}/general-info")
-    public ResponseEntity<GeneralAnnouncementInfo> getGeneralInfoAnnouncement(@PathVariable Integer id, @RequestParam String currency) {
+    public ResponseEntity<GeneralAnnouncementInfo> getGeneralInfoAnnouncement(@PathVariable Integer id, @RequestParam(required = false) String currency) {
         GeneralAnnouncementInfo generalInfoAnnouncement = frontEndDataService.getGeneralInfoAnnouncement(id, currency);
         if (generalInfoAnnouncement != null) {
             return new ResponseEntity<>(generalInfoAnnouncement, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 }
