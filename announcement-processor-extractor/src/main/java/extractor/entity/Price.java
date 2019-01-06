@@ -21,11 +21,11 @@ public class Price {
     private String currency = "PLN";
     private Map<String, BigDecimal> additionalPrices;
 
-    public BigDecimal getSummedPrice() {
-        return basePrice.add(
-                additionalPrices.values()
-                        .stream()
-                        .reduce(BigDecimal.ZERO, BigDecimal::add)
-        );
-    }
+//    public BigDecimal getSummedPrice() {
+//        return basePrice.add(
+//                additionalPrices.values()
+//                        .stream()
+//                        .reduce(BigDecimal.ZERO, BigDecimal::add)
+//        );
+//    }
 }

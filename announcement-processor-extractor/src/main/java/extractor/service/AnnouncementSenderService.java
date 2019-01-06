@@ -30,16 +30,16 @@ public class AnnouncementSenderService {
 
         try {
 
+            log.debug("Mapping announcement to JSON...");
+            String announcementJson = mapper.getJsonFromAnnouncement(announcement);
+            log.info("Mapped announcement JSON: {}", announcementJson);
+
             log.info("Sending data to url: {}", apiUrl);
             URL url = new URL(this.apiUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setDoOutput(true);
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json");
-
-            log.debug("Mapping announcement to JSON...");
-            String announcementJson = mapper.getJsonFromAnnouncement(announcement);
-            log.debug("Mapped announcement JSON: {}", announcementJson);
 
             OutputStream os = conn.getOutputStream();
             os.write(announcementJson.getBytes());
@@ -62,9 +62,9 @@ public class AnnouncementSenderService {
 
         } catch (
                 MalformedURLException e) {
-            log.error("Exception: {}", e);
+            log.error("Exception:", e);
         } catch (IOException e) {
-            log.error("Exception: {}", e);
+            log.error("Exception:", e);
         }
     }
 }
