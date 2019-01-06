@@ -4,6 +4,7 @@ import extractor.dto.AnnouncementDto;
 import extractor.entity.*;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,7 +48,7 @@ public class AnnouncementExtractingService {
         Price price = new Price();
         price.setBasePrice(announcementDto.getPrice());
         // TODO more advanced extraction e.g. description data extraction
-        Map<String, Integer> pricesMap = new HashMap<>();
+        Map<String, BigDecimal> pricesMap = new HashMap<>();
         parseDescriptionPrice(announcementDto.getDescription(), pricesMap);
         pricesMap.put("SomePrice", announcementDto.getAdditionalRentCost());
         price.setAdditionalPrices(pricesMap);
@@ -69,7 +70,7 @@ public class AnnouncementExtractingService {
         return propertyData;
     }
 
-    private void parseDescriptionPrice(String description, Map<String, Integer> pricesMap) {
+    private void parseDescriptionPrice(String description, Map<String, BigDecimal> pricesMap) {
 
     }
 }

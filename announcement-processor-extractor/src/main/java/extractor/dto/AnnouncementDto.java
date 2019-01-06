@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 public class AnnouncementDto {
 
     private String title;
-    private Integer price;
+    private BigDecimal price;
     private LocalDateTime creationDate;
     private String lessor;
     private String propertyType;
@@ -22,7 +23,7 @@ public class AnnouncementDto {
     private Boolean isSmokingAllowed;
     private Boolean isPetFriendly;
     private String lessorName;
-    private Integer additionalRentCost;
+    private BigDecimal additionalRentCost;
     private Integer level;
     private String furnishing;
     private String description;
@@ -32,7 +33,7 @@ public class AnnouncementDto {
 
     public AnnouncementDto(
             @JsonProperty("title") String title,
-            @JsonProperty("price") Integer price,
+            @JsonProperty("price") BigDecimal price,
             @JsonProperty("creationDate") LocalDateTime creationDate,
             @JsonProperty("lessor") String lessor,
             @JsonProperty("propertyType") String propertyType,
@@ -43,7 +44,7 @@ public class AnnouncementDto {
             @JsonProperty("isSmokingAllowed") Boolean isSmokingAllowed,
             @JsonProperty("isPetFriendly") Boolean isPetFriendly,
             @JsonProperty("lessorName") String lessorName,
-            @JsonProperty("additionalRentCost") Integer additionalRentCost,
+            @JsonProperty("additionalRentCost") BigDecimal additionalRentCost,
             @JsonProperty("level") Integer level,
             @JsonProperty("furnishing") String furnishing,
             @JsonProperty("description") String description,

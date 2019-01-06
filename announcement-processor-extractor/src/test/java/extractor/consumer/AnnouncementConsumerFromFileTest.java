@@ -4,6 +4,7 @@ import extractor.dto.AnnouncementDto;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -15,7 +16,7 @@ public class AnnouncementConsumerFromFileTest {
     @Test
     public void consumeAnnouncementTest() {
         String title = "Kawalerka 40m Głowackiego 4 Kraków PRZESTRONNE niskie koszty WIDOK na PANORAMĘ Krakowa POŁUDNIE";
-        Integer price = 1300;
+        BigDecimal price = new BigDecimal(1300);
         String strDate = "2018-11-17 00:00:00";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime creationDate = LocalDateTime.parse(strDate, formatter);
@@ -28,7 +29,7 @@ public class AnnouncementConsumerFromFileTest {
         Boolean isSmokingAllowed = true;
         Boolean isPetFriendly = false;
         String lessorName = "Bartek";
-        Integer additionalRentCost = null;
+        BigDecimal additionalRentCost = null;
         Integer level = null;
         String furnishing = null;
         String description = "Proponuję mieszkanie na wynajem (kawalerka) o powierzchni 40m2 " +

@@ -1,8 +1,10 @@
 package extractor.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import extractor.dto.AnnouncementDto;
+import extractor.entity.Announcement;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -24,5 +26,9 @@ public class MapperService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public String getJsonFromAnnouncement(Announcement announcement) throws JsonProcessingException {
+        return mapper.writeValueAsString(announcement);
     }
 }
