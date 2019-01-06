@@ -3,7 +3,6 @@ package api.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,9 +19,6 @@ public class Announcement {
     @Column(name = "TITLE")
     private String title;
 
-    @Column(name = "BASE_PRICE")
-    private BigDecimal basePrice;
-
     @Column(name = "PROVIDER")
     private String provider;
 
@@ -34,6 +30,9 @@ public class Announcement {
 
     @Column(name = "DESCRIPTION")
     private String description;
+
+    @Column(name = "CURRENCY")
+    private String currency;
 
     @OneToOne
     @JoinColumn(name = "PRICE_ID")
