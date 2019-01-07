@@ -2,6 +2,7 @@ package api.converter;
 
 import api.dto.AnnouncementDto;
 import api.entity.*;
+import api.entity.price.ConsumerPrice;
 import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
 
@@ -25,11 +26,9 @@ public class AnnouncementDtoEntityConverter implements Converter<AnnouncementDto
         announcement.setDescription(announcementDto.getDescription());
         announcement.setCurrency(announcementDto.getPrice().getCurrency());
 
-        PriceOffer priceOffer = new PriceOffer();
-        // TODO check what the description is about
-        priceOffer.setAnnouncement(announcement);
-        priceOffer.setDescription(announcement.getDescription());
-        announcement.setPriceOffer(priceOffer);
+        // TODO: check which case of price it is (from package price) and inject accordingly
+        ConsumerPrice consumerPrice = new ConsumerPrice("name", announcementDto.getPrice().getBasePrice());
+        announcement.setPriceOffer(consumerPrice);
 
         Location location = new Location();
         location.setAnnouncement(announcement);
