@@ -1,6 +1,5 @@
 package api.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
@@ -56,7 +55,7 @@ public class Announcement {
     @JoinColumn(name = "LESSOR_ID")
     private Lessor lessor;
 
-    @JsonBackReference
+    @JsonManagedReference
     @OneToMany(mappedBy = "announcement", cascade = CascadeType.ALL)
     private List<AdditionalCosts> additionalCosts;
 }
