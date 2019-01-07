@@ -15,6 +15,6 @@ public class AnnouncementExtractingServiceTest {
     public void extractFromAnnouncementDtoTest() {
         AnnouncementDto announcementDto = announcementConsumer.consumeAnnouncement();
         Announcement announcement = extractingService.extractFromAnnouncementDto(announcementDto);
-        System.out.println(announcement); // TODO proper test
+        System.out.println(announcement);
     }
 }
