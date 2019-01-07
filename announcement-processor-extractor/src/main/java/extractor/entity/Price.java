@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 /*
@@ -16,14 +17,15 @@ import java.util.Map;
 public class Price {
 
     // Integers may be changed to a custom Money type
-    private Integer basePrice;
+    private BigDecimal basePrice;
     private String currency = "PLN";
-    private Map<String, Integer> additionalPrices;
+    private Map<String, BigDecimal> additionalPrices;
 
-    public Integer getSummedPrice() {
-        return basePrice + additionalPrices.values()
-                .stream()
-                .mapToInt(i -> i)
-                .sum();
-    }
+//    public BigDecimal getSummedPrice() {
+//        return basePrice.add(
+//                additionalPrices.values()
+//                        .stream()
+//                        .reduce(BigDecimal.ZERO, BigDecimal::add)
+//        );
+//    }
 }

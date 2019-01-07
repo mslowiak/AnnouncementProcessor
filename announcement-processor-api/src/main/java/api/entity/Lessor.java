@@ -1,5 +1,6 @@
 package api.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -25,6 +26,7 @@ public class Lessor {
     @Column(name = "EMAIL")
     private String email;
 
+    @JsonBackReference
     @OneToOne(mappedBy = "lessor")
     private Announcement announcement;
 }

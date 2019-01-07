@@ -1,5 +1,7 @@
 package api.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -28,28 +30,33 @@ public class Announcement {
     @Column(name = "URL")
     private String url;
 
-    @Column(name = "DESCRIPTION")
+    @Column(name = "DESCRIPTION", length = 15000)
     private String description;
 
     @Column(name = "CURRENCY")
     private String currency;
 
-    @OneToOne
+    @JsonManagedReference
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "PRICE_ID")
     private PriceOffer priceOffer;
 
-    @OneToOne
+    @JsonManagedReference
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "LOCATION_ID")
     private Location location;
 
-    @OneToOne
+    @JsonManagedReference
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "PROPERTY_DATA_ID")
     private PropertyData propertyData;
 
-    @OneToOne
+    @JsonManagedReference
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "LESSOR_ID")
     private Lessor lessor;
 
-    @OneToMany(mappedBy = "announcement")
+    @JsonBackReference
+    @OneToMany(mappedBy = "announcement", cascade = CascadeType.ALL)
     private List<AdditionalCosts> additionalCosts;
 }

@@ -1,5 +1,6 @@
 package api.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -23,7 +24,7 @@ public class PropertyData {
     private Boolean isSmokingAllowed;
 
     @Column(name = "IS_FOR_PETS")
-    private Boolean isPerFriendly;
+    private Boolean isPetFriendly;
 
     @Column(name = "ROOM_NUMBER")
     private Integer roomNumber;
@@ -40,6 +41,7 @@ public class PropertyData {
     @Column(name = "FURNISHING")
     private String furnishing;
 
+    @JsonBackReference
     @OneToOne(mappedBy = "propertyData")
     private Announcement announcement;
 }
