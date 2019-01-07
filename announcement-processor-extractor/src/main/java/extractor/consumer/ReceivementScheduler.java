@@ -28,7 +28,7 @@ public class ReceivementScheduler {
 
     @Scheduled(cron = "*/10 * * * * *")
     private void scheduleTask() {
-
+        // TODO fix NullPointer when queue empty
         log.info("Executing ReceivementScheduler scheduledTask");
         AnnouncementDto announcementDto = consumer.consumeAnnouncement();
         log.debug("Received announcementDto: {}", announcementDto);

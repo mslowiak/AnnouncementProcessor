@@ -24,7 +24,8 @@ public class AnnouncementsController {
     public ResponseEntity<AnnouncementDto> receiveAnnouncement(@RequestBody AnnouncementDto announcementDto) {
         log.debug("Received receiveAnnouncement POST request with body: {}", announcementDto);
         log.info("Received receiveAnnouncement POST request with announcement URL: {}", announcementDto.getUrl());
-
+        extractorDataService.convertAndSave(announcementDto);
+        log.info("Extracted and saved to DB; announcement URL: {}", announcementDto.getUrl());
         return new ResponseEntity<>(announcementDto, HttpStatus.OK);
     }
 }

@@ -23,7 +23,7 @@ public class PropertyData {
     private Boolean isSmokingAllowed;
 
     @Column(name = "IS_FOR_PETS")
-    private Boolean isPerFriendly;
+    private Boolean isPetFriendly;
 
     @Column(name = "ROOM_NUMBER")
     private Integer roomNumber;
