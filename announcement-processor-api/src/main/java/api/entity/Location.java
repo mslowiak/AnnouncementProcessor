@@ -1,5 +1,6 @@
 package api.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -34,6 +35,7 @@ public class Location {
     @Column(name = "DISTRICT")
     private String district;
 
+    @JsonBackReference
     @OneToOne(mappedBy = "location")
     private Announcement announcement;
 }
