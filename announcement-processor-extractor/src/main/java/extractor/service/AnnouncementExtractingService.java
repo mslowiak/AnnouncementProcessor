@@ -5,8 +5,11 @@ import extractor.entity.*;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class AnnouncementExtractingService {
@@ -34,23 +37,22 @@ public class AnnouncementExtractingService {
         lessor.setName(announcementDto.getLessorName());
         lessor.setLessorType(announcementDto.getLessor());
         lessor.setPhoneNumber(announcementDto.getPhoneNumber());
-        // TODO more advanced extraction e.g. description data extraction
         return lessor;
     }
 
     private Location extractLocation(AnnouncementDto announcementDto) {
         Location location = new Location();
-        // TODO more advanced extraction e.g. description data extraction
+
         return location;
     }
 
     private Price extractPrice(AnnouncementDto announcementDto) {
         Price price = new Price();
         price.setBasePrice(announcementDto.getPrice());
-        // TODO more advanced extraction e.g. description data extraction
         Map<String, BigDecimal> pricesMap = new HashMap<>();
+
         parseDescriptionPrice(announcementDto.getDescription(), pricesMap);
-        pricesMap.put("SomePrice", announcementDto.getAdditionalRentCost());
+
         price.setAdditionalPrices(pricesMap);
         return price;
     }
@@ -66,11 +68,54 @@ public class AnnouncementExtractingService {
         propertyData.setParkingAvailability(announcementDto.getParkingAvailability());
         propertyData.setPropertyType(announcementDto.getPropertyType());
         propertyData.setRoomNumber(announcementDto.getRoomAmount());
-        // TODO more advanced extraction e.g. description data extraction
         return propertyData;
     }
 
     private void parseDescriptionPrice(String description, Map<String, BigDecimal> pricesMap) {
 
+        ArrayList<String> utilities = new ArrayList<>();
+        utilities.add("gaz");
+        utilities.add("prąd");
+        utilities.add("czynsz");
+        utilities.add("ogrzewanie");
+        utilities.add("CO");
+        utilities.add("śmieci");
+        utilities.add("media");
+        utilities.add("internet");
+        utilities.add("woda");
+
+        for (String word : utilities) {
+            Pattern p = Pattern.compile("\\b" + word);
+            Matcher m = p.matcher(description);
+            while (m.find()) {
+                BigDecimal foundCost = checkNeighbor(description, m.end());
+                if (!pricesMap.containsKey(word) || pricesMap.get(word) == null) {
+                    pricesMap.put(word, foundCost);
+                }
+            }
+        }
+
+    }
+
+    private BigDecimal checkNeighbor(String description, int end) {
+
+        int i = end + 1;
+        int counter = 25;
+        boolean notFound = true;
+        String digitBuilder = "";
+        while (notFound && i <= description.length() - 1 && counter >= 0) {
+            char ch = description.charAt(i);
+            if (Character.isDigit(ch)) {
+                digitBuilder = digitBuilder + ch;
+            } else {
+                counter--;
+                if (digitBuilder.length() > 0) {
+                    return new BigDecimal(digitBuilder);
+                }
+            }
+
+            i++;
+        }
+        return null;
     }
 }

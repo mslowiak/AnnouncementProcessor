@@ -26,7 +26,7 @@ public class AnnouncementConsumerJms implements AnnouncementConsumer, ExceptionL
     @Override
     public AnnouncementDto consumeAnnouncement() {
 
-        log.debug("Running consumeAnnouncement, brokerUrl: {}, queueName: {}", brokerUrl, queueName);
+        log.info("Running consumeAnnouncement, brokerUrl: {}, queueName: {}", brokerUrl, queueName);
         try {
             ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(brokerUrl);
 
@@ -42,19 +42,20 @@ public class AnnouncementConsumerJms implements AnnouncementConsumer, ExceptionL
             MessageConsumer consumer = session.createConsumer(destination);
 
             Message message = consumer.receive(100);
-            log.debug("Received message: {}", message);
+            log.debug("Received message");
             AnnouncementDto announcementDto = null;
 
             if (message instanceof TextMessage) {
                 TextMessage textMessage = (TextMessage) message;
-                log.info("Received text message: {}", textMessage.getText());
+                log.info("Received text message");
+                log.debug("Text message payload: {}", textMessage.getText());
                 announcementDto = mapperService.getAnnouncementDtoFromJsonString(textMessage.getText());
             }
 
             consumer.close();
             session.close();
             connection.close();
-            log.debug("Finished consumeAnnouncement");
+            log.info("Finished consumeAnnouncement");
             return announcementDto;
 
         } catch (Exception e) {
