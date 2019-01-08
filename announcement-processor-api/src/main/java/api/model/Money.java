@@ -4,6 +4,7 @@ import api.service.CurrencyService;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Money {
     @JsonIgnore
@@ -26,6 +27,6 @@ public class Money {
     }
 
     public String getPriceWithCurrency() {
-        return price + " " + actualCurrency;
+        return price.setScale(2, RoundingMode.CEILING) + " " + actualCurrency;
     }
 }

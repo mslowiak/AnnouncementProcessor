@@ -1,6 +1,6 @@
 package api.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -15,7 +15,7 @@ public class AdditionalCosts {
     @Column(name = "ID")
     private Integer id;
 
-    @JsonManagedReference
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "ANNOUNCEMENT_ID")
     private Announcement announcement;

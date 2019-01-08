@@ -15,8 +15,10 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class FrontEndDataService {
@@ -74,7 +76,7 @@ public class FrontEndDataService {
         detailedAnnouncementInfo.setProvider(announcement.getProvider());
         detailedAnnouncementInfo.setCreationDate(getFormattedLocalDateTime(announcement.getCreationDate()));
         detailedAnnouncementInfo.setUrl(announcement.getUrl());
-        detailedAnnouncementInfo.setLocation(getFullLocation(announcement.getLocation()));
+        detailedAnnouncementInfo.setLocation(announcement.getLocation());
         detailedAnnouncementInfo.setDescription(announcement.getDescription());
 
         detailedAnnouncementInfo.setPropertyData(announcement.getPropertyData());
@@ -85,9 +87,18 @@ public class FrontEndDataService {
     }
 
     private String getFullLocation(Location location) {
-        return location.getCity() + " " + location.getZipCode() + " " + location.getDistrict() + "\n"
-                + location.getStreet() + " " + location.getBuildingNumber() + " / " + location.getFlatNumber() + "\n"
-                + location.getCountry();
+        String city = Stream.of(location.getCity(), location.getZipCode(), location.getDistrict())
+                .filter(Objects::nonNull)
+                .collect(Collectors.joining(","));
+        String street = Stream.of(location.getStreet(), location.getBuildingNumber(), location.getFlatNumber())
+                .filter(Objects::nonNull)
+                .collect(Collectors.joining(","));
+        String country = location.getCountry();
+        String out = Stream.of(city, street, country).filter(Objects::nonNull).collect(Collectors.joining("\n"));
+        if (out.equals("\n")) {
+            return "Brak";
+        }
+        return out;
     }
 
     private String getFormattedLocalDateTime(LocalDateTime ldt) {
