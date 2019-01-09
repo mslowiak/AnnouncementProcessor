@@ -1,0 +1,84 @@
+version: 2
+jobs:
+  parser-test:
+    docker: 
+      - image: circleci/openjdk:8-jdk-browsers
+
+    steps:
+      - checkout
+
+      - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
+          key: circleci-announcement-processor-parser-{{ checksum "announcement-processor-parser/pom.xml" }}
+      
+      - run: cd announcement-processor-parser && mvn dependency:go-offline # gets the project dependencies
+      
+      - save_cache: # saves the project dependencies
+          paths:
+            - ~/.m2
+          key: circleci-announcement-processor-parser-{{ checksum "announcement-processor-parser/pom.xml" }}
+      
+      - run: cd announcement-processor-parser && mvn package # run the actual tests
+
+      - store_test_results: # uploads the test metadata from the `target/surefire-reports` directory so that it can show up in the CircleCI dashboard. 
+          path: announcement-processor-parser/target/surefire-reports
+      
+      - store_artifacts:
+          path: announcement-processor-parser/target/parser-service.jar
+
+  api-test:
+    docker:
+      - image: circleci/openjdk:8-jdk-browsers
+
+    steps:
+      - checkout
+
+      - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
+          key: circleci-announcement-processor-api-{{ checksum "announcement-processor-api/pom.xml" }}
+
+      - run: cd announcement-processor-api && mvn dependency:go-offline # gets the project dependencies
+      
+      - save_cache: # saves the project dependencies
+          paths:
+            - ~/.m2
+          key: circleci-announcement-processor-api-{{ checksum "announcement-processor-api/pom.xml" }}
+
+      - run: cd announcement-processor-api && mvn package # run the actual tests
+
+      - store_test_results: # uploads the test metadata from the `target/surefire-reports` directory so that it can show up in the CircleCI dashboard.
+          path: announcement-processor-api/target/surefire-reports
+
+      - store_artifacts:
+          path: announcement-processor-api/target/api-service.jar
+
+  extractor-test:
+    docker:
+    - image: circleci/openjdk:8-jdk-browsers
+
+    steps:
+    - checkout
+
+    - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
+        key: circleci-announcement-processor-extractor-{{ checksum "announcement-processor-extractor/pom.xml" }}
+
+    - run: cd announcement-processor-extractor && mvn dependency:go-offline # gets the project dependencies
+
+    - save_cache: # saves the project dependencies
+        paths:
+        - ~/.m2
+        key: circleci-announcement-processor-extractor-{{ checksum "announcement-processor-extractor/pom.xml" }}
+
+    - run: cd announcement-processor-extractor && mvn package # run the actual tests
+
+    - store_test_results: # uploads the test metadata from the `target/surefire-reports` directory so that it can show up in the CircleCI dashboard.
+        path: announcement-processor-extractor/target/surefire-reports
+
+    - store_artifacts:
+        path: announcement-processor-extractor/target/extractor-service.jar
+
+workflows:
+  version: 2
+  announcement_processor:
+    jobs:
+      - parser-test
+      - api-test
+      - extractor-test
