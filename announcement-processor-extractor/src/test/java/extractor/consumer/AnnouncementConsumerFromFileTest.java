@@ -21,6 +21,7 @@ public class AnnouncementConsumerFromFileTest {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime creationDate = LocalDateTime.parse(strDate, formatter);
         String lessor = "Właściciel";
+        String cityLocation = "Kraków";
         String propertyType = "Mieszkanie";
         Double flatArea = 40.0;
         Integer roomAmount = 1;
@@ -62,6 +63,7 @@ public class AnnouncementConsumerFromFileTest {
                 price,
                 creationDate,
                 lessor,
+                cityLocation,
                 propertyType,
                 flatArea,
                 roomAmount,

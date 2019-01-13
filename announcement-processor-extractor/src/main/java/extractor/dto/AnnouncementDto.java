@@ -15,6 +15,7 @@ public class AnnouncementDto {
     private BigDecimal price;
     private LocalDateTime creationDate;
     private String lessor;
+    private String cityLocation;
     private String propertyType;
     private Double flatArea;
     private Integer roomAmount;
@@ -36,6 +37,7 @@ public class AnnouncementDto {
             @JsonProperty("price") BigDecimal price,
             @JsonProperty("creationDate") LocalDateTime creationDate,
             @JsonProperty("lessor") String lessor,
+            @JsonProperty("cityLocation") String cityLocation,
             @JsonProperty("propertyType") String propertyType,
             @JsonProperty("flatArea") Double flatArea,
             @JsonProperty("roomAmount") Integer roomAmount,
@@ -55,6 +57,7 @@ public class AnnouncementDto {
         this.price = price;
         this.creationDate = creationDate;
         this.lessor = lessor;
+        this.cityLocation = cityLocation;
         this.propertyType = propertyType;
         this.flatArea = flatArea;
         this.roomAmount = roomAmount;

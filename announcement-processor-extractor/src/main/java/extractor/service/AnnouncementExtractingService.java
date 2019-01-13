@@ -42,7 +42,7 @@ public class AnnouncementExtractingService {
 
     private Location extractLocation(AnnouncementDto announcementDto) {
         Location location = new Location();
-
+        location.setCity(announcementDto.getCityLocation());
         return location;
     }
 
