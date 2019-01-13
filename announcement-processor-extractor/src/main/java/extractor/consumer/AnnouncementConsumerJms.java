@@ -1,10 +1,10 @@
 package extractor.consumer;
 
+import extractor.JMSConfig;
 import extractor.dto.AnnouncementDto;
 import extractor.service.MapperService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.jms.*;
@@ -13,22 +13,20 @@ import javax.jms.*;
 @Slf4j
 public class AnnouncementConsumerJms implements AnnouncementConsumer, ExceptionListener {
 
-    @Value("${brokerURL}")
-    private String brokerUrl;
-    @Value("${queue}")
-    private String queueName;
+    private JMSConfig jmsConfig;
     private MapperService mapperService;
 
-    AnnouncementConsumerJms() {
-        this.mapperService = new MapperService();
+    public AnnouncementConsumerJms(JMSConfig jmsConfig, MapperService mapperService) {
+        this.jmsConfig = jmsConfig;
+        this.mapperService = mapperService;
     }
 
     @Override
     public AnnouncementDto consumeAnnouncement() {
 
-        log.info("Running consumeAnnouncement, brokerUrl: {}, queueName: {}", brokerUrl, queueName);
+        log.info("Running consumeAnnouncement, brokerUrl: {}, queueName: {}", jmsConfig.getBrokerAddress(), jmsConfig.getQueueName());
         try {
-            ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(brokerUrl);
+            ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(jmsConfig.getBrokerAddress());
 
             Connection connection = connectionFactory.createConnection();
             connection.start();
@@ -37,7 +35,7 @@ public class AnnouncementConsumerJms implements AnnouncementConsumer, ExceptionL
 
             Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
-            Destination destination = session.createQueue(queueName);
+            Destination destination = session.createQueue(jmsConfig.getQueueName());
 
             MessageConsumer consumer = session.createConsumer(destination);
 
