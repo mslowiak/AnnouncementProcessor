@@ -13,4 +13,4 @@ RUN ["mvn", "clean", "install", "-DskipTests"]
 
 EXPOSE 8080
 
-CMD java -jar -Dspring.profiles.active=dev /srv/announcement-processor/api/target/api-service.jar
+CMD java -jar -Dspring.profiles.active=demo /srv/announcement-processor/api/target/api-service.jar
