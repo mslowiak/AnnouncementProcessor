@@ -26,7 +26,7 @@ public abstract class ProviderHelper {
         this.parsingInfoService = parsingInfoService;
     }
 
-    Document getPageAsDocumentFromUrl(String url) throws IOException {
+    public Document getPageAsDocumentFromUrl(String url) throws IOException {
         return Jsoup.connect(url).get();
     }
 
@@ -41,6 +41,8 @@ public abstract class ProviderHelper {
     public abstract void updateLastParsedAnnouncement();
 
     public abstract void goToNewerPageWithDocumentUpdate();
+
+    public abstract String getBaseAnnouncementsUrl();
 
     abstract int findAnnouncementDivNumberOnPage(Document page, String url);
 
