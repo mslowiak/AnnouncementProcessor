@@ -149,4 +149,25 @@ public class GumtreeParserRequiredFieldsTest {
         // then
         Assert.assertNull(description);
     }
+
+    @Test
+    public void testLocation() {
+        // given
+        Element element = spyDoc.selectFirst(".vip-details");
+
+        // when
+        String cityLocation = gumtreeParser.parseFlatCityLocation(element);
+
+        // then
+        Assert.assertEquals(GumtreeExpectedProperties.expectedCityLocation, cityLocation);
+    }
+
+    @Test
+    public void testLocationNull() {
+        // when
+        String cityLocation = gumtreeParser.parseFlatCityLocation(null);
+
+        // then
+        Assert.assertNull(cityLocation);
+    }
 }

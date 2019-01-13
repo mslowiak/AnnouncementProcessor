@@ -7,6 +7,7 @@ class GumtreeExpectedProperties {
     static String expectedTitle = "Kawalerka 40m Głowackiego 4 Kraków PRZESTRONNE niskie koszty WIDOK na PANORAMĘ Krakowa POŁUDNIE";
     static BigDecimal expectedPrice = BigDecimal.valueOf(1300);
     static LocalDateTime expectedCreationDateTime = LocalDateTime.of(2018, 11, 17, 0, 0);
+    static String expectedCityLocation = "Kraków";
 
     static String expectedLessor = "Właściciel";
     static String expectedLessorName = "Bartek";
