@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.Getter;
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.jms.*;
@@ -14,17 +13,18 @@ import javax.jms.*;
 @Component
 @Getter
 public class AnnouncementSender {
-    @Value("${brokerURL}")
-    private String brokerUrl;
-    @Value("${queue}")
-    private String queueName;
+    private JMSConfig jmsConfig;
+
+    public AnnouncementSender(JMSConfig jmsConfig) {
+        this.jmsConfig = jmsConfig;
+    }
 
     public void sendAnnouncement(Announcement announcement) {
         try {
-            ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(brokerUrl);
+            ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(jmsConfig.getBrokerAddress());
             Connection connection = connectionFactory.createConnection();
             Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            Queue queue = session.createQueue(queueName);
+            Queue queue = session.createQueue(jmsConfig.getQueueName());
 
             MessageProducer messageProducer = session.createProducer(queue);
 
