@@ -3,6 +3,8 @@ package extractor.consumer;
 import extractor.dto.AnnouncementDto;
 import extractor.service.MapperService;
 
+import java.util.Optional;
+
 
 public class AnnouncementConsumerFromString implements AnnouncementConsumer {
 
@@ -46,7 +48,7 @@ public class AnnouncementConsumerFromString implements AnnouncementConsumer {
     }
 
     @Override
-    public AnnouncementDto consumeAnnouncement() {
-        return mapperService.getAnnouncementDtoFromJsonString(this.json);
+    public Optional<AnnouncementDto> consumeAnnouncement() {
+        return Optional.ofNullable(mapperService.getAnnouncementDtoFromJsonString(this.json));
     }
 }

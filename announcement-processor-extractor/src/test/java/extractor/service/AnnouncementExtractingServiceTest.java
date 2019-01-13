@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,7 +21,8 @@ public class AnnouncementExtractingServiceTest {
 
     @Test
     public void extractFromAnnouncementDtoTest() {
-        AnnouncementDto announcementDto = announcementConsumer.consumeAnnouncement();
+        Optional<AnnouncementDto> optionalAnnouncementDto = announcementConsumer.consumeAnnouncement();
+        AnnouncementDto announcementDto = optionalAnnouncementDto.get();
         Announcement announcement = extractingService.extractFromAnnouncementDto(announcementDto);
         System.out.println(announcement);
     }

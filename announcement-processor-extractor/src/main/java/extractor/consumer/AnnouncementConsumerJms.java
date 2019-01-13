@@ -8,6 +8,7 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.stereotype.Service;
 
 import javax.jms.*;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -22,9 +23,11 @@ public class AnnouncementConsumerJms implements AnnouncementConsumer, ExceptionL
     }
 
     @Override
-    public AnnouncementDto consumeAnnouncement() {
+    public Optional<AnnouncementDto> consumeAnnouncement() {
 
-        log.info("Running consumeAnnouncement, brokerUrl: {}, queueName: {}", jmsConfig.getBrokerAddress(), jmsConfig.getQueueName());
+        log.info("Running consumeAnnouncement, brokerUrl: {}, queueName: {}",
+                jmsConfig.getBrokerAddress(), jmsConfig.getQueueName());
+        Optional<AnnouncementDto> optionalAnnouncementDto = Optional.empty();
         try {
             ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(jmsConfig.getBrokerAddress());
 
@@ -41,24 +44,25 @@ public class AnnouncementConsumerJms implements AnnouncementConsumer, ExceptionL
 
             Message message = consumer.receive(100);
             log.debug("Received message");
-            AnnouncementDto announcementDto = null;
 
             if (message instanceof TextMessage) {
                 TextMessage textMessage = (TextMessage) message;
                 log.info("Received text message");
                 log.debug("Text message payload: {}", textMessage.getText());
-                announcementDto = mapperService.getAnnouncementDtoFromJsonString(textMessage.getText());
+                optionalAnnouncementDto = Optional.ofNullable(
+                        mapperService.getAnnouncementDtoFromJsonString(textMessage.getText())
+                );
             }
 
             consumer.close();
             session.close();
             connection.close();
             log.info("Finished consumeAnnouncement");
-            return announcementDto;
+            return optionalAnnouncementDto;
 
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return optionalAnnouncementDto;
         }
     }
 

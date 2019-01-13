@@ -2,8 +2,10 @@ package extractor.consumer;
 
 import extractor.dto.AnnouncementDto;
 
+import java.util.Optional;
+
 
 public interface AnnouncementConsumer {
 
-    AnnouncementDto consumeAnnouncement();
+    Optional<AnnouncementDto> consumeAnnouncement();
 }

@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 
 public class AnnouncementConsumerFromFileTest {
@@ -80,7 +81,7 @@ public class AnnouncementConsumerFromFileTest {
                 url,
                 phoneNumber
         );
-        AnnouncementDto announcementDto = announcementConsumer.consumeAnnouncement();
-        Assert.assertEquals(template, announcementDto);
+        Optional<AnnouncementDto> optionalAnnouncementDto = announcementConsumer.consumeAnnouncement();
+        Assert.assertEquals(template, optionalAnnouncementDto.get());
     }
 }
