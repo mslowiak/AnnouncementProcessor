@@ -11,4 +11,4 @@ COPY src /srv/announcement-processor/extractor/src
 
 RUN ["mvn", "clean", "install", "-DskipTests"]
 
-CMD java -jar /srv/announcement-processor/extractor/target/extractor-service.jar
+CMD java -jar -Dspring.profiles.active=demo /srv/announcement-processor/extractor/target/extractor-service.jar

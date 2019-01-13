@@ -25,7 +25,9 @@ services:
       - 8081:8081
     volumes:
       - ./announcement-processor-parser/src:/srv/announcement-processor/parser/src
-    command: java -jar -Dspring.profiles.active=dev ./target/parser-service.jar
+    command: java -jar -Dspring.profiles.active=demo ./target/parser-service.jar
+    depends_on:
+      - activemq
 
   api:
     build: ./announcement-processor-api
@@ -34,7 +36,10 @@ services:
       - 8080:8080
     volumes:
       - ./announcement-processor-api/src:/srv/announcement-processor/api/src
-    command: java -jar -Dspring.profiles.active=dev ./target/api-service.jar
+    command: java -jar -Dspring.profiles.active=demo ./target/api-service.jar
+    depends_on:
+      - activemq
+      - parser
   
   extractor:
     build: ./announcement-processor-extractor
@@ -43,5 +48,10 @@ services:
       - 8082:8082
     volumes:
       - ./announcement-processor-extractor/src:/srv/announcement-extractor/extractor/src
-  
-    command: java -jar ./target/extractor-service.jar
+
+    command: java -jar -Dspring.profiles.active=demo ./target/extractor-service.jar
+
+    depends_on:
+      - activemq
+      - parser
+      - api

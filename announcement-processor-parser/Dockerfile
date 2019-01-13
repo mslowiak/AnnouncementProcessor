@@ -11,4 +11,4 @@ COPY src /srv/announcement-processor/parser/src
 
 RUN ["mvn", "clean", "install", "-DskipTests"]
 
-CMD java -jar -Dspring.profiles.active=dev /srv/announcement-processor/parser/target/parser-service.jar
+CMD java -jar -Dspring.profiles.active=demo /srv/announcement-processor/parser/target/parser-service.jar

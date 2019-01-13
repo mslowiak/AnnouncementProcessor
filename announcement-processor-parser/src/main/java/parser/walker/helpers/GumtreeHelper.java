@@ -228,4 +228,9 @@ public class GumtreeHelper extends ProviderHelper {
 
         lastParsed.ifPresent(parsingInfo -> lastParsedAnnouncement = parsingInfo);
     }
+
+    @Override
+    public String getBaseAnnouncementsUrl() {
+        return BASE_ANNOUNCEMENTS_URL;
+    }
 }
