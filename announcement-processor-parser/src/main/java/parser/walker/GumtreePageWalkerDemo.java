@@ -8,21 +8,21 @@ import org.springframework.stereotype.Service;
 import parser.AnnouncementSender;
 import parser.scrapper.GumtreeAnnouncementParser;
 import parser.walker.helpers.GumtreeHelper;
-import parser.walker.states.FetchRegistryState;
+import parser.walker.states.DemoDataState;
 import parser.walker.states.StopState;
 import parser.walker.states.WalkerState;
 
 @Slf4j
 @Service
-@Profile({"dev", "prod"})
-public class GumtreePageWalker extends PageWalker {
+@Profile({"demo"})
+public class GumtreePageWalkerDemo extends PageWalker {
     private WalkerState startState;
 
-    public GumtreePageWalker(@Qualifier("gumtreeHelper") GumtreeHelper gumtreeHelper,
-                             GumtreeAnnouncementParser gumtreeAnnouncementParser,
-                             AnnouncementSender announcementSender) {
+    public GumtreePageWalkerDemo(@Qualifier("gumtreeHelper") GumtreeHelper gumtreeHelper,
+                                 GumtreeAnnouncementParser gumtreeAnnouncementParser,
+                                 AnnouncementSender announcementSender) {
         gumtreeHelper.setAnnouncementSender(announcementSender);
-        this.startState = new FetchRegistryState(gumtreeHelper, gumtreeAnnouncementParser);
+        this.startState = new DemoDataState(gumtreeHelper, gumtreeAnnouncementParser);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class GumtreePageWalker extends PageWalker {
         log.info("==============> Scheduled task started walker <==================================");
         WalkerState walkerState = startState;
         walkerState.getProviderHelper().setLastParsedAnnouncement(null);
-        while(walkerState != null && !(walkerState instanceof StopState)){
+        while (walkerState != null && !(walkerState instanceof StopState)) {
             walkerState = walkerState.run();
         }
         log.info("==============> GumtreePageWalker has parsed all pages <========================");
