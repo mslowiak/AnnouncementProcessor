@@ -30,6 +30,7 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
                     .title(parseTitle(pageContent.selectFirst(".item-title")))
                     .price(parsePrice(pageContent.selectFirst(".price")))
                     .lessorName(parseLessorName(pageContent.selectFirst(".username")))
+                    .cityLocation(parseFlatCityLocation(details))
                     .creationDate(parseCreationDate(details))
                     .description(parseDescription(pageContent.selectFirst(".description")))
                     .lessor(parseLessor(details))
@@ -137,6 +138,19 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
         }
 
         return description;
+    }
+
+    @Override
+    public String parseFlatCityLocation(Element element) {
+        String city = null;
+
+        if (element != null) {
+            Elements li = element.select("li");
+            city = getValueForAttributeFromLiElements("Lokalizacja", li);
+            city = city.split(",")[0];
+        }
+
+        return city;
     }
 
     @Override

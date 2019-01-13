@@ -11,6 +11,8 @@ interface SinglePageParser {
     LocalDateTime parseCreationDate(Element creationDateElement);
     String parseDescription(Element descriptionElement);
 
+    String parseFlatCityLocation(Element locationElement);
+
     default String parseLessor(Element lessorElement) {
         return null;
     }

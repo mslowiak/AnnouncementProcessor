@@ -15,6 +15,7 @@ public class Announcement {
     private BigDecimal price;
     private LocalDateTime creationDate;
     private String lessor;
+    private String cityLocation;
     private String propertyType;
     private Double flatArea;
     private Integer roomAmount;
@@ -39,6 +40,7 @@ public class Announcement {
         this.price = builder.price;
         this.creationDate = builder.creationDate;
         this.lessor = builder.lessor;
+        this.cityLocation = builder.cityLocation;
         this.propertyType = builder.propertyType;
         this.flatArea = builder.flatArea;
         this.roomAmount = builder.roomAmount;
@@ -65,6 +67,7 @@ public class Announcement {
         private BigDecimal price;
         private LocalDateTime creationDate;
         private String lessor;
+        private String cityLocation;
         private String propertyType;
         private Double flatArea;
         private Integer roomAmount;
@@ -98,6 +101,11 @@ public class Announcement {
 
         public AnnouncementBuilder lessor(String lessor) {
             this.lessor = lessor;
+            return this;
+        }
+
+        public AnnouncementBuilder cityLocation(String cityLocation) {
+            this.cityLocation = cityLocation;
             return this;
         }
 
