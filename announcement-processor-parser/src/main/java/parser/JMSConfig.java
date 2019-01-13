@@ -5,26 +5,28 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JMSConfig {
+
+    @Value("${broker.os}")
+    private String brokerOs;
     @Value("${broker.ip}")
     private String brokerIp;
     @Value("${broker.port}")
     private String brokerPort;
-    @Value("${queue}")
-    private String queueName;
+    @Value("${broker.queue}")
+    private String brokerQueueName;
 
     String getBrokerAddress() {
-        String property = System.getProperty("os.name").toLowerCase();
-        if (isWindows(property)) {
+        if (isWindows()) {
             return "tcp://" + brokerIp + ":" + brokerPort;
         }
         return "tcp://localhost:" + brokerPort;
     }
 
     String getQueueName() {
-        return queueName;
+        return brokerQueueName;
     }
 
-    private boolean isWindows(String sys) {
-        return sys.contains("win");
+    private boolean isWindows() {
+        return brokerOs.equals("windows");
     }
 }
