@@ -1,0 +1,10 @@
+Cena
+Rejon miasta [-, Stare Miasto, Grzegórzki, Prądnik Czerwony, Prądnik Biały, Krowodrza, Bronowice, Zwierzyniec, Dębniki, Łagiewniki, Swoszowice, Podgórze Duchackie, Bieżanów-Prokocim, Podgórze, Czyżyny, Mistrzejowice, Bieńczyce, Wzgórza Krzesławickie, Nowa Huta]
+Wynajmujacy
+Powierzchnia mieszkania
+Liczba pokoi [-, 1, 2, 3, 4, 5] -> zweryfikowac z tym co mam yw aplikacji
+Liczba lazienek [-, 1, 2] -> zweryfikowac z tym co mamy w aplikacji
+Parking [-, Tak, Nie] -> zweryfikowac z tym co mamy w aplikacji
+Palący [-, Tak, Nie]
+Przyjazne zwierzakom [-, Tak, Nie]
+Piętro [-, parter, 1, 2, 3, 4, 5]
