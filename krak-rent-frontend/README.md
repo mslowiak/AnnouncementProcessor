@@ -1,3 +1,12 @@
+There are following endpoints available:
+- "/" - HomePage
+- "/add" - AddAnnouncementPage
+- "/offer/:id" - AnnouncementInfoPage
+- "/search" - SearchPage
+- "/announcements" - SearchResultsPage
+
+__________________________________________________________
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
