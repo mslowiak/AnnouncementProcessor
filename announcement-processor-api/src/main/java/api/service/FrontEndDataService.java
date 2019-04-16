@@ -10,6 +10,7 @@ import api.model.DetailedAnnouncementInfo;
 import api.model.GeneralAnnouncementInfo;
 import api.model.Money;
 import api.repository.AnnouncementRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
+@Slf4j
 public class FrontEndDataService {
     private AnnouncementRepository announcementRepository;
     private CurrencyService currencyService;
@@ -31,7 +33,10 @@ public class FrontEndDataService {
     }
 
     public List<GeneralAnnouncementInfo> getAllAnnouncements(String desiredCurrency) {
+        log.info("Request to db for all announcements");
         List<Announcement> all = announcementRepository.findAll();
+        log.info("Got announcemets");
+        log.info("Converting");
         if (all != null && !all.isEmpty()) {
             return all.stream()
                     .map(announcement -> convertAnnouncementToGeneralFormat(announcement, desiredCurrency))
