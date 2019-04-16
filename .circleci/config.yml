@@ -75,6 +75,16 @@ jobs:
     - store_artifacts:
         path: announcement-processor-extractor/target/extractor-service.jar
 
+  deploy-api-to-heroku:
+    docker:
+      - image: circleci/ruby:2.4-node
+    steps:
+      - checkout
+      - run: sudo apt-get update -qy
+      - run: sudo apt-get install -y ruby-dev
+      - run: sudo gem install dpl
+      - run: cd announcement-processor-api && sudo dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
+
 workflows:
   version: 2
   announcement_processor:
@@ -82,3 +92,4 @@ workflows:
       - parser-test
       - api-test
       - extractor-test
+      - deploy-api-to-heroku
