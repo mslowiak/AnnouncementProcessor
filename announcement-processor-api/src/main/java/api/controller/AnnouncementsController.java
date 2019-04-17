@@ -36,7 +36,7 @@ public class AnnouncementsController {
     @GetMapping("/get/all")
     public ResponseEntity<List<GeneralAnnouncementInfo>> getAllAnnouncements(@RequestParam(required = false) String currency) {
         log.info("ENDPOINT /announcements/get/all was called");
-        List<GeneralAnnouncementInfo> allAnnouncements = frontEndDataService.getAllAnnouncements(currency);
+        List<GeneralAnnouncementInfo> allAnnouncements = frontEndDataService.getAllAnnouncements();
         if (allAnnouncements != null) {
             log.info("ENDPOINT /announcements/get/all - STATUS OK");
             return new ResponseEntity<>(allAnnouncements, HttpStatus.OK);

@@ -1,15 +1,39 @@
 package api.entity;
 
+import api.model.GeneralAnnouncementInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Data
 @Table(name = "ANNOUNCEMENTS")
+@JsonIgnoreProperties(ignoreUnknown = true)
+@AllArgsConstructor
+@NoArgsConstructor
+@SqlResultSetMapping(
+        name = "GeneralAnnouncementInfoMapping",
+        classes = @ConstructorResult(
+                targetClass = GeneralAnnouncementInfo.class,
+                columns = {
+                        @ColumnResult(name = "id", type = Integer.class),
+                        @ColumnResult(name = "title"),
+                        @ColumnResult(name = "baseCost", type = BigDecimal.class),
+                        @ColumnResult(name = "description"),
+                        @ColumnResult(name = "provider"),
+                        @ColumnResult(name = "creationDate", type = LocalDateTime.class),
+                        @ColumnResult(name = "url"),
+                        @ColumnResult(name = "lessorType"),
+                        @ColumnResult(name = "location")
+                })
+)
 public class Announcement {
 
     @Id
@@ -36,26 +60,26 @@ public class Announcement {
     private String currency;
 
     @JsonManagedReference
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "PRICE_ID")
     private PriceOffer priceOffer;
 
     @JsonManagedReference
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "LOCATION_ID")
     private Location location;
 
     @JsonManagedReference
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "PROPERTY_DATA_ID")
     private PropertyData propertyData;
 
     @JsonManagedReference
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "LESSOR_ID")
     private Lessor lessor;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "announcement", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "announcement", cascade = CascadeType.ALL)
     private List<AdditionalCosts> additionalCosts;
 }

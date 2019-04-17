@@ -13,6 +13,7 @@ import api.repository.AnnouncementRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -32,17 +33,11 @@ public class FrontEndDataService {
         this.currencyService = currencyService;
     }
 
-    public List<GeneralAnnouncementInfo> getAllAnnouncements(String desiredCurrency) {
+    public List<GeneralAnnouncementInfo> getAllAnnouncements() {
         log.info("Request to db for all announcements");
-        List<Announcement> all = announcementRepository.findAll();
-        log.info("Got announcemets");
-        log.info("Converting");
-        if (all != null && !all.isEmpty()) {
-            return all.stream()
-                    .map(announcement -> convertAnnouncementToGeneralFormat(announcement, desiredCurrency))
-                    .collect(Collectors.toList());
-        }
-        return null;
+        List<GeneralAnnouncementInfo> allAnnouncements = announcementRepository.getListOfAnnouncements();
+        log.info("Got announcements from DB");
+        return allAnnouncements;
     }
 
     public GeneralAnnouncementInfo getGeneralInfoAnnouncement(Integer id, String desiredCurrency) {
@@ -59,10 +54,11 @@ public class FrontEndDataService {
 
     private GeneralAnnouncementInfo convertAnnouncementToGeneralFormat(Announcement announcement, String desiredCurrency) {
         String cost = getBaseCostText(announcement, desiredCurrency, currencyService);
+        BigDecimal baseCost = cost == null ? null : new BigDecimal(cost);
 
         GeneralAnnouncementInfo generalAnnouncementInfo = new GeneralAnnouncementInfo();
-        generalAnnouncementInfo.setBaseCost(cost);
-        generalAnnouncementInfo.setCreationDate(getFormattedLocalDateTime(announcement.getCreationDate()));
+        generalAnnouncementInfo.setBaseCost(baseCost);
+        generalAnnouncementInfo.setCreationDate(announcement.getCreationDate());
         generalAnnouncementInfo.setLessorType(announcement.getLessor().getLessorType());
         generalAnnouncementInfo.setLocation(getFullLocation(announcement.getLocation()));
         generalAnnouncementInfo.setProvider(announcement.getProvider());
