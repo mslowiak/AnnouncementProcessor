@@ -11,12 +11,13 @@ import api.model.GeneralAnnouncementInfo;
 import api.model.Money;
 import api.repository.AnnouncementRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,11 +34,15 @@ public class FrontEndDataService {
         this.currencyService = currencyService;
     }
 
-    public List<GeneralAnnouncementInfo> getAllAnnouncements() {
-        log.info("Request to db for all announcements");
-        List<GeneralAnnouncementInfo> allAnnouncements = announcementRepository.getListOfAnnouncements();
-        log.info("Got announcements from DB");
-        return allAnnouncements;
+    public Page<GeneralAnnouncementInfo> getGeneralInfoAnnouncementsPage(Integer page, Integer size) {
+        page = Optional.ofNullable(page).orElse(0);
+        size = Optional.ofNullable(size).orElse(10);
+        log.debug("Page numer: {}, page size: {}", page, size);
+        PageRequest pageRequest = PageRequest.of(page, size);
+        log.debug("Request to db for all announcements");
+        Page<GeneralAnnouncementInfo> announcementsPage = announcementRepository.getGeneralAnnouncementsInfo(pageRequest);
+        log.debug("Got announcements from DB");
+        return announcementsPage;
     }
 
     public GeneralAnnouncementInfo getGeneralInfoAnnouncement(Integer id, String desiredCurrency) {

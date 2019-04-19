@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Data
@@ -16,6 +17,9 @@ public class PriceOffer {
     @Column(name = "ID")
     private Integer id;
 
+    @Column(name = "REAL_PRICE")
+    private BigDecimal price;
+
     @Column(name = "DESCRIPTION")
     private String description;
 
@@ -26,7 +30,8 @@ public class PriceOffer {
     public PriceOffer() {
     }
 
-    public PriceOffer(String description) {
+    public PriceOffer(BigDecimal price, String description) {
+        this.price = price;
         this.description = description;
     }
 }

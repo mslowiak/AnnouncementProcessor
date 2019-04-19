@@ -6,11 +6,10 @@ import api.model.GeneralAnnouncementInfo;
 import api.service.ExtractorDataService;
 import api.service.FrontEndDataService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -34,12 +33,14 @@ public class AnnouncementsController {
     }
 
     @GetMapping("/get/all")
-    public ResponseEntity<List<GeneralAnnouncementInfo>> getAllAnnouncements(@RequestParam(required = false) String currency) {
+    public ResponseEntity<Page<GeneralAnnouncementInfo>> getPageableAnnouncements(@RequestParam(required = false) String currency,
+                                                                                  @RequestParam(required = false) Integer page,
+                                                                                  @RequestParam(required = false) Integer size) {
         log.info("ENDPOINT /announcements/get/all was called");
-        List<GeneralAnnouncementInfo> allAnnouncements = frontEndDataService.getAllAnnouncements();
-        if (allAnnouncements != null) {
+        Page<GeneralAnnouncementInfo> pages = frontEndDataService.getGeneralInfoAnnouncementsPage(page, size);
+        if (pages != null) {
             log.info("ENDPOINT /announcements/get/all - STATUS OK");
-            return new ResponseEntity<>(allAnnouncements, HttpStatus.OK);
+            return new ResponseEntity<>(pages, HttpStatus.OK);
         } else {
             log.info("ENDPOINT /announcements/get/all - STATUS NO CONTENT");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
