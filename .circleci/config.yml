@@ -92,4 +92,12 @@ workflows:
       - parser-test
       - api-test
       - extractor-test
-      - deploy-api-to-heroku
+      - deploy-api-to-heroku:
+          requires:
+            - parser-test
+            - api-test
+            - extractor-test
+          filters:
+            branches:
+              only:
+                - develop
