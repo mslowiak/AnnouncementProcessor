@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
-import Axios from 'axios';
-import GeneralAnnouncementContainer from "../components/GeneralAnnouncementContainer";
+import React, { Component } from 'react'
+import Axios from 'axios'
+import GeneralAnnouncementContainer from "../components/GeneralAnnouncementContainer"
+import { Button } from 'react-bootstrap'
+import '../css/home-page.css'
 
 class HomePage extends Component {
   constructor(props) {
@@ -8,6 +10,12 @@ class HomePage extends Component {
     this.state = {
       announcements: []
     };
+
+    this.goSearchPage = this.goSearchPage.bind(this)
+  }
+
+  goSearchPage() {
+    this.props.history.push('/search')
   }
 
   componentDidMount() {
@@ -25,7 +33,15 @@ class HomePage extends Component {
     const dataComponent = this.state.announcements && this.state.announcements.length ? <GeneralAnnouncementContainer data={this.state.announcements} /> : <div>Loading...</div>
     return (
       <div>
-        <div>HomePage page</div>
+        <div className="search-banner">
+          <Button 
+            variant="secondary" 
+            style={{ fontSize: 30 }}
+            onClick={this.goSearchPage}
+          >
+            Wyszukaj interesujące Cie ogłoszenia!
+          </Button>
+        </div>
         {dataComponent}
       </div>
     );

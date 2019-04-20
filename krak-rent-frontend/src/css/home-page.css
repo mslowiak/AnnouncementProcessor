@@ -1,0 +1,10 @@
+.search-banner {
+    height: 175px;
+    margin: 5px 0px;
+    display: flex;
+    justify-content: center;
+}
+
+.search-banner > * {
+    margin: 50px 50px;
+}

@@ -5,11 +5,11 @@
     text-align: center;
 }
 
+.main > * {
+    margin: 5px 5px;
+}
+
 .announcements-container {
     width: 100%;
     margin: auto;
-}
-
-.announcements-container > * {
-    margin: 5px 5px;
 }
