@@ -1,8 +1,18 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import moment from 'moment';
 import '../css/general-announcement.css'
 
 class GeneralAnnouncement extends Component {
+    constructor(props) {
+        super(props);
+        this.goToAnnouncement = this.goToAnnouncement.bind(this)
+    }
+
+    goToAnnouncement(id) {
+        this.props.history.push('/offer/' + id)
+    }
+
     cutString(text, cutLength) {
         if (text.length > cutLength) {
             return text.substring(0, cutLength) + '...';
@@ -39,7 +49,7 @@ class GeneralAnnouncement extends Component {
         const title = this.cutString(item.title, this.titleLength);
         const description = this.cutString(item.description, this.descriptionLength);
         return (
-            <div className="frame">
+            <div className="frame" onClick={() => this.goToAnnouncement(item.id)}>
                 <div className="image-container">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Temp_plate_blue.svg/601px-Temp_plate_blue.svg.png" alt="" />
                 </div>
@@ -63,4 +73,4 @@ class GeneralAnnouncement extends Component {
     }
 }
 
-export default GeneralAnnouncement;
+export default withRouter (GeneralAnnouncement);
