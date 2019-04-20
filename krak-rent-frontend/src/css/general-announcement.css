@@ -4,6 +4,7 @@
     width: 100%;
     display: inline-block;
     background-color: #fcfdff;
+    cursor: pointer;
 }
 
 .frame:hover {
@@ -14,10 +15,11 @@
     background-color: #f2f4f9;
 }
 
-.frame>* {
+.frame > * {
     display: block;
     margin: 10px 10px;
     height: 85%;
+    pointer-events: none;
 }
 
 .image-container {

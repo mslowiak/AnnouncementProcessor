@@ -7,4 +7,5 @@
 
 .search-banner > * {
     margin: 50px 50px;
+    cursor: pointer;
 }
