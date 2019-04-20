@@ -1,0 +1,14 @@
+.main {
+    min-width: 1080px;
+    height: 100%;
+    text-align: center;
+}
+
+.main > * {
+    margin: 5px 5px;
+}
+
+.announcements-container {
+    width: 100%;
+    margin: auto;
+}
