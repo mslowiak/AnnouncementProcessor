@@ -1,5 +1,15 @@
 .main {
     min-width: 1080px;
     background-color: "lightgray";
-    height: 100vh
+    height: 100vh;
+    text-align: center;
+}
+
+.announcements-container {
+    width: 90%;
+    margin: auto;
+}
+
+.announcements-container > * {
+    margin: 5px 5px;
 }
