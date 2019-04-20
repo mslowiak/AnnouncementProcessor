@@ -22,8 +22,9 @@ class HomePage extends Component {
     Axios.get('announcements/get/all')
       .then(
         results => {
+          console.log(results.data)
           this.setState({
-            announcements: results.data
+            announcements: results.data.content
           })
         }
       )
