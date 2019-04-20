@@ -11,13 +11,23 @@ import HomePage from "./pages/HomePage"
 import SearchPage from "./pages/SearchPage"
 import SearchResultsPage from "./pages/SearchResultsPage"
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './css/main.css'
+import Axios from 'axios';
 
 class App extends Component {
+  prepareAxiosDefaults() {
+      // Axios.defaults.baseURL = "http://krak-rent-api.herokuapp.com";
+      Axios.defaults.baseURL = "http://localhost:8080";
+      Axios.defaults.headers.common['Content-Type'] ='application/json;charset=utf-8';
+  }
+
   render() {
+    this.prepareAxiosDefaults()
+
     return (
       <Router>
         <MyNavbar/>
-        <div className="container" style={{backgroundColor: "lightgray", height: "100vh"}}>
+        <div className="container main">
           <Route exact path="/" component={HomePage} />
           <Route path="/add" component={AddAnnouncementPage} />
           <Route path="/offer/:id" component={AnnouncementInfoPage} />
@@ -28,5 +38,6 @@ class App extends Component {
     )
   }
 }
+
 
 export default App;
