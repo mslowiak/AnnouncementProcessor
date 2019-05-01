@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 public class GumtreeHelper extends ProviderHelper {
 
     private final String BASE_ANNOUNCEMENTS_URL = "https://www.gumtree.pl/s-mieszkania-i-domy-do-wynajecia/krakow/v1c9008l3200208p1";
-    private int divElementWithAnnouncementsNumber = 1;
 
     public GumtreeHelper(ParsingInfoService parsingInfoService) {
         super(parsingInfoService);
@@ -112,8 +111,11 @@ public class GumtreeHelper extends ProviderHelper {
                         "\t\t<a class=\"href-link\" href=\"" + partOfUrl + "\">Title</a>\n" +
                         "\t</div>" +
                         "</li>";
-                pageDocument.select(".view").get(divElementWithAnnouncementsNumber)
-                        .selectFirst("ul").children().last().before(fakeAnnouncement);
+                pageDocument.select(".view")
+                        .get(0)
+                        .getElementsByClass("tileV1")
+                        .last()
+                        .before(fakeAnnouncement);
                 walkerInfo.setWalkPageDocument(pageDocument);
                 walkerInfo.setRequestedAnnouncementDivNumber(getAllUrlsOnPage(false).size());
             } catch (IOException e) {
@@ -123,7 +125,7 @@ public class GumtreeHelper extends ProviderHelper {
     }
 
     private int getPageNumberFromPageDocument(Document pageDocument) {
-        Element element = pageDocument.body().selectFirst(".pagination span.current");
+        Element element = pageDocument.body().selectFirst(".pagination .pag-box.current-page");
         return Integer.valueOf(element.html());
     }
 
@@ -156,19 +158,6 @@ public class GumtreeHelper extends ProviderHelper {
     }
 
     @Override
-    Elements getElementsWithDataFromPage(Document page) {
-        return page
-                .select(".view").get(divElementWithAnnouncementsNumber)
-                .selectFirst("ul")
-                .select("li");
-    }
-
-    @Override
-    String getPageUrlFromElement(Element element) {
-        return element.selectFirst(".title > a").attr("abs:href");
-    }
-
-    @Override
     int findAnnouncementDivNumberOnPage(Document page, String url) {
         Elements liElementsWithData = getElementsWithDataFromPage(page);
         for (int i = 0; i < liElementsWithData.size(); ++i) {
@@ -181,8 +170,18 @@ public class GumtreeHelper extends ProviderHelper {
     }
 
     @Override
+    Elements getElementsWithDataFromPage(Document page) {
+        return page.select(".view").get(0).getElementsByClass("tileV1");
+    }
+
+    @Override
+    String getPageUrlFromElement(Element element) {
+        return element.selectFirst(".title > a").attr("abs:href");
+    }
+
+    @Override
     int getNumberOfTotalPages(Document scannedPage) {
-        String attr = scannedPage.selectFirst(".last.follows").attr("abs:href");
+        String attr = scannedPage.selectFirst(".pag-box.pag-box-last").attr("abs:href");
         Pattern pattern = Pattern.compile("page-[0-9]+");
         Matcher matcher = pattern.matcher(attr);
         if (matcher.find()) {
@@ -225,7 +224,6 @@ public class GumtreeHelper extends ProviderHelper {
         Optional<ParsingInfo> lastParsed = parsingInfoService
                 .fetchLastRecordForProvider("GUMTREE", null);
         lastParsed.ifPresent(lp -> log.info("update last parsed: " + lp.getUrl()));
-
         lastParsed.ifPresent(parsingInfo -> lastParsedAnnouncement = parsingInfo);
     }
 
