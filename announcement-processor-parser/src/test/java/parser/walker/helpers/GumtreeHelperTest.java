@@ -54,7 +54,7 @@ public class GumtreeHelperTest {
         // when
         int announcementDivNumberOnPage = gumtreeHelper.findAnnouncementDivNumberOnPage(
                 documentToTest,
-                "https://www.gumtree.pl/a-mieszkania-i-domy-do-wynajecia/krakow/przytulna-kawalerka-do-wynaj%C4%99cia/1003754341000911379548809"
+                "https://www.gumtree.pl/a-mieszkania-i-domy-do-wynajecia/krakow/kawalerka-blisko-centrum/1004878213720911295815009"
         );
 
         // then
@@ -201,7 +201,7 @@ public class GumtreeHelperTest {
     @Test
     public void getNumberOfTotalPagesWithGoodPattern() {
         // given
-        String html = "<a class=\"last follows\" href=\"/s-mieszkania-i-domy-do-wynajecia/krakow/page-85/v1c9008l3200208p85\"><span class=\"icon-double-angle-right\"></span></a>";
+        String html = "<a class=\"pag-box pag-box-last\" href=\"/s-mieszkania-i-domy-do-wynajecia/krakow/page-85/v1c9008l3200208p50\"><span class=\"icon-double-angle-right\"></span></a>";
         String baseUrl = "https://www.gumtree.pl/s-mieszkania-i-domy-do-wynajecia/krakow/page-2/v1c9008l3200208p2";
         Document parsedHtml = Jsoup.parse(html, baseUrl);
 
@@ -215,7 +215,7 @@ public class GumtreeHelperTest {
     @Test
     public void getNumberOfTotalPagesIfNoPattern() {
         // given
-        String html = "<a class=\"last follows\" href=\"/s-mieszkania-i-domy-do-wynajecia/krakow/v1c9008l3200208p1\"><span class=\"icon-double-angle-right\"></span></a>";
+        String html = "<a class=\"pag-box pag-box-last\" href=\"/s-mieszkania-i-domy-do-wynajecia/krakow/v1c9008l3200208p50\"><span class=\"icon-double-angle-right\"></span></a>";
         String baseUrl = "https://www.gumtree.pl/s-mieszkania-i-domy-do-wynajecia/krakow/v1c9008l3200208p1";
         Document parsedHtml = Jsoup.parse(html, baseUrl);
 
