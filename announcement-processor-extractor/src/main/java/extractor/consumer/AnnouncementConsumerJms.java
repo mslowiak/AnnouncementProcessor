@@ -23,20 +23,16 @@ public class AnnouncementConsumerJms implements AnnouncementConsumer, ExceptionL
 
     @Override
     public AnnouncementDto consumeAnnouncement() {
-
         log.info("Running consumeAnnouncement, brokerUrl: {}, queueName: {}", jmsConfig.getBrokerAddress(), jmsConfig.getQueueName());
         try {
             ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(jmsConfig.getBrokerAddress());
 
             Connection connection = connectionFactory.createConnection();
             connection.start();
-
             connection.setExceptionListener(this);
 
             Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-
             Destination destination = session.createQueue(jmsConfig.getQueueName());
-
             MessageConsumer consumer = session.createConsumer(destination);
 
             Message message = consumer.receive(100);
@@ -55,7 +51,9 @@ public class AnnouncementConsumerJms implements AnnouncementConsumer, ExceptionL
             connection.close();
             log.info("Finished consumeAnnouncement");
             return announcementDto;
-
+        } catch (JMSException e) {
+            log.warn("Error during jms connection, {}", e.getMessage());
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -64,6 +62,6 @@ public class AnnouncementConsumerJms implements AnnouncementConsumer, ExceptionL
 
     @Override
     public void onException(JMSException e) {
-        log.error("JMS exception: {}" , e);
+        log.error("JMS exception: {}", e.getMessage());
     }
 }
