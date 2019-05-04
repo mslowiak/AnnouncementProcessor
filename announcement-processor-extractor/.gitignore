@@ -5,6 +5,7 @@ mvnw.cmd
 
 src/main/resources/application-prod.properties
 src/main/resources/application-demo.properties
+src/main/resources/application-heroku.properties
 
 ### STS ###
 .apt_generated
