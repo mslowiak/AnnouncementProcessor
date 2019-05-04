@@ -9,6 +9,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 @EnableScheduling
@@ -26,15 +28,16 @@ public class ReceivementScheduler {
         this.announcementSender = announcementSender;
     }
 
-    @Scheduled(cron = "*/10 * * * * *")
+    @Scheduled(cron = "*/5 * * * * *")
     private void scheduleTask() {
-        // TODO fix NullPointer when queue empty
         log.info("Executing ReceivementScheduler scheduledTask");
-        AnnouncementDto announcementDto = consumer.consumeAnnouncement();
-        log.debug("Received announcementDto: {}", announcementDto);
-        Announcement announcement = extractor.extractFromAnnouncementDto(announcementDto);
-        log.debug("Converted announcementDto to announcement: {}", announcement);
-        announcementSender.send(announcement);
-        log.info("Sent announcement to API");
+        Optional<AnnouncementDto> announcementDto = Optional.ofNullable(consumer.consumeAnnouncement());
+        announcementDto.ifPresent(annDto -> {
+            log.debug("Received announcementDto: {}", announcementDto);
+            Announcement announcement = extractor.extractFromAnnouncementDto(annDto);
+            log.debug("Converted announcementDto to announcement: {}", announcement);
+            announcementSender.send(announcement);
+            log.info("Sent announcement to API");
+        });
     }
 }
