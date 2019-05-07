@@ -1,38 +1,51 @@
 import React, { Component } from 'react';
-import PropertySelect from "../components/PropertySelect"
-import { Button } from 'react-bootstrap'
-import { cityRegions, lessor, roomAmount, bathsAmount, trueOrFalse } from "../components/search-options"
-import '../css/search-page.css'
-
+import { Button } from 'react-bootstrap';
+import PropertySelect from "../components/PropertySelect";
+import { bathsAmount, cityRegions, lessor, roomAmount, trueOrFalse } from "../components/search-options";
+import '../css/search-page.css';
 
 class SearchPage extends Component {
 
   constructor(props) {
     super(props)
-    this.goResultsPage = this.goResultsPage.bind(this)
     this.state = {
       region: [{ value: '-', label: 'Wszystko' }],
-      lessor: '-',
-      level: '-',
-      rooms: '-',
-      baths: '-',
-      parking: '-',
-      smokers: '-',
-      pets: '-'
+      lessor: [{ value: '-', label: 'Wszystko' }],
+      level: [{ value: '-', label: 'Wszystko' }],
+      rooms: [{ value: '-', label: 'Wszystko' }],
+      baths: [{ value: '-', label: 'Wszystko' }],
+      parking: [{ value: '-', label: 'Wszystko' }],
+      smokers: [{ value: '-', label: 'Wszystko' }],
+      pets:  [{ value: '-', label: 'Wszystko' }]
     }
     
-    this.handleChange = this.handleChange.bind(this);
+    this.goResultsPage = this.goResultsPage.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  stringifySearchBody() {
+    return JSON.stringify({ 
+        region: this.state.region,
+        lessor: this.state.lessor,
+        level: this.state.level,
+        rooms: this.state.rooms,
+        baths: this.state.baths,
+        parking: this.state.parking,
+        smokers: this.state.smokers,
+        pets: this.state.pets
+      }
+    )
   }
 
   handleChange (event, componentName) {
-    this.setState({[componentName]: event});
-    console.log(this.state);
+    this.setState({[componentName]: event})
   }
 
   goResultsPage() {
+    let searchBody = this.stringifySearchBody()
     this.props.history.push({
       pathname: '/announcements',
-      state: { searchJsonPostBody: "dupa blada"}
+      state: { searchJsonBody: searchBody}
     })
   }
 

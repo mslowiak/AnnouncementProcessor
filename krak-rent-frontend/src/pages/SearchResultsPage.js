@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class SearchResultsPage extends Component {
   render() {
-    console.log(this.props.location.state.search)
+    let searchJsonBody = this.props.location.state.searchJsonBody
     return (
       <div>SearchResultsPage page</div>
     );
