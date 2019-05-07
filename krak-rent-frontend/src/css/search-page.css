@@ -1,0 +1,13 @@
+.row {
+    display: flex;
+    margin: 15px 5px;
+}
+
+.left {
+    flex: 15%;
+    text-align: left;
+}
+  
+.right {
+    flex: 85%;
+}
