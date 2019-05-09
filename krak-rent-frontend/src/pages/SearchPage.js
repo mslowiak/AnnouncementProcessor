@@ -12,7 +12,6 @@ class SearchPage extends Component {
     this.state = {
       region: [{ value: '-', label: 'Wszystko' }],
       lessor: [{ value: '-', label: 'Wszystko' }],
-      level: [{ value: '-', label: 'Wszystko' }],
       rooms: [{ value: '-', label: 'Wszystko' }],
       baths: [{ value: '-', label: 'Wszystko' }],
       parking: [{ value: '-', label: 'Wszystko' }],
@@ -31,14 +30,13 @@ class SearchPage extends Component {
 
   stringifySearchBody() {
     return JSON.stringify({ 
-        region: this.state.region,
-        lessor: this.state.lessor,
-        level: this.state.level,
-        rooms: this.state.rooms,
-        baths: this.state.baths,
-        parking: this.state.parking,
-        smokers: this.state.smokers,
-        pets: this.state.pets,
+        region: this.state.region.map(x => x.value),
+        lessor: this.state.lessor.map(x => x.value),
+        rooms: this.state.rooms.map(x => x.value),
+        baths: this.state.baths.map(x => x.value),
+        parking: this.state.parking.map(x => x.value),
+        smokers: this.state.smokers.map(x => x.value),
+        pets: this.state.pets.map(x => x.value),
         priceFrom: parseInt(this.state.priceFrom),
         priceTo: parseInt(this.state.priceTo),
         areaFrom: parseInt(this.state.areaFrom),
@@ -70,7 +68,6 @@ class SearchPage extends Component {
         <RangeInput name="area" labelName="Powierzchnia" handler={this.updateInputValue} from={this.state.areaFrom} to={this.state.areaTo}/>
         <PropertySelect name="region" labelName="Rejon miasta" options={cityRegions} handler={this.handleChange}/>
         <PropertySelect name="lessor" labelName="Wynajmujący" options={lessor} handler={this.handleChange}/>
-        <PropertySelect name="level" labelName="Pietro" options={cityRegions} handler={this.handleChange}/>
         <PropertySelect name="rooms" labelName="Liczba pokoi" options={roomAmount} handler={this.handleChange}/>
         <PropertySelect name="baths" labelName="Liczba łazienek" options={bathsAmount} handler={this.handleChange}/>
         <PropertySelect name="parking" labelName="Parking" options={trueOrFalse} handler={this.handleChange}/>
