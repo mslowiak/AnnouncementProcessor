@@ -4,6 +4,7 @@ import api.dto.SearchCriteria;
 import api.entity.Announcement;
 import api.model.GeneralAnnouncementInfo;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
+@Slf4j
 @Repository
 public class SearchRepository {
     private EntityManager entityManager;
@@ -49,7 +51,7 @@ public class SearchRepository {
         ));
 
         TypedQuery<GeneralAnnouncementInfo> resultQuery = entityManager.createQuery(criteria);
-        resultQuery.setFirstResult((page.getPageNumber() - 1) * page.getPageSize());
+        resultQuery.setFirstResult(page.getPageNumber() * page.getPageSize());
         resultQuery.setMaxResults(page.getPageSize());
 
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
@@ -65,9 +67,49 @@ public class SearchRepository {
                                                SearchCriteria searchCriteria) {
         List<Predicate> predicates = new ArrayList<>();
 
-        if (searchCriteria.getLessor() != null) {
-            predicates.add(cb.and(root.get("lessor").get("lessorType").in(searchCriteria.getLessor())));
+        List<String> lessor = searchCriteria.getLessor();
+        if (lessor != null) {
+            System.out.println(lessor);
+            predicates.add(cb.and(root.get("lessor").get("lessorType").in(lessor)));
         }
+
+        List<String> rooms = searchCriteria.getRooms();
+        if (rooms != null) {
+            predicates.add(cb.and(root.get("propertyData").get("roomNumber").in(rooms)));
+        }
+
+        List<String> baths = searchCriteria.getBaths();
+        if (baths != null) {
+            predicates.add(cb.and(root.get("propertyData").get("bathroomNumber").in(baths)));
+        }
+
+        List<String> parking = searchCriteria.getParking();
+        if (baths != null) {
+            predicates.add(cb.and(root.get("propertyData").get("parkingAvailability").in(parking)));
+        }
+
+        List<String> smokers = searchCriteria.getSmokers();
+        if (baths != null) {
+            predicates.add(cb.and(root.get("propertyData").get("isSmokingAllowed").in(smokers)));
+        }
+
+        List<String> pets = searchCriteria.getPets();
+        if (baths != null) {
+            predicates.add(cb.and(root.get("propertyData").get("isPetFriendly").in(pets)));
+        }
+
+        Integer priceFrom = searchCriteria.getPriceFrom();
+        Integer priceTo = searchCriteria.getPriceTo();
+        if (priceFrom != null && priceTo != null) {
+            predicates.add(cb.between(root.get("priceOffer").get("price"), priceFrom, priceTo));
+        }
+
+        Integer areaFrom = searchCriteria.getPriceFrom();
+        Integer areaTo = searchCriteria.getAreaTo();
+        if (areaFrom != null && areaTo != null) {
+            predicates.add(cb.between(root.get("propertyData").get("area"), areaFrom, areaTo));
+        }
+
         return predicates.toArray(new Predicate[0]);
     }
 }
