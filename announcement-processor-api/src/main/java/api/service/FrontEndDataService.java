@@ -1,5 +1,6 @@
 package api.service;
 
+import api.dto.SearchCriteria;
 import api.entity.Announcement;
 import api.entity.Location;
 import api.entity.PriceOffer;
@@ -10,6 +11,8 @@ import api.model.DetailedAnnouncementInfo;
 import api.model.GeneralAnnouncementInfo;
 import api.model.Money;
 import api.repository.AnnouncementRepository;
+import api.repository.SearchRepository;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,20 +26,19 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@AllArgsConstructor
 @Service
 @Slf4j
 public class FrontEndDataService {
+    private static int DEFAULT_PAGE_NUMBER = 0;
+    private static int DEFAULT_ANNOUNCEMENTS_AMOUNT_PER_PAGE = 10;
     private AnnouncementRepository announcementRepository;
     private CurrencyService currencyService;
-
-    public FrontEndDataService(AnnouncementRepository announcementRepository, CurrencyService currencyService) {
-        this.announcementRepository = announcementRepository;
-        this.currencyService = currencyService;
-    }
+    private SearchRepository searchRepository;
 
     public Page<GeneralAnnouncementInfo> getGeneralInfoAnnouncementsPage(Integer page, Integer size) {
-        page = Optional.ofNullable(page).orElse(0);
-        size = Optional.ofNullable(size).orElse(10);
+        page = Optional.ofNullable(page).orElse(DEFAULT_PAGE_NUMBER);
+        size = Optional.ofNullable(size).orElse(DEFAULT_ANNOUNCEMENTS_AMOUNT_PER_PAGE);
         log.debug("Page numer: {}, page size: {}", page, size);
         PageRequest pageRequest = PageRequest.of(page, size);
         log.debug("Request to db for all announcements");
@@ -55,6 +57,17 @@ public class FrontEndDataService {
         Optional<Announcement> ann = announcementRepository.findById(id);
         return ann.map(announcement -> convertAnnouncementToDetailedFormat(announcement, desiredCurrency))
                 .orElse(null);
+    }
+
+    public Page<GeneralAnnouncementInfo> getSearchedAnnouncements(Integer page, Integer size, SearchCriteria searchCriteria) {
+        page = Optional.ofNullable(page).orElse(DEFAULT_PAGE_NUMBER);
+        size = Optional.ofNullable(size).orElse(DEFAULT_ANNOUNCEMENTS_AMOUNT_PER_PAGE);
+        log.info("Page numer: {}, page size: {}", page, size);
+        PageRequest pageRequest = PageRequest.of(page, size);
+        log.debug("Request to db for all announcements");
+        Page<GeneralAnnouncementInfo> announcementsPage = searchRepository.search(searchCriteria, pageRequest);
+        log.debug("Got announcements from DB");
+        return announcementsPage;
     }
 
     private GeneralAnnouncementInfo convertAnnouncementToGeneralFormat(Announcement announcement, String desiredCurrency) {
