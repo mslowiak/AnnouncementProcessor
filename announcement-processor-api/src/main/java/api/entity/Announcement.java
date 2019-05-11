@@ -60,26 +60,26 @@ public class Announcement {
     private String currency;
 
     @JsonManagedReference
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "PRICE_ID")
     private PriceOffer priceOffer;
 
     @JsonManagedReference
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "LOCATION_ID")
     private Location location;
 
     @JsonManagedReference
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "PROPERTY_DATA_ID")
     private PropertyData propertyData;
 
     @JsonManagedReference
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "LESSOR_ID")
     private Lessor lessor;
 
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "announcement", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "announcement", cascade = CascadeType.ALL)
     private List<AdditionalCosts> additionalCosts;
 }
