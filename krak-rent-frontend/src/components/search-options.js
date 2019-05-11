@@ -1,5 +1,5 @@
 const cityRegions = [
-    { value: '-', label: 'Wszystko' },
+    { value: null, label: 'Wszystko' },
     { value: 'Stare Miasto', label: 'Stare Miasto' },
     { value: 'Grzegórzki', label: 'Grzegórzki' },
     { value: 'Prądnik Czerwony', label: 'Prądnik Czerwony' },
@@ -21,13 +21,13 @@ const cityRegions = [
   ];
   
   const lessor = [
-    { value: '-', label: 'Wszystko' },
+    { value: null, label: 'Wszystko' },
     { value: 'Właściciel', label: 'Właściciel' },
     { value: 'Agencja', label: 'Agencja' }
   ];
   
   const roomAmount = [
-    { value: '-', label: 'Wszystko' },
+    { value: null, label: 'Wszystko' },
     { value: '1', label: 'Kawalerka lub garsoniera' },
     { value: '2', label: '2 pokoje' },
     { value: '3', label: '3 pokoje' },
@@ -37,7 +37,7 @@ const cityRegions = [
   ]
   
   const bathsAmount = [
-    { value: '-', label: 'Wszystko' },
+    { value: null, label: 'Wszystko' },
     { value: '1', label: '1 łazienka' },
     { value: '2', label: '2 łazienki' },
     { value: '3', label: '3 łazienki' },
@@ -45,7 +45,7 @@ const cityRegions = [
   ]
   
   const trueOrFalse = [
-    { value: '-', label: 'Wszystko' },
+    { value: null, label: 'Wszystko' },
     { value: 'Tak', label: 'Tak' },
     { value: 'Nie', label: 'Nie' }
   ]
