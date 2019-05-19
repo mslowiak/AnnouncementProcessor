@@ -18,6 +18,7 @@ public class AnnouncementConsumerFromFileTest {
         String title = "Kawalerka 40m Głowackiego 4 Kraków PRZESTRONNE niskie koszty WIDOK na PANORAMĘ Krakowa POŁUDNIE";
         BigDecimal price = new BigDecimal(1300);
         String strDate = "2018-11-17 00:00:00";
+        String images = "https://xd.com/pl";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime creationDate = LocalDateTime.parse(strDate, formatter);
         String lessor = "Właściciel";
@@ -59,6 +60,7 @@ public class AnnouncementConsumerFromFileTest {
 
         AnnouncementDto template = new AnnouncementDto(
                 title,
+                images,
                 price,
                 creationDate,
                 lessor,
