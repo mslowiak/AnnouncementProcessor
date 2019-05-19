@@ -4,9 +4,11 @@ import org.jsoup.nodes.Element;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 interface SinglePageParser {
     String parseTitle(Element titleElement);
+    String parseImages(Element galleryElement);
     BigDecimal parsePrice(Element priceElement);
     LocalDateTime parseCreationDate(Element creationDateElement);
     String parseDescription(Element descriptionElement);
