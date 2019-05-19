@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 public class GeneralAnnouncementInfo {
     private Integer id;
     private String title;
+    private String images;
     private BigDecimal baseCost;
     private String description;
     private String provider;
