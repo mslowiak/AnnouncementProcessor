@@ -48,10 +48,11 @@ class GeneralAnnouncement extends Component {
         const dateTime = this.convertDateTime(item.creationDate)
         const title = this.cutString(item.title, this.titleLength);
         const description = this.cutString(item.description, this.descriptionLength);
+        const baseImage = item.images.split("\\")[0];
         return (
             <div className="frame" onClick={() => this.goToAnnouncement(item.id)}>
                 <div className="image-container">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Temp_plate_blue.svg/601px-Temp_plate_blue.svg.png" alt="" />
+                    <img src={baseImage} alt="" />
                 </div>
                 <div className="info-container">
                     <div className="details">
