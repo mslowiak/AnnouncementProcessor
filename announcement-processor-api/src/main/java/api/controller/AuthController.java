@@ -35,11 +35,10 @@ public class AuthController {
     public ResponseEntity<String> login(@RequestBody LoginRequest authenticationRequest) {
         return userService.getUserByLogin(authenticationRequest.getUsername())
                 .map(user -> {
-                    String encodedPassword = encoder.encode(authenticationRequest.getPassword());
                     String dbPassword = user.getPassword();
                     String token = null;
 
-                    if (dbPassword.equals(encodedPassword)) {
+                    if (encoder.matches(authenticationRequest.getPassword(), dbPassword)) {
                         token = generateToken(user.getUsername());
                     }
 
