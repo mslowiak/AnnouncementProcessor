@@ -9,7 +9,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Value("${jwt.secret}")
+    @Value("jwt.secret")
     private String JWT_SECRET;
 
     @Override

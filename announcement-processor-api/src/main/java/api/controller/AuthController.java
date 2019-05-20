@@ -26,7 +26,7 @@ import java.util.Optional;
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Value("${jwt.secret}")
+    @Value("jwt.secret")
     private String JWT_SECRET;
     private final UserService userService;
     private final PasswordEncoder encoder;
