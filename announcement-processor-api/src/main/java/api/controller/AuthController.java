@@ -1,6 +1,8 @@
 package api.controller;
 
 import api.dto.LoginRequest;
+import api.dto.RegisterRequest;
+import api.entity.User;
 import api.service.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -50,8 +52,25 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity register() {
-        return null;
+    public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest) {
+        boolean isUsernameExist = userService.checkIfUsernameExist(registerRequest.getUsername());
+        if(isUsernameExist){
+            return new ResponseEntity<>("User with given username already exists", HttpStatus.CONFLICT);
+        }
+        boolean isEmailExist = userService.checkIfEmailExist(registerRequest.getEmail());
+        if(isEmailExist){
+            return new ResponseEntity<>("User with given email already exists", HttpStatus.CONFLICT);
+        }
+
+        User user = new User();
+        user.setUsername(registerRequest.getUsername());
+        user.setPassword(encoder.encode(registerRequest.getPassword()));
+        user.setName(registerRequest.getName());
+        user.setEmail(registerRequest.getEmail());
+
+        userService.createUser(user);
+
+        return new ResponseEntity<>("", HttpStatus.CREATED);
     }
 
     private String generateToken(String username) {
