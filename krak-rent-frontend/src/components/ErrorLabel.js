@@ -5,8 +5,9 @@ class ErrorLabel extends Component {
 
   constructor(props) {
     super(props);
-
-    this.state = { show: true };
+    this.state = { 
+      show: true 
+    };
   }
 
   render() {
@@ -22,7 +23,6 @@ class ErrorLabel extends Component {
                       {this.props.errorMessage} 
                     </Alert>;
     }
-    console.log(this.props.isError)
     return (
         <div>
             {component}
