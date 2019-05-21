@@ -9,8 +9,16 @@ class RegisterPage extends Component {
         this.state = { 
             validated: false,
             isError: false,
-            errorMessage: ""
+            errorMessage: "",
+            username: "",
+            password: "",
+            name: "",
+            email: "",
         };
+    }
+
+    handleChange(event, componentName) {
+        this.setState({[componentName]: event.target.value})
     }
 
     handleSubmit(event) {
@@ -22,7 +30,7 @@ class RegisterPage extends Component {
             let body = this.stringifyRegisterRequestBody();
             Axios.post("/auth/register", body, config)
             .then(results => {
-                console.log(results.data)
+                this.props.history.push('/login')
             })
             .catch((error) => {
                 if (error.response) {
@@ -39,29 +47,13 @@ class RegisterPage extends Component {
 
     stringifyRegisterRequestBody() {
         return JSON.stringify({ 
-            username: "marcin",
-            password: "marcin",
-            name: "marcin",
-            email: "marcin@gmail.com",
+            username: this.state.username,
+            password: this.state.password,
+            name: this.state.name,
+            email: this.state.email,
           }
         )
     }
-
-    goLoginPage() {
-        this.props.history.push('/login')
-    }
-    
-      componentDidMount() {
-        Axios.get('announcements/get/all')
-          .then(
-            results => {
-              console.log(results.data)
-              this.setState({
-                announcements: results.data.content
-              })
-            }
-          )
-      }
 
     render() {
         const { validated } = this.state;
@@ -82,6 +74,7 @@ class RegisterPage extends Component {
                             required
                             type="text" 
                             placeholder="Name" 
+                            onChange={event => this.handleChange(event, "name")}
                         />
                         <Form.Control.Feedback type="invalid">
                             Nie podano nazwy
@@ -93,6 +86,7 @@ class RegisterPage extends Component {
                             required
                             type="text" 
                             placeholder="Username" 
+                            onChange={event => this.handleChange(event, "username")}
                         />
                         <Form.Control.Feedback type="invalid">
                             Nie podano nazwy użytkownika 
@@ -104,6 +98,7 @@ class RegisterPage extends Component {
                             required
                             type="password" 
                             placeholder="Password" 
+                            onChange={event => this.handleChange(event, "password")}
                         />
                         <Form.Control.Feedback type="invalid">
                             Nie podano hasła
@@ -115,6 +110,7 @@ class RegisterPage extends Component {
                             required
                             type="email" 
                             placeholder="Enter email" 
+                            onChange={event => this.handleChange(event, "email")}
                         />
                         <Form.Control.Feedback type="invalid">
                             Email jest niepoprawny lub nie podano go
