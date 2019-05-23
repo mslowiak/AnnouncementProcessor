@@ -10,13 +10,13 @@ class SearchPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      region: [{ value: '-', label: 'Wszystko' }],
-      lessor: [{ value: '-', label: 'Wszystko' }],
-      rooms: [{ value: '-', label: 'Wszystko' }],
-      baths: [{ value: '-', label: 'Wszystko' }],
-      parking: [{ value: '-', label: 'Wszystko' }],
-      smokers: [{ value: '-', label: 'Wszystko' }],
-      pets:  [{ value: '-', label: 'Wszystko' }],
+      region: null,
+      lessor: null,
+      rooms: null,
+      baths: null,
+      parking: null,
+      smokers: null,
+      pets: null,
       priceFrom: "",
       priceTo: "",
       areaFrom: "",
@@ -29,18 +29,19 @@ class SearchPage extends Component {
   }
 
   stringifySearchBody() {
+    console.log(this.state.lessor)
     return JSON.stringify({ 
-        region: this.state.region.map(x => x.value),
-        lessor: this.state.lessor.map(x => x.value),
-        rooms: this.state.rooms.map(x => x.value),
-        baths: this.state.baths.map(x => x.value),
-        parking: this.state.parking.map(x => x.value),
-        smokers: this.state.smokers.map(x => x.value),
-        pets: this.state.pets.map(x => x.value),
-        priceFrom: parseInt(this.state.priceFrom),
-        priceTo: parseInt(this.state.priceTo),
-        areaFrom: parseInt(this.state.areaFrom),
-        areaTo: parseInt(this.state.areaTo)
+        region: this.state.region == null ? null : this.state.region.map(x => x.value),
+        lessor: this.state.lessor == null ? null : this.state.lessor.map(x => x.value),
+        rooms: this.state.rooms == null ? null : this.state.rooms.map(x => x.value),
+        baths: this.state.baths == null ? null : this.state.baths.map(x => x.value),
+        parking: this.state.parking == null ? null : this.state.parking.map(x => x.value),
+        smokers: this.state.smokers == null ? null : this.state.smokers.map(x => x.value),
+        pets: this.state.pets == null ? null : this.state.pets.map(x => x.value),
+        priceFrom: this.state.priceFrom === "" ? null : parseInt(this.state.priceFrom),
+        priceTo: this.state.priceTo === "" ? null : parseInt(this.state.priceTo),
+        areaFrom: this.state.areaFrom === "" ? null : parseInt(this.state.areaFrom),
+        areaTo: this.state.areaTo === "" ? null : parseInt(this.state.areaTo)
       }
     )
   }
