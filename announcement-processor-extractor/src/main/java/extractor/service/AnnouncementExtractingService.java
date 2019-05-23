@@ -19,6 +19,7 @@ public class AnnouncementExtractingService {
         Announcement announcement = new Announcement();
 
         announcement.setTitle(announcementDto.getTitle());
+        announcement.setImages(announcementDto.getImages());
         announcement.setCreationDate(announcementDto.getCreationDate());
         announcement.setDescription(announcementDto.getDescription());
         announcement.setProvider(announcementDto.getProvider());

@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 public class Announcement {
 
     private String title;
+    private String images;
     private Price price;
     private Location location;
     private PropertyData propertyData;

@@ -10,6 +10,7 @@ public class AnnouncementConsumerFromString implements AnnouncementConsumer {
     private final String json = "{" +
             "\"title\":" +
             "\"Kawalerka 40m Głowackiego 4 Kraków PRZESTRONNE niskie koszty WIDOK na PANORAMĘ Krakowa POŁUDNIE\"," +
+            "\"images\": \"https://xd.com/pl\"," +
             "\"price\": 1300," +
             "\"creationDate\":\"2018-11-17T00:00:00\"," +
             "\"lessor\":\"Właściciel\"," +

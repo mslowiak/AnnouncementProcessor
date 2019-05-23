@@ -32,6 +32,7 @@ public class AnnouncementSender {
             objectMapper.registerModule(new JavaTimeModule());
             objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
+            System.out.println(objectMapper.writeValueAsString(announcement));
             Message message = session.createTextMessage(objectMapper.writeValueAsString(announcement));
             messageProducer.send(message);
 

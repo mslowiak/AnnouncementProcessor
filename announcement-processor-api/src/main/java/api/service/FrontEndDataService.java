@@ -43,6 +43,7 @@ public class FrontEndDataService {
         PageRequest pageRequest = PageRequest.of(page, size);
         log.debug("Request to db for all announcements");
         Page<GeneralAnnouncementInfo> announcementsPage = announcementRepository.getGeneralAnnouncementsInfo(pageRequest);
+        announcementsPage.get().forEach(x -> System.out.println(x.getImages()));
         log.debug("Got announcements from DB");
         return announcementsPage;
     }
@@ -75,6 +76,7 @@ public class FrontEndDataService {
         BigDecimal baseCost = cost == null ? null : new BigDecimal(cost);
 
         GeneralAnnouncementInfo generalAnnouncementInfo = new GeneralAnnouncementInfo();
+        generalAnnouncementInfo.setImages(announcement.getImages());
         generalAnnouncementInfo.setBaseCost(baseCost);
         generalAnnouncementInfo.setCreationDate(announcement.getCreationDate());
         generalAnnouncementInfo.setLessorType(announcement.getLessor().getLessorType());

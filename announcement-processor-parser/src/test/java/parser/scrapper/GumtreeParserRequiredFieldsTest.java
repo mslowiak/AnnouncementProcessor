@@ -43,6 +43,31 @@ public class GumtreeParserRequiredFieldsTest {
     }
 
     @Test
+    public void testParseImages() {
+        // given
+        Element galleryElement = spyDoc.selectFirst(".vip-gallery");
+
+        // when
+        String images = gumtreeParser.parseImages(galleryElement);
+        String[] split = images.split("\\\\");
+
+        // then
+        Assert.assertEquals(7, split.length);
+    }
+
+    @Test
+    public void testParseImagesNull() {
+        // given
+        Element imagesElement = null;
+
+        // when
+        String images = gumtreeParser.parseTitle(imagesElement);
+
+        // then
+        Assert.assertNull(images);
+    }
+
+    @Test
     public void testParseTitle() {
         // given
         Element titleElement = spyDoc.selectFirst(".item-title");

@@ -31,6 +31,10 @@ public class ExtractorDataService {
     private Announcement announcementDtoToEntity(AnnouncementDto announcementDto) {
         log.info("Mapping announcementDto to announcement...");
         Announcement announcement = mapper.map(announcementDto, Announcement.class);
+        System.out.println("\n\nXDDDDDDDDDD");
+        System.out.println(announcementDto.getImages());
+        System.out.println(announcement.getImages());
+        System.out.println("\n\n");
         log.info("Mapped announcementDto to announcement. AnnouncementTitle: {}", announcement.getTitle());
         return announcement;
     }

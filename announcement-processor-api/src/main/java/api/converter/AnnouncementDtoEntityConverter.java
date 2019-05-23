@@ -22,6 +22,7 @@ public class AnnouncementDtoEntityConverter implements Converter<AnnouncementDto
 
         Announcement announcement = new Announcement();
         announcement.setTitle(announcementDto.getTitle());
+        announcement.setImages(announcementDto.getImages());
         announcement.setProvider(announcementDto.getProvider());
         announcement.setCreationDate(announcementDto.getCreationDate());
         announcement.setUrl(announcementDto.getUrl());

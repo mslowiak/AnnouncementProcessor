@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 public class AnnouncementDto {
 
     private String title;
+    private String images;
     private BigDecimal price;
     private LocalDateTime creationDate;
     private String lessor;
@@ -33,6 +34,7 @@ public class AnnouncementDto {
 
     public AnnouncementDto(
             @JsonProperty("title") String title,
+            @JsonProperty("images") String images,
             @JsonProperty("price") BigDecimal price,
             @JsonProperty("creationDate") LocalDateTime creationDate,
             @JsonProperty("lessor") String lessor,
@@ -52,6 +54,7 @@ public class AnnouncementDto {
             @JsonProperty("url") String url,
             @JsonProperty("phoneNumber") String phoneNumber) {
         this.title = title;
+        this.images = images;
         this.price = price;
         this.creationDate = creationDate;
         this.lessor = lessor;

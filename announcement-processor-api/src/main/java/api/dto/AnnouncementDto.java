@@ -11,6 +11,7 @@ public class AnnouncementDto {
 
     public AnnouncementDto(
             @JsonProperty("title") String title,
+            @JsonProperty("images") String images,
             @JsonProperty("price") PriceDto price,
             @JsonProperty("location") LocationDto location,
             @JsonProperty("propertyData") PropertyDataDto propertyData,
@@ -20,6 +21,7 @@ public class AnnouncementDto {
             @JsonProperty("description") String description,
             @JsonProperty("provider") String provider) {
         this.title = title;
+        this.images = images;
         this.price = price;
         this.location = location;
         this.propertyData = propertyData;
@@ -31,6 +33,7 @@ public class AnnouncementDto {
     }
 
     private String title;
+    private String images;
     private PriceDto price;
     private LocationDto location;
     private PropertyDataDto propertyData;

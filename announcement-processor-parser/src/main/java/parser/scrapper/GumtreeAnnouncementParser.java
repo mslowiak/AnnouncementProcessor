@@ -16,6 +16,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -28,6 +30,7 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
 
             return Announcement.builder()
                     .title(parseTitle(pageContent.selectFirst(".item-title")))
+                    .images(parseImages(pageContent.selectFirst(".vip-gallery")))
                     .price(parsePrice(pageContent.selectFirst(".price")))
                     .lessorName(parseLessorName(pageContent.selectFirst(".username")))
                     .creationDate(parseCreationDate(details))
@@ -49,6 +52,26 @@ public class GumtreeAnnouncementParser extends AnnouncementParser implements Sin
         } finally {
             log.info("Announcement from url: " + url.split("/krakow")[1] + " has been parsed");
         }
+    }
+
+    @Override
+    public String parseImages(Element galleryElement) {
+        String images = null;
+        String replaceUrlPart = "img.classistatic.com/crop/50x50/";
+
+        if (galleryElement != null) {
+            List<String> imageUrls = new ArrayList<>();
+            Elements imgs = galleryElement.selectFirst("div.thumbs").selectFirst("div.wrap").select("img");
+            imgs.forEach(img -> {
+                String url = img.absUrl("src").replaceAll(replaceUrlPart, "");
+                // change image size
+                url = url.replaceAll("_19.JPG", "_20.JPG");
+                imageUrls.add(url);
+            });
+            images = String.join("\\", imageUrls);
+        }
+
+        return images;
     }
 
     @Override

@@ -28,7 +28,7 @@ public class MapperService {
         }
     }
 
-    public String getJsonFromAnnouncement(Announcement announcement) throws JsonProcessingException {
+    String getJsonFromAnnouncement(Announcement announcement) throws JsonProcessingException {
         return mapper.writeValueAsString(announcement);
     }
 }

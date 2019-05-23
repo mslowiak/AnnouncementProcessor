@@ -40,7 +40,7 @@ class HomePage extends Component {
             style={{ fontSize: 30 }}
             onClick={this.goSearchPage}
           >
-            Wyszukaj interesujące Cie ogłoszenia!
+            Wyszukaj interesujące Cię ogłoszenia!
           </Button>
         </div>
         {dataComponent}
