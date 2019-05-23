@@ -104,7 +104,7 @@ public class SearchRepository {
             predicates.add(cb.between(root.get("priceOffer").get("price"), priceFrom, priceTo));
         }
 
-        Integer areaFrom = searchCriteria.getPriceFrom();
+        Integer areaFrom = searchCriteria.getAreaFrom();
         Integer areaTo = searchCriteria.getAreaTo();
         if (areaFrom != null && areaTo != null) {
             predicates.add(cb.between(root.get("propertyData").get("area"), areaFrom, areaTo));
