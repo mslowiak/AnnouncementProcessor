@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Form , Button } from 'react-bootstrap';
+import { Form , Button, Row, Col } from 'react-bootstrap';
 import Axios from 'axios';
 import ErrorLabel from '../components/ErrorLabel';
+import '../css/register-page.css'
 
 class RegisterPage extends Component {
     constructor(props) {
@@ -38,7 +39,6 @@ class RegisterPage extends Component {
                         isError: true,
                         errorMessage: error.response.data
                     })
-                    console.log(error.response.data);
                 }
             })
         }
@@ -58,68 +58,78 @@ class RegisterPage extends Component {
     render() {
         const { validated } = this.state;
         return (
-            <div>
-                <ErrorLabel 
-                    isVisible={this.state.isError} 
-                    errorMessage={this.state.errorMessage}
-                />
-                <Form 
-                    noValidate 
-                    validated={validated}
-                    onSubmit={e => this.handleSubmit(e)}
-                >
-                    <Form.Group controlId="formGroupName">
-                        <Form.Label>Nazwa wyświetlana</Form.Label>
-                        <Form.Control 
-                            required
-                            type="text" 
-                            placeholder="Name" 
-                            onChange={event => this.handleChange(event, "name")}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Nie podano nazwy
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group controlId="formGroupUsername">
-                        <Form.Label>Nazwa użytkownika</Form.Label>
-                        <Form.Control 
-                            required
-                            type="text" 
-                            placeholder="Username" 
-                            onChange={event => this.handleChange(event, "username")}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Nie podano nazwy użytkownika 
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group controlId="formGroupPassword">
-                        <Form.Label>Hasło</Form.Label>
-                        <Form.Control 
-                            required
-                            type="password" 
-                            placeholder="Password" 
-                            onChange={event => this.handleChange(event, "password")}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Nie podano hasła
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group controlId="formGroupEmail">
-                        <Form.Label>Adres email</Form.Label>
-                        <Form.Control 
-                            required
-                            type="email" 
-                            placeholder="Enter email" 
-                            onChange={event => this.handleChange(event, "email")}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Email jest niepoprawny lub nie podano go
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Button variant="primary" type="submit">
-                        Rejestruj konto
-                    </Button>
-                </Form>
+            <div className="register-container">
+                <div className="wrapper">
+                    <ErrorLabel 
+                        isVisible={this.state.isError} 
+                        errorMessage={this.state.errorMessage}
+                    />
+                    <Form 
+                        noValidate 
+                        validated={validated}
+                        onSubmit={e => this.handleSubmit(e)}
+                    >
+                        <Form.Group as={Row} controlId="formGroupName">
+                            <Form.Label column sm="5">Nazwa wyświetlana</Form.Label>
+                            <Col sm="5">
+                                <Form.Control 
+                                    required
+                                    type="text" 
+                                    placeholder="Nazwa" 
+                                    onChange={event => this.handleChange(event, "name")}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    Nie podano nazwy
+                                </Form.Control.Feedback>
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} controlId="formGroupUsername">
+                            <Form.Label column sm="5">Nazwa użytkownika</Form.Label>
+                            <Col sm="5">
+                                <Form.Control 
+                                    required
+                                    type="text" 
+                                    placeholder="Nazwa użytkownika" 
+                                    onChange={event => this.handleChange(event, "username")}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    Nie podano nazwy użytkownika 
+                                </Form.Control.Feedback>
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} controlId="formGroupPassword">
+                            <Form.Label column sm="5">Hasło</Form.Label>
+                            <Col sm="5">
+                                <Form.Control 
+                                    required
+                                    type="password" 
+                                    placeholder="Hasło" 
+                                    onChange={event => this.handleChange(event, "password")}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    Nie podano hasła
+                                </Form.Control.Feedback>
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} controlId="formGroupEmail">
+                            <Form.Label column sm="5">Adres email</Form.Label>
+                            <Col sm="5">
+                                <Form.Control 
+                                    required
+                                    type="email" 
+                                    placeholder="Email" 
+                                    onChange={event => this.handleChange(event, "email")}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    Email jest niepoprawny lub nie podano go
+                                </Form.Control.Feedback>
+                            </Col>
+                        </Form.Group>
+                        <Button variant="primary" type="submit">
+                            Rejestruj konto
+                        </Button>
+                    </Form>
+                </div>
             </div>
         );
     }
