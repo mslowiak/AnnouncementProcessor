@@ -10,7 +10,6 @@ class HomePage extends Component {
     this.state = {
       announcements: []
     };
-
     this.goSearchPage = this.goSearchPage.bind(this)
   }
 
@@ -22,7 +21,6 @@ class HomePage extends Component {
     Axios.get('announcements/get/all')
       .then(
         results => {
-          console.log(results.data)
           this.setState({
             announcements: results.data.content
           })
