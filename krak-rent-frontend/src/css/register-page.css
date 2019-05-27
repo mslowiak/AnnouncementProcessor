@@ -1,0 +1,9 @@
+.register-container {
+    text-align: center;
+}
+
+.wrapper {
+    width: 50%;
+    display: inline-block;
+    text-align: left;
+}
