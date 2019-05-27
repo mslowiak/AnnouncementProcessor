@@ -58,7 +58,7 @@ class RegisterPage extends Component {
     render() {
         const { validated } = this.state;
         return (
-            <div className="register-container">
+            <div className="auth-container">
                 <div className="wrapper">
                     <ErrorLabel 
                         isVisible={this.state.isError} 
@@ -71,7 +71,7 @@ class RegisterPage extends Component {
                     >
                         <Form.Group as={Row} controlId="formGroupName">
                             <Form.Label column sm="5">Nazwa wyświetlana</Form.Label>
-                            <Col sm="5">
+                            <Col sm="7">
                                 <Form.Control 
                                     required
                                     type="text" 
@@ -85,7 +85,7 @@ class RegisterPage extends Component {
                         </Form.Group>
                         <Form.Group as={Row} controlId="formGroupUsername">
                             <Form.Label column sm="5">Nazwa użytkownika</Form.Label>
-                            <Col sm="5">
+                            <Col sm="7">
                                 <Form.Control 
                                     required
                                     type="text" 
@@ -99,7 +99,7 @@ class RegisterPage extends Component {
                         </Form.Group>
                         <Form.Group as={Row} controlId="formGroupPassword">
                             <Form.Label column sm="5">Hasło</Form.Label>
-                            <Col sm="5">
+                            <Col sm="7">
                                 <Form.Control 
                                     required
                                     type="password" 
@@ -113,7 +113,7 @@ class RegisterPage extends Component {
                         </Form.Group>
                         <Form.Group as={Row} controlId="formGroupEmail">
                             <Form.Label column sm="5">Adres email</Form.Label>
-                            <Col sm="5">
+                            <Col sm="7">
                                 <Form.Control 
                                     required
                                     type="email" 
