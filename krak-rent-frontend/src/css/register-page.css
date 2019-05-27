@@ -1,4 +1,4 @@
-.register-container {
+.auth-container {
     text-align: center;
 }
 
@@ -6,4 +6,11 @@
     width: 50%;
     display: inline-block;
     text-align: left;
+    padding: 30px;
+    border: 1px solid black;
+    background-color: #33ff33;
+}
+
+.form-label {
+    font-weight: bold;
 }
