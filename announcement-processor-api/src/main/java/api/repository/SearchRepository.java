@@ -41,6 +41,7 @@ public class SearchRepository {
         criteria.select(cb.construct(GeneralAnnouncementInfo.class,
                 announcementsResultRoot.get("id"),
                 announcementsResultRoot.get("title"),
+                announcementsResultRoot.get("images"),
                 announcementsResultRoot.get("priceOffer").get("price"),
                 announcementsResultRoot.get("description"),
                 announcementsResultRoot.get("provider"),
