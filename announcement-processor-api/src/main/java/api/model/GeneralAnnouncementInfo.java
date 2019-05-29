@@ -21,4 +21,17 @@ public class GeneralAnnouncementInfo {
     private String url;
     private String lessorType;
     private String location;
+
+    public GeneralAnnouncementInfo(Integer id, String title, BigDecimal baseCost, String description, String provider,
+                                   LocalDateTime creationDate, String url, String lessorType, String location) {
+        this.id = id;
+        this.title = title;
+        this.baseCost = baseCost;
+        this.description = description;
+        this.provider = provider;
+        this.creationDate = creationDate;
+        this.url = url;
+        this.lessorType = lessorType;
+        this.location = location;
+    }
 }
