@@ -1,9 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import AnnouncementGallery from "../components/AnnouncementGallery";
 
 class AnnouncementInfoPage extends Component {
   render() {
     return (
-      <div>AnnouncementInfoPage page</div>
+      <div>
+        <AnnouncementGallery />
+      </div>
     );
   }
 }
