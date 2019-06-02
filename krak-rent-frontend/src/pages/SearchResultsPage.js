@@ -15,40 +15,39 @@ class SearchResultsPage extends Component {
     };
   }
 
-  componentDidMount() {
-    console.log(this.props.location.state.searchJsonBody);
-    const config = { headers: { "Content-Type": "application/json" } };
+  requestAnnouncementsData(page, size, body, config) {
     Axios.post(
-      "announcements/get/search-results?page=0&size=" + this.state.pageSize,
-      this.props.location.state.searchJsonBody,
+      "announcements/get/search-results?page=" + page + "&size=" + size,
+      body,
       config
     ).then(results => {
       this.setState({
         announcements: results.data.content,
-        pageSize: this.state.pageSize,
+        pageSize: size,
         totalPages: results.data.totalPages,
         activePage: results.data.pageable.pageNumber
       });
     });
   }
 
-  handlePaginationClick(pageNum) {
+  componentDidMount() {
     const config = { headers: { "Content-Type": "application/json" } };
-    Axios.post(
-      "announcements/get/search-results?page=" +
-        pageNum +
-        "&size=" +
-        this.state.pageSize,
+    this.requestAnnouncementsData(
+      0,
+      this.state.pageSize,
       this.props.location.state.searchJsonBody,
       config
-    ).then(results => {
-      this.setState({
-        announcements: results.data.content,
-        pageSize: this.state.pageSize,
-        totalPages: results.data.totalPages,
-        activePage: results.data.pageable.pageNumber
-      });
-    });
+    );
+  }
+
+  handlePaginationClick(pageNum) {
+    const config = { headers: { "Content-Type": "application/json" } };
+    this.requestAnnouncementsData(
+      pageNum,
+      this.state.pageSize,
+      this.props.location.state.searchJsonBody,
+      config
+    );
   }
 
   render() {
