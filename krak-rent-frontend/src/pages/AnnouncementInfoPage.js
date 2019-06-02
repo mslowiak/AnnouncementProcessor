@@ -44,12 +44,10 @@ class AnnouncementInfoPage extends Component {
           <Card.Header>{title}</Card.Header>
           <Card.Body>
             <AnnouncementGallery images={listOfImages} />
-            <Card.Text>
-              <hr />
-              <AnnouncementDetails />
-              <hr />
-              {description}
-            </Card.Text>
+            <hr />
+            <AnnouncementDetails announcement={this.state.announcement} />
+            <hr />
+            {description}
           </Card.Body>
         </Card>
       </div>
