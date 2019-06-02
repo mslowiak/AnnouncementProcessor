@@ -1,31 +1,27 @@
 import React, { Component } from "react";
 import { Carousel, CarouselItem } from "react-bootstrap";
+import "../css/carousel-gallery.css";
 
 const AnnouncementGallery = props => {
   return (
     <Carousel>
       <CarouselItem>
-        <img className="carousel-image" src="https://thefederalist.com/wp-content/uploads/2017/10/overthegardenwall-998x690.jpg" />
-        <div className="carousel-caption">
-          <h3>First slide label</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-        </div>
+        <img
+          className="carousel-image"
+          src="https://thefederalist.com/wp-content/uploads/2017/10/overthegardenwall-998x690.jpg"
+        />
       </CarouselItem>
       <CarouselItem>
-        <img className="carousel-image" src="https://thefederalist.com/wp-content/uploads/2017/10/overthegardenwall-998x690.jpg" />
-        <div className="carousel-caption">
-          <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </div>
+        <img
+          className="carousel-image"
+          src="http://www.lopuchowko.poznan.lasy.gov.pl/documents/688768/33184809/wie%C5%BCa+widokowa.jpg"
+        />
       </CarouselItem>
       <CarouselItem>
-        <img className="carousel-image" src="https://thefederalist.com/wp-content/uploads/2017/10/overthegardenwall-998x690.jpg" />
-        <div className="carousel-caption">
-          <h3>Third slide label</h3>
-          <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-          </p>
-        </div>
+        <img
+          className="carousel-image"
+          src="https://www.schoenbrunn.at/fileadmin/user_upload/das-shloss.jpg"
+        />
       </CarouselItem>
     </Carousel>
   );
