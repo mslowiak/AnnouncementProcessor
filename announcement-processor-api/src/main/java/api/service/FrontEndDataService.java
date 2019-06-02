@@ -93,6 +93,7 @@ public class FrontEndDataService {
         DetailedAnnouncementInfo detailedAnnouncementInfo = new DetailedAnnouncementInfo();
 
         detailedAnnouncementInfo.setTitle(announcement.getTitle());
+        detailedAnnouncementInfo.setImages(announcement.getImages());
         detailedAnnouncementInfo.setBaseCost(cost);
         detailedAnnouncementInfo.setProvider(announcement.getProvider());
         detailedAnnouncementInfo.setCreationDate(getFormattedLocalDateTime(announcement.getCreationDate()));

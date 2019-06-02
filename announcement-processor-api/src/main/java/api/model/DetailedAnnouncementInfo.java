@@ -11,6 +11,7 @@ import java.util.List;
 @Data
 public class DetailedAnnouncementInfo {
     private String title;
+    private String images;
     private String baseCost;
     private String provider;
     private String creationDate;
