@@ -1,0 +1,8 @@
+{
+    "lessor": "Dane wystawiającego ogłoszenie",
+    "name": "imię",
+    "lessorType": "wystawiający ogłoszenie",
+    "phoneNumber": "numer telefonu",
+    "email": "e-mail"
+
+}
