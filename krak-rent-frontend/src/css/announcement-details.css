@@ -1,15 +1,13 @@
 .details-container {
-    border: 1px solid #e1e1e1;
-    border-radius: 7px;
-    margin: 1px;
+  float: left;
+  width: 100%;
+  border: 1px solid #e1e1e1;
+  border-radius: 7px;
+  padding: 10px;
+  margin: 1px;
 }
 
-.details-container * {
-    margin-left: 10px;
-    margin-right: 10px;
-}
-
-.details-column:hover {
-    background-color: #f2f2f2;
-    border-radius: 7px;
+.details-container:hover {
+  background-color: #f2f2f2;
+  border-radius: 7px;
 }

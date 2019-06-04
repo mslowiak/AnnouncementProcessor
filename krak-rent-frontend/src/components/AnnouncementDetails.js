@@ -1,5 +1,4 @@
 import React from "react";
-import { Container, Row } from "react-bootstrap";
 import translation from "../pl-translation.json";
 import "../css/announcement-details.css";
 
@@ -15,25 +14,25 @@ const AnnouncementDetails = props => {
         if (detailsTarget[key] !== null && key !== "id") {
           containsData = true;
           details.push(
-            <span className="details-column">
+            <div align="left">
               <b>{translation[key]}: </b>
               {typeof detailsTarget[key] !== "boolean"
                 ? detailsTarget[key]
                 : detailsTarget[key]
                 ? "tak"
                 : "nie"}
-            </span>
+            </div>
           );
         }
       }
     }
     return containsData ? (
-      <Container className="details-container">
-        <Row>
+      <div className="details-container">
+        <div>
           <h5>{translation[targetKey]}</h5>
-        </Row>
-        <Row>{details}</Row>
-      </Container>
+        </div>
+        <div>{details}</div>
+      </div>
     ) : (
       []
     );
@@ -52,7 +51,7 @@ const AnnouncementDetails = props => {
         }
       }
     }
-    return details;
+    return (<div align="left">{details}</div>);
   };
 
   const getPriceDetails = () => {
@@ -65,43 +64,41 @@ const AnnouncementDetails = props => {
       const comma =
         el == props.announcement.additionalCosts.length - 1 ? "" : ", ";
       additionalCosts.push(
-        <div>
+        <span>
           {props.announcement.additionalCosts[el]["costName"]}
           {value}
           {comma}
-        </div>
+        </span>
       );
     }
     return (
-      <Container className="details-container">
-        <Row>
+      <div className="details-container">
+        <div>
           <h5>
             {translation["baseCost"]}: <b>{props.announcement["baseCost"]}</b>
           </h5>
-        </Row>
-        <Row>
+        </div>
+        <div>
           <b>{translation["additionalCosts"]}: </b>
           {additionalCosts}
-        </Row>
-      </Container>
+        </div>
+      </div>
     );
   };
 
   const getSourceDetails = () => {
     return (
-      <Container className="details-container">
-        <Row>
-          <span>
-            {translation["provider"]}:{" "}
-            <a href={props.announcement["url"]}>
-              {props.announcement["provider"]}
-            </a>{" "}
-          </span>{" "}
-          <span>
-            {translation["creationDate"]}: {props.announcement["creationDate"]}
-          </span>
-        </Row>
-      </Container>
+      <div className="details-container">
+        <div>
+          {translation["provider"]}:{" "}
+          <a href={props.announcement["url"]}>
+            {props.announcement["provider"]}
+          </a>{" "}
+        </div>{" "}
+        <div>
+          {translation["creationDate"]}:{props.announcement["creationDate"]}
+        </div>
+      </div>
     );
   };
 
@@ -111,11 +108,11 @@ const AnnouncementDetails = props => {
   const sourceDetails = isDataLoaded ? getSourceDetails() : [];
 
   return (
-    <Container>
+    <div>
       {priceDetails}
       {details}
       {sourceDetails}
-    </Container>
+    </div>
   );
 };
 
