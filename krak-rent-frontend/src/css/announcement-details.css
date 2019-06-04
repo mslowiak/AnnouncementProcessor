@@ -1,0 +1,15 @@
+.details-container {
+    border: 1px solid #e1e1e1;
+    border-radius: 7px;
+    margin: 1px;
+}
+
+.details-container * {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.details-column:hover {
+    background-color: #f2f2f2;
+    border-radius: 7px;
+}
