@@ -6,6 +6,7 @@ const KeyValueInput = props => {
   return (
     <div className="row">
       <div className="value-label">{props.label}</div>
+      <div className="box-label">{props.labelKey}</div>
       <Form.Control
         className="value-input"
         name={props.keyName}
@@ -13,6 +14,7 @@ const KeyValueInput = props => {
         value={props.keyValue}
         onChange={e => props.handler(e, props.keyName)}
       />
+      <div className="box-label">{props.labelValue}</div>
       <Form.Control
         className="value-input"
         name={props.valueName}
@@ -23,7 +25,7 @@ const KeyValueInput = props => {
       <Button
         variant="success"
         style={{ fontSize: 30 }}
-        onClick={() => props.onClick}
+        onClick={() => props.onClick()}
       >
         +
       </Button>
