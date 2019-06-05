@@ -1,0 +1,20 @@
+.form-container {
+    display: flex;
+    padding: 20px;
+    margin: 5px;
+    border: solid 2px #eee;
+    border-radius: 10px;
+}
+
+.row {
+    padding: 10px;
+    margin: 10px;
+    width: 100%;
+    flex-grow: 1;
+}
+
+.add-button {
+    padding: 10px;
+    margin: 10px;
+    background-color: #6aa;
+}

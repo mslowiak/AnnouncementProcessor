@@ -14,7 +14,7 @@ const AnnouncementDetails = props => {
         if (detailsTarget[key] !== null && key !== "id") {
           containsData = true;
           details.push(
-            <div align="left">
+            <div className="info-box-child" align="left">
               <b>{translation[key]}: </b>
               {typeof detailsTarget[key] !== "boolean"
                 ? detailsTarget[key]
@@ -51,7 +51,7 @@ const AnnouncementDetails = props => {
         }
       }
     }
-    return (<div align="left">{details}</div>);
+    return (<div className="details-box" align="left">{details}</div>);
   };
 
   const getPriceDetails = () => {

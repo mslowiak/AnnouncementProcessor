@@ -9,8 +9,9 @@ class MyNavbar extends Component {
     this.state = {
       announcements: []
     };
-    this.handleLogout = this.handleLogout.bind(this)
-    this.handleLogin = this.handleLogin.bind(this)
+    this.handleLogout = this.handleLogout.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+    this.goAddAnnouncementPage = this.goAddAnnouncementPage.bind(this);
   }
 
   handleLogin() {
@@ -24,6 +25,10 @@ class MyNavbar extends Component {
     this.props.history.push('/')
   }
 
+  goAddAnnouncementPage() {
+    this.props.history.push('/add');
+  }
+
   render() {
     var ls = require('local-storage');
     var buttons = null
@@ -31,7 +36,7 @@ class MyNavbar extends Component {
       buttons = 
       <ButtonToolbar>
         <Button className="mx-1" variant="success">Moje konto</Button>
-        <Button className="mx-1" variant="outline-success">Dodaj ogłoszenie</Button>
+        <Button className="mx-1" variant="outline-success" onClick={this.goAddAnnouncementPage}>Dodaj ogłoszenie</Button>
         <Button className="mx-1" variant="outline-success" onClick={this.handleLogout}>Wyloguj</Button>
       </ButtonToolbar>
     } else {
