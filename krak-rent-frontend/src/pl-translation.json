@@ -1,0 +1,35 @@
+{
+    "lessor": "Dane wystawiającego ogłoszenie",
+    "name": "imię",
+    "lessorType": "wystawiający ogłoszenie",
+    "phoneNumber": "numer telefonu",
+    "email": "e-mail",
+
+    "location": "Lokalizacja",
+    "buildingNumber": "numer budynku",
+    "city": "miasto",
+    "country": "kraj",
+    "district": "dzielnica",
+    "flatNumber": "numer mieszkania",
+    "street": "ulica",
+    "zipCode": "kod pocztowy",
+
+    "propertyData": "Dane ogłoszenia",
+    "area": "powierzchnia",
+    "bathroomNumber": "liczba łazienek",
+    "furnishing": "umeblowanie",
+    "isPetFriendly": "przyjazne zwierzakom",
+    "isSmokingAllowed": "przyjazne palaczom",
+    "level": "piętro",
+    "parkingAvailability": "parking",
+    "propertyType": "rodzaj posiadłości",
+    "roomNumber": "ilość pokoi",
+
+    "baseCost": "opłata",
+    "additionalCosts": "dodatkowe opłaty",
+
+    "creationDate": "data utworzenia ogłoszenia",
+    "provider": "źródło ogłoszenia",
+    "url": "link"
+
+}

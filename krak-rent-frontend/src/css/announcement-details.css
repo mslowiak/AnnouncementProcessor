@@ -1,0 +1,13 @@
+.details-container {
+  float: left;
+  width: 100%;
+  border: 1px solid #e1e1e1;
+  border-radius: 7px;
+  padding: 10px;
+  margin: 1px;
+}
+
+.details-container:hover {
+  background-color: #f2f2f2;
+  border-radius: 7px;
+}
