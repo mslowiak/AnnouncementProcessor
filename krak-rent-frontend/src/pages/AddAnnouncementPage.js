@@ -24,6 +24,7 @@ class AddAnnouncementPage extends Component {
       tmpOptionalPriceKey: null,
       tmpOptionalPrice: null,
 
+      country: "",
       city: "",
       street: "",
       zipCode: "",
@@ -53,6 +54,84 @@ class AddAnnouncementPage extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.updateInputValue = this.updateInputValue.bind(this);
     this.addTmpToPrices = this.addTmpToPrices.bind(this);
+  }
+
+  convertState() {
+    let data = {};
+    data["title"] = this.state.title;
+
+    let price = {};
+    price["basePrice"] = this.state.basePrice;
+
+    let additionalPrices = {};
+    this.state.additionalPrices.forEach(el => {
+      additionalPrices[Object.keys(el)[0]] = Object.values(el)[0];
+    });
+
+    price["additionalPrices"] = additionalPrices;
+    data["price"] = price;
+
+    let location = {};
+    const locationKeys = [
+      "country",
+      "city",
+      "street",
+      "zipCode",
+      "buildingNumber",
+      "flatNumber",
+      "district"
+    ];
+    locationKeys.forEach(el => {
+      location[el] = this.state[el];
+    });
+    data["location"] = location;
+
+    let propertyData = {};
+    const propertyDataKeys = [
+      "propertyType",
+      "area",
+      "roomNumber",
+      "bathroomNumber",
+      "parkingAvailability",
+      "level",
+      "furnishing"
+    ];
+    propertyDataKeys.forEach(el => {
+      propertyData[el] = this.state[el];
+    });
+    const isSmokingAllowed =
+      this.state.isSmokingAllowed === null ||
+      this.state.isSmokingAllowed.length === 0
+        ? null
+        : this.state.isSmokingAllowed[0]["value"] === "Tak"
+        ? true
+        : false;
+
+    const isPetFriendly =
+      this.state.isPerFriendly === null || this.state.isPerFriendly.length === 0
+        ? null
+        : this.state.isPerFriendly[0]["value"] === "Tak"
+        ? true
+        : false;
+    propertyData["isSmokingAllowed"] = isSmokingAllowed;
+    propertyData["isPerFriendly"] = isPetFriendly;
+    data["propertyData"] = propertyData;
+
+    let lessor = {};
+    const lessorDataKeys = ["lessorName", "phoneNumber", "email"];
+    lessorDataKeys.forEach(el => {
+      lessor[el] = this.state[el];
+    });
+    const lessorType =
+      this.state.lessorType === null || this.state.lessorType.length === 0
+        ? null
+        : this.state.lessorType[0]["value"];
+    lessor["lessorType"] = lessorType;
+    data["lessor"] = lessor;
+
+    data["description"] = this.state.description;
+
+    return data;
   }
 
   handleChange(event, componentName) {
@@ -95,6 +174,7 @@ class AddAnnouncementPage extends Component {
 
   render() {
     console.log(this.state);
+    console.log(this.convertState());
     const priceOptionBoxes = this.getAdditionalPriceBoxes();
     const titleForm = [
       <ValueInput
@@ -225,7 +305,7 @@ class AddAnnouncementPage extends Component {
         type="text"
         name="parkingAvailability"
         label="Szczegóły parkingu: "
-        value={this.state.bathroomNumber}
+        value={this.state.parkingAvailability}
         handler={this.updateInputValue}
       />,
       <ValueInput

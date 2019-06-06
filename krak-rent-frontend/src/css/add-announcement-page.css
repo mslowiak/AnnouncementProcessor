@@ -5,11 +5,10 @@
   margin: 5px;
   border: solid 2px #eee;
   border-radius: 10px;
-  background-color: #eee;
 }
 
 .form-container:hover {
-  background-color: inherit;
+  background-color: #eef;
 }
 
 .row {
