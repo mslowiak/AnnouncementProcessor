@@ -12,7 +12,14 @@ const AnnouncementGallery = props => {
             </CarouselItem>
           );
         })
-      : [];
+      : [
+          <CarouselItem>
+            <img
+              className="carousel-image"
+              src="https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
+            />
+          </CarouselItem>
+        ];
 
   return <Carousel>{carouselItems}</Carousel>;
 };

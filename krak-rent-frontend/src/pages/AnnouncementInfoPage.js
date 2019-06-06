@@ -29,7 +29,11 @@ class AnnouncementInfoPage extends Component {
   }
 
   getListOfImages() {
-    return this.state.announcement.images.split("\\");
+    return this.state.announcement.images !== null
+      ? this.state.announcement.images.split("\\")
+      : [
+          "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
+        ];
   }
 
   getDetailsState() {}

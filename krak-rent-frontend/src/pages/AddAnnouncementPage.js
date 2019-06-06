@@ -15,22 +15,22 @@ class AddAnnouncementPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "",
+      title: null,
 
       basePrice: null,
       additionalPrices: [],
       tmpOptionalPriceKey: null,
       tmpOptionalPrice: null,
 
-      country: "",
-      city: "",
-      street: "",
-      zipCode: "",
-      buildingNumber: "",
-      flatNumber: "",
-      district: "",
+      country: null,
+      city: null,
+      street: null,
+      zipCode: null,
+      buildingNumber: null,
+      flatNumber: null,
+      district: null,
 
-      propertyType: "",
+      propertyType: null,
       area: null,
       isSmokingAllowed: null,
       // TODO: fix typo here and in service
@@ -41,30 +41,38 @@ class AddAnnouncementPage extends Component {
       level: null,
       furnishing: null,
 
-      lessorName: "",
-      lessorType: "",
-      phoneNumber: "",
-      email: "",
+      lessorName: null,
+      lessorType: null,
+      phoneNumber: null,
+      email: null,
 
-      description: ""
+      description: null
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.updateInputValue = this.updateInputValue.bind(this);
     this.addTmpToPrices = this.addTmpToPrices.bind(this);
+    this.requestAddingAnnouncement = this.requestAddingAnnouncement.bind(this);
   }
 
   requestAddingAnnouncement() {
     const config = { headers: { "Content-Type": "application/json" } };
     const body = this.convertState(this.state);
 
-    Axios.post(
-      "announcements/send",
-      body,
-      config
-    ).then(results => {
-      console.log(results);
-    });
+    let ls = require('local-storage');
+
+    if (ls.get('isUserLogged')) {
+      Axios.post(
+        "announcements/send",
+        body,
+        config
+      ).then(results => {
+        console.log(results);
+        this.props.history.push('/');
+      });
+    } else {
+      this.props.history.push('/unauthorized');
+    }
   }
 
   convertState() {
@@ -73,6 +81,7 @@ class AddAnnouncementPage extends Component {
 
     let price = {};
     price["basePrice"] = this.state.basePrice;
+    price["currency"] = "PLN";
 
     let additionalPrices = {};
     this.state.additionalPrices.forEach(el => {
@@ -184,8 +193,6 @@ class AddAnnouncementPage extends Component {
   }
 
   render() {
-    console.log(this.state);
-    console.log(this.convertState());
     const priceOptionBoxes = this.getAdditionalPriceBoxes();
     const titleForm = [
       <ValueInput
