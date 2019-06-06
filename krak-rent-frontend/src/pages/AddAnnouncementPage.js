@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Axios from "axios";
 import FormContainer from "../components/FormContainer";
 import ValueInput from "../components/ValueInput";
 import KeyValueInput from "../components/KeyValueInput";
@@ -6,10 +7,7 @@ import PriceOptionBox from "../components/PriceOptionBox";
 import PropertySelect from "../components/PropertySelect";
 import { Button } from "react-bootstrap";
 import {
-  bathsAmount,
-  cityRegions,
   lessor,
-  roomAmount,
   trueOrFalse
 } from "../components/search-options";
 
@@ -54,6 +52,19 @@ class AddAnnouncementPage extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.updateInputValue = this.updateInputValue.bind(this);
     this.addTmpToPrices = this.addTmpToPrices.bind(this);
+  }
+
+  requestAddingAnnouncement() {
+    const config = { headers: { "Content-Type": "application/json" } };
+    const body = this.convertState(this.state);
+
+    Axios.post(
+      "announcements/send",
+      body,
+      config
+    ).then(results => {
+      console.log(results);
+    });
   }
 
   convertState() {
@@ -378,7 +389,7 @@ class AddAnnouncementPage extends Component {
         <Button
           variant="success"
           style={{ fontSize: 30 }}
-          onClick={() => console.log("Add announcement1")}
+          onClick={() => this.requestAddingAnnouncement()}
         >
           Dodaj ogłoszenie
         </Button>
