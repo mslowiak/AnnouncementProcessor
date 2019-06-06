@@ -6,10 +6,7 @@ import KeyValueInput from "../components/KeyValueInput";
 import PriceOptionBox from "../components/PriceOptionBox";
 import PropertySelect from "../components/PropertySelect";
 import { Button } from "react-bootstrap";
-import {
-  lessor,
-  trueOrFalse
-} from "../components/search-options";
+import { lessor, trueOrFalse } from "../components/search-options";
 
 class AddAnnouncementPage extends Component {
   constructor(props) {
@@ -56,22 +53,21 @@ class AddAnnouncementPage extends Component {
   }
 
   requestAddingAnnouncement() {
-    const config = { headers: { "Content-Type": "application/json" } };
-    const body = this.convertState(this.state);
+    let ls = require("local-storage");
 
-    let ls = require('local-storage');
+    if (ls.get("isUserLogged")) {
+      const token = ls.get("authToken");
+      const config = {
+        headers: { "Content-Type": "application/json", Authorization: "Bearer " + token }
+      };
+      const body = this.convertState(this.state);
 
-    if (ls.get('isUserLogged')) {
-      Axios.post(
-        "announcements/send",
-        body,
-        config
-      ).then(results => {
+      Axios.post("announcements/send", body, config).then(results => {
         console.log(results);
-        this.props.history.push('/');
+        this.props.history.push("/");
       });
     } else {
-      this.props.history.push('/unauthorized');
+      this.props.history.push("/unauthorized");
     }
   }
 

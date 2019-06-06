@@ -1,0 +1,25 @@
+.unauth-container {
+    font-size: 30px;
+    border: solid 1px #a11;
+    border-radius: 20px;
+    background-color: #ffefef;
+}
+
+.loggin-button {
+    font-size: 18px;
+    width: 40%;
+    padding: 30px;
+    margin: 10px;
+    cursor: pointer;
+    background-color: rgb(83, 173, 83);
+    border-radius: 20px;
+}
+
+.loggin-button:hover {
+    background-color: green;
+}
+
+.img-unauth {
+    width: 30%;
+    height: auto;
+}
