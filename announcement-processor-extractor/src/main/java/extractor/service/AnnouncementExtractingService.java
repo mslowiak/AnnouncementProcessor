@@ -74,7 +74,8 @@ public class AnnouncementExtractingService {
 
     private void parseDescriptionPrice(String description, Map<String, BigDecimal> pricesMap) {
 
-        ArrayList<String> utilities = new ArrayList<>();
+        ArrayList<String> utilities = new ArrayList<>(); // todo try to injecting and names not as strings but from config enums etc.
+        // todo enum that later is collapsed to a list (like parsers in work), then proper price parser is associated for each item, if there's no such, a default one is used
         utilities.add("gaz");
         utilities.add("prąd");
         utilities.add("czynsz");
@@ -85,7 +86,7 @@ public class AnnouncementExtractingService {
         utilities.add("internet");
         utilities.add("woda");
 
-        for (String word : utilities) {
+        for (String word : utilities) { // todo extract this algorithm to maybe interfaced methods
             Pattern p = Pattern.compile("\\b" + word);
             Matcher m = p.matcher(description);
             while (m.find()) {
@@ -103,18 +104,17 @@ public class AnnouncementExtractingService {
         int i = end + 1;
         int counter = 25;
         boolean notFound = true;
-        String digitBuilder = "";
+        StringBuilder digitBuilder = new StringBuilder("");
         while (notFound && i <= description.length() - 1 && counter >= 0) {
             char ch = description.charAt(i);
             if (Character.isDigit(ch)) {
-                digitBuilder = digitBuilder + ch;
+                digitBuilder.append(ch);
             } else {
                 counter--;
                 if (digitBuilder.length() > 0) {
-                    return new BigDecimal(digitBuilder);
+                    return new BigDecimal(digitBuilder.toString());
                 }
             }
-
             i++;
         }
         return null;
