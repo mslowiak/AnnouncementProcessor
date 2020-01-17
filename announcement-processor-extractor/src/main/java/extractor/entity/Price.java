@@ -1,6 +1,7 @@
 package extractor.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,9 +15,10 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Price {
 
-    // Integers may be changed to a custom Money type
+    // Integers may be changed to a custom Money type // todo remove comments
     private BigDecimal basePrice;
     private String currency = "PLN";
     private Map<String, BigDecimal> additionalPrices;

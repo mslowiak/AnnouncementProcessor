@@ -1,7 +1,12 @@
 package extractor.service;
 
 import extractor.dto.AnnouncementDto;
-import extractor.entity.*;
+import extractor.entity.Announcement;
+import extractor.entity.Lessor;
+import extractor.entity.Location;
+import extractor.entity.Price;
+import extractor.entity.PropertyData;
+
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -16,63 +21,61 @@ public class AnnouncementExtractingService {
 
     public Announcement extractFromAnnouncementDto(AnnouncementDto announcementDto) {
 
-        Announcement announcement = new Announcement();
-
-        announcement.setTitle(announcementDto.getTitle());
-        announcement.setImages(announcementDto.getImages());
-        announcement.setCreationDate(announcementDto.getCreationDate());
-        announcement.setDescription(announcementDto.getDescription());
-        announcement.setProvider(announcementDto.getProvider());
-        announcement.setUrl(announcementDto.getUrl());
-
-        announcement.setLessor(extractLessor(announcementDto));
-        announcement.setLocation(extractLocation(announcementDto));
-        announcement.setPrice(extractPrice(announcementDto));
-        announcement.setPropertyData(extractPropertyData(announcementDto));
-
-        return announcement;
+        return Announcement.builder() // todo check if it's fine or if some kind of automatic converter/serializer would be better
+                .title(announcementDto.getTitle())
+                .images(announcementDto.getImages())
+                .creationDate(announcementDto.getCreationDate())
+                .description(announcementDto.getDescription())
+                .provider(announcementDto.getProvider())
+                .url(announcementDto.getUrl())
+                .lessor(extractLessor(announcementDto))
+                .location(extractLocation(announcementDto))
+                .price(extractPrice(announcementDto))
+                .propertyData(extractPropertyData(announcementDto))
+                .build();
     }
 
     private Lessor extractLessor(AnnouncementDto announcementDto) {
-        Lessor lessor = new Lessor();
-        lessor.setName(announcementDto.getLessorName());
-        lessor.setLessorType(announcementDto.getLessor());
-        lessor.setPhoneNumber(announcementDto.getPhoneNumber());
-        return lessor;
+
+        return Lessor.builder()
+                .name(announcementDto.getLessorName())
+                .lessorType(announcementDto.getLessor())
+                .phoneNumber(announcementDto.getPhoneNumber())
+                .build();
     }
 
     private Location extractLocation(AnnouncementDto announcementDto) {
-        Location location = new Location();
 
-        return location;
+        return Location.builder().build();
     }
 
     private Price extractPrice(AnnouncementDto announcementDto) {
-        Price price = new Price();
-        price.setBasePrice(announcementDto.getPrice());
-        Map<String, BigDecimal> pricesMap = new HashMap<>();
 
+        Map<String, BigDecimal> pricesMap = new HashMap<>();
         parseDescriptionPrice(announcementDto.getDescription(), pricesMap);
 
-        price.setAdditionalPrices(pricesMap);
-        return price;
+        return Price.builder()
+                .basePrice(announcementDto.getPrice())
+                .additionalPrices(pricesMap)
+                .build();
     }
 
     private PropertyData extractPropertyData(AnnouncementDto announcementDto) {
-        PropertyData propertyData = new PropertyData();
-        propertyData.setArea(announcementDto.getFlatArea());
-        propertyData.setBathroomNumber(announcementDto.getBathAmount());
-        propertyData.setFurnishing(announcementDto.getFurnishing());
-        propertyData.setIsPerFriendly(announcementDto.getIsPetFriendly());
-        propertyData.setIsSmokingAllowed(announcementDto.getIsSmokingAllowed());
-        propertyData.setLevel(announcementDto.getLevel());
-        propertyData.setParkingAvailability(announcementDto.getParkingAvailability());
-        propertyData.setPropertyType(announcementDto.getPropertyType());
-        propertyData.setRoomNumber(announcementDto.getRoomAmount());
-        return propertyData;
+
+        return PropertyData.builder()
+                .area(announcementDto.getFlatArea())
+                .bathroomNumber(announcementDto.getBathAmount())
+                .furnishing(announcementDto.getFurnishing())
+                .isPerFriendly(announcementDto.getIsPetFriendly())
+                .isSmokingAllowed(announcementDto.getIsSmokingAllowed())
+                .level(announcementDto.getLevel())
+                .parkingAvailability(announcementDto.getParkingAvailability())
+                .propertyType(announcementDto.getPropertyType())
+                .roomNumber(announcementDto.getRoomAmount())
+                .build();
     }
 
-    private void parseDescriptionPrice(String description, Map<String, BigDecimal> pricesMap) {
+    private void parseDescriptionPrice(String description, Map<String, BigDecimal> pricesMap) { // todo return price map don't modify one
 
         ArrayList<String> utilities = new ArrayList<>(); // todo try to injecting and names not as strings but from config enums etc.
         // todo enum that later is collapsed to a list (like parsers in work), then proper price parser is associated for each item, if there's no such, a default one is used
