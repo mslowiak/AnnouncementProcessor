@@ -7,14 +7,14 @@ import extractor.entity.Location;
 import extractor.entity.Price;
 import extractor.entity.PropertyData;
 
+import extractor.value.Utilities;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class AnnouncementExtractingService {
@@ -75,27 +75,23 @@ public class AnnouncementExtractingService {
                 .build();
     }
 
-    private void parseDescriptionPrice(String description, Map<String, BigDecimal> pricesMap) { // todo return price map don't modify one
+    private void parseDescriptionPrice(String description, Map<String, BigDecimal> pricesMap) {
 
-        ArrayList<String> utilities = new ArrayList<>(); // todo try to injecting and names not as strings but from config enums etc.
+        // todo return price map don't modify one
+        // todo try to injecting and names not as strings but from config enums etc.
         // todo enum that later is collapsed to a list (like parsers in work), then proper price parser is associated for each item, if there's no such, a default one is used
-        utilities.add("gaz");
-        utilities.add("prąd");
-        utilities.add("czynsz");
-        utilities.add("ogrzewanie");
-        utilities.add("CO");
-        utilities.add("śmieci");
-        utilities.add("media");
-        utilities.add("internet");
-        utilities.add("woda");
 
-        for (String word : utilities) { // todo extract this algorithm to maybe interfaced methods
-            Pattern p = Pattern.compile("\\b" + word);
+        List<String> utilities = Arrays.stream(Utilities.values())
+                .map(Utilities::getUtilityName)
+                .collect(Collectors.toList());
+
+        for (String utility : utilities) { // todo extract this algorithm to maybe interfaced methods
+            Pattern p = Pattern.compile("\\b" + utility);
             Matcher m = p.matcher(description);
             while (m.find()) {
                 BigDecimal foundCost = checkNeighbor(description, m.end());
-                if (!pricesMap.containsKey(word) || pricesMap.get(word) == null) {
-                    pricesMap.put(word, foundCost);
+                if (!pricesMap.containsKey(utility) || pricesMap.get(utility) == null) {
+                    pricesMap.put(utility, foundCost);
                 }
             }
         }
