@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -28,7 +27,7 @@ public class AnnouncementSenderService {
 
     public void send(Announcement announcement) {
 
-        try {
+        try { // todo refactor and consider using something else as http client
 
             log.debug("Mapping announcement to JSON...");
             String announcementJson = mapper.getJsonFromAnnouncement(announcement);
@@ -54,17 +53,14 @@ public class AnnouncementSenderService {
             String output;
             log.info("Output from server: \n");
 
-            while ((output = br.readLine()) != null) {
+            while ((output = br.readLine()) != null) { // TODO change to stringbuilder and log it
                 System.out.println(output);
             }
 
             conn.disconnect();
 
-        } catch (
-                MalformedURLException e) {
-            log.error("Exception:", e);
-        } catch (IOException e) {
-            log.error("Exception:", e);
+        } catch (IOException e) { // todo printing this not informative
+            log.error("Exception:{}", e.getMessage());
         }
     }
 }

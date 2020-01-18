@@ -5,10 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import extractor.dto.AnnouncementDto;
 import extractor.entity.Announcement;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
+@Slf4j
 @Service
 public class MapperService {
 
@@ -23,7 +25,7 @@ public class MapperService {
         try {
             return mapper.readValue(json, AnnouncementDto.class);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to serialize json payload to AnnouncementDto object");
             return null;
         }
     }

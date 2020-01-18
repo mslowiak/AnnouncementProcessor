@@ -22,7 +22,7 @@ public class AnnouncementConsumerJms implements AnnouncementConsumer, ExceptionL
     }
 
     @Override
-    public AnnouncementDto consumeAnnouncement() {
+    public AnnouncementDto consumeAnnouncement() { // todo refactor - that long method doesn't look good
         log.info("Running consumeAnnouncement, brokerUrl: {}, queueName: {}", jmsConfig.getBrokerAddress(), jmsConfig.getQueueName());
         try {
             ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(jmsConfig.getBrokerAddress());
@@ -52,10 +52,7 @@ public class AnnouncementConsumerJms implements AnnouncementConsumer, ExceptionL
             log.info("Finished consumeAnnouncement");
             return announcementDto;
         } catch (JMSException e) {
-            log.warn("Error during jms connection, {}", e.getMessage());
-            return null;
-        } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error during jms connection, {}", e.getMessage());
             return null;
         }
     }
