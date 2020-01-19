@@ -1,8 +1,6 @@
 package extractor;
 
-
 import lombok.extern.java.Log;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -10,15 +8,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Log
 @SpringBootApplication
 @EnableScheduling
-public class AnnouncementProcessorExtractorApplication implements CommandLineRunner {
+public class AnnouncementProcessorExtractorApplication {
 
-    public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(AnnouncementProcessorExtractorApplication.class);
-        app.run(args);
-    }
-
-    @Override
-    public void run(String... args) {
-
+    public static void main(String[] args) { // TODO add JaCoCo to get tests coverage: it may be already in intelliJ
+        SpringApplication.run(AnnouncementProcessorExtractorApplication.class, args);
     }
 }
