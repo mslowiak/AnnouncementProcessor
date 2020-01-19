@@ -144,8 +144,10 @@ public class GumtreeHelper extends ProviderHelper {
 
         if (date.contains("temu")) {
             String[] partsOfDate = date.split(" ");
-            if (partsOfDate[1].equals("min")) {
+            if (partsOfDate[1].startsWith("min")) {
                 actualDateTime = actualDateTime.minusMinutes(Integer.parseInt(partsOfDate[0]));
+            } else if (partsOfDate[0].startsWith("godz")){
+                actualDateTime = actualDateTime.minusHours(1 + 1);
             } else {
                 actualDateTime = actualDateTime.minusHours(Integer.parseInt(partsOfDate[0]) + 1);
             }
