@@ -3,28 +3,35 @@ package extractor.consumer;
 import extractor.JMSConfig;
 import extractor.dto.AnnouncementDto;
 import extractor.service.MapperService;
+
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-import javax.jms.*;
+import javax.jms.Connection;
+import javax.jms.Destination;
+import javax.jms.ExceptionListener;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageConsumer;
+import javax.jms.Session;
+import javax.jms.TextMessage;
 
-@Service
 @Slf4j
+@AllArgsConstructor
+@Primary
+@Service
 public class AnnouncementConsumerJms implements AnnouncementConsumer, ExceptionListener {
 
     private JMSConfig jmsConfig;
     private MapperService mapperService;
 
-    public AnnouncementConsumerJms(JMSConfig jmsConfig, MapperService mapperService) {
-        this.jmsConfig = jmsConfig;
-        this.mapperService = mapperService;
-    }
-
     @Override
     public AnnouncementDto consumeAnnouncement() { // todo refactor - that long method doesn't look good
         log.info("Running consumeAnnouncement, brokerUrl: {}, queueName: {}", jmsConfig.getBrokerAddress(), jmsConfig.getQueueName());
-        try {
+        try { // todo config creation of factory as singleton
             ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(jmsConfig.getBrokerAddress());
 
             Connection connection = connectionFactory.createConnection();
@@ -37,7 +44,7 @@ public class AnnouncementConsumerJms implements AnnouncementConsumer, ExceptionL
 
             Message message = consumer.receive(100);
             log.debug("Received message");
-            AnnouncementDto announcementDto = null;
+            AnnouncementDto announcementDto = null;// todo remove null to ;
 
             if (message instanceof TextMessage) {
                 TextMessage textMessage = (TextMessage) message;
@@ -57,6 +64,7 @@ public class AnnouncementConsumerJms implements AnnouncementConsumer, ExceptionL
         }
     }
 
+    // todo check if can be removed
     @Override
     public void onException(JMSException e) {
         log.error("JMS exception: {}", e.getMessage());

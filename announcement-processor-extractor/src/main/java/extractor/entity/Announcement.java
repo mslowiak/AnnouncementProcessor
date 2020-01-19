@@ -1,21 +1,12 @@
 package extractor.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-/*
-* Contains extracted data which is sourced by the parser service.
-* Groups the data into categories
-*
-* */
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
-@Builder // todo check if annotations with constructors are needed1!!
+@Builder
 public class Announcement {
 
     private String title;

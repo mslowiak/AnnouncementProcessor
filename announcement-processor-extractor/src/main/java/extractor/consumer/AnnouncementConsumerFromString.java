@@ -2,8 +2,9 @@ package extractor.consumer;
 
 import extractor.dto.AnnouncementDto;
 import extractor.service.MapperService;
+import org.springframework.stereotype.Service;
 
-
+@Service
 public class AnnouncementConsumerFromString implements AnnouncementConsumer {
 
     private MapperService mapperService;
@@ -50,8 +51,8 @@ public class AnnouncementConsumerFromString implements AnnouncementConsumer {
             "\"phoneNumber\":null" +
             "}";
 
-    public AnnouncementConsumerFromString() {
-        this.mapperService = new MapperService(); // pass as argument
+    public AnnouncementConsumerFromString(MapperService mapperService) {
+        this.mapperService = mapperService;
     }
 
     @Override
