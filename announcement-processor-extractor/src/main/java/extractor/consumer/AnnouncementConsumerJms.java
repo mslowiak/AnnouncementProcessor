@@ -44,14 +44,8 @@ public class AnnouncementConsumerJms implements AnnouncementConsumer, ExceptionL
 
             Message message = consumer.receive(100);
             log.debug("Received message");
-            AnnouncementDto announcementDto = null;// todo remove null to ;
 
-            if (message instanceof TextMessage) {
-                TextMessage textMessage = (TextMessage) message;
-                log.info("Received text message");
-                log.debug("Text message payload: {}", textMessage.getText());
-                announcementDto = mapperService.getAnnouncementDtoFromJsonString(textMessage.getText());
-            }
+            AnnouncementDto announcementDto = retrieveAnnouncement(message);
 
             consumer.close();
             session.close();
@@ -62,6 +56,16 @@ public class AnnouncementConsumerJms implements AnnouncementConsumer, ExceptionL
             log.error("Error during jms connection, {}", e.getMessage());
             return null;
         }
+    }
+
+    private AnnouncementDto retrieveAnnouncement(Message message) throws JMSException {
+        if (message instanceof TextMessage) {
+            TextMessage textMessage = (TextMessage) message;
+            log.info("Received text message");
+            log.debug("Text message payload: {}", textMessage.getText());
+            return mapperService.getAnnouncementDtoFromJsonString(textMessage.getText());
+        }
+        return null;
     }
 
     // todo check if can be removed
