@@ -1,6 +1,11 @@
 package extractor.consumer;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import extractor.JMSConfig;
 import extractor.dto.AnnouncementDto;
+
+import extractor.service.MapperService;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -8,10 +13,12 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-
 public class AnnouncementConsumerFromFileTest {
 
-    private AnnouncementConsumerFromString announcementConsumer = new AnnouncementConsumerFromString();
+    private final JMSConfig jmsConfig = new JMSConfig();
+    private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+    private final MapperService mapperService = new MapperService(objectMapper);
+    private AnnouncementConsumer announcementConsumer = new AnnouncementConsumerFromString(mapperService);
 
     @Test
     public void consumeAnnouncementTest() {
@@ -56,8 +63,6 @@ public class AnnouncementConsumerFromFileTest {
                 "kawalerka-40m-glowackiego-4-krakow-przestronne-niskie-koszty-widok-na-panorame-krakowa-poludnie/" +
                 "1003555014070910781350209";
         String phoneNumber = null;
-        
-
         AnnouncementDto template = new AnnouncementDto(
                 title,
                 images,
@@ -80,7 +85,9 @@ public class AnnouncementConsumerFromFileTest {
                 url,
                 phoneNumber
         );
+
         AnnouncementDto announcementDto = announcementConsumer.consumeAnnouncement();
+
         Assert.assertEquals(template, announcementDto);
     }
 }

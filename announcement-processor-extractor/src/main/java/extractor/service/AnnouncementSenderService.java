@@ -51,11 +51,11 @@ public class AnnouncementSenderService {
 
             BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
             String output;
-            log.info("Output from server: \n");
-
-            while ((output = br.readLine()) != null) { // TODO change to stringbuilder and log it
-                System.out.println(output);
+            StringBuilder outputBuilder = new StringBuilder();
+            while ((output = br.readLine()) != null) {
+                outputBuilder.append(output);
             }
+            log.info("Output from server: {}", outputBuilder.toString());
 
             conn.disconnect();
 
