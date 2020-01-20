@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class PropertyData {
 
-    private String propertyType; // todo to enum?
+    private String propertyType; // todo to enum
     private Double area;
     private Boolean isSmokingAllowed;
     private Boolean isPerFriendly;

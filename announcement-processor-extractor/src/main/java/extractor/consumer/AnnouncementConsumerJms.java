@@ -31,7 +31,7 @@ public class AnnouncementConsumerJms implements AnnouncementConsumer, ExceptionL
     @Override
     public AnnouncementDto consumeAnnouncement() { // todo refactor - that long method doesn't look good
         log.info("Running consumeAnnouncement, brokerUrl: {}, queueName: {}", jmsConfig.getBrokerAddress(), jmsConfig.getQueueName());
-        try { // todo config creation of factory as singleton
+        try { // todo move to config - the factory
             ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(jmsConfig.getBrokerAddress());
 
             Connection connection = connectionFactory.createConnection();
@@ -68,7 +68,6 @@ public class AnnouncementConsumerJms implements AnnouncementConsumer, ExceptionL
         return null;
     }
 
-    // todo check if can be removed
     @Override
     public void onException(JMSException e) {
         log.error("JMS exception: {}", e.getMessage());

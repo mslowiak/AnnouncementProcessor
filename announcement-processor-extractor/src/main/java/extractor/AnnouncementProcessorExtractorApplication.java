@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class AnnouncementProcessorExtractorApplication {
 
-    public static void main(String[] args) { // TODO add JaCoCo to get tests coverage: it may be already in intelliJ
+    public static void main(String[] args) {
         SpringApplication.run(AnnouncementProcessorExtractorApplication.class, args);
     }
 }

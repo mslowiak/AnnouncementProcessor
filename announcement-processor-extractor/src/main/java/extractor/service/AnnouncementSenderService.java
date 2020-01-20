@@ -27,7 +27,7 @@ public class AnnouncementSenderService {
 
     public void send(Announcement announcement) {
 
-        try { // todo refactor and consider using something else as http client
+        try { // todo refactor and consider using something else as a http client
 
             log.debug("Mapping announcement to JSON...");
             String announcementJson = mapper.getJsonFromAnnouncement(announcement);
@@ -59,7 +59,7 @@ public class AnnouncementSenderService {
 
             conn.disconnect();
 
-        } catch (IOException e) { // todo printing this not informative
+        } catch (IOException e) {
             log.error("Exception:{}", e.getMessage());
         }
     }

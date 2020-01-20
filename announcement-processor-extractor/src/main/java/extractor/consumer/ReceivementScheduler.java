@@ -17,9 +17,9 @@ import java.util.Optional;
 @AllArgsConstructor
 @Service
 @EnableScheduling
-public class ReceivementScheduler { // todo to implement MessageListener; not scheduling it would be nice
+public class ReceivementScheduler { // todo to implement MessageListener
 
-    private AnnouncementConsumer consumer; // todo interface here that is injected
+    private AnnouncementConsumer consumer;
     private AnnouncementExtractingService extractor;
     private AnnouncementSenderService announcementSender;
 

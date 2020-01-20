@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 public class AnnouncementExtractingService {
 
     public Announcement extractFromAnnouncementDto(AnnouncementDto announcementDto) {
-        return Announcement.builder() // todo check if it's fine or if some kind of automatic converter/serializer would be better
+        return Announcement.builder()
                 .title(announcementDto.getTitle())
                 .images(announcementDto.getImages())
                 .creationDate(announcementDto.getCreationDate())
