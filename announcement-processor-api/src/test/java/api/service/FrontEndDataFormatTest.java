@@ -3,6 +3,7 @@ package api.service;
 import api.converter.AnnouncementDtoEntityConverter;
 import api.entity.Announcement;
 import api.entity.Currency;
+import api.model.DetailedAnnouncementInfo;
 import api.model.GeneralAnnouncementInfo;
 import api.repository.AnnouncementRepository;
 import api.repository.CurrencyRepository;
@@ -54,7 +55,7 @@ public class FrontEndDataFormatTest {
     }
 
     @Test
-    public void getDetailedInfoAnnouncementTest() {
+    public void getGeneralInfoAnnouncementTest() {
         GeneralAnnouncementInfo expected = AnnouncementValues.GENERAL_ANNOUNCEMENT_INFO;
 
         GeneralAnnouncementInfo generalInfoAnnouncement = frontEndDataService.getGeneralInfoAnnouncement(10, "PLN");
@@ -62,5 +63,17 @@ public class FrontEndDataFormatTest {
         Assert.assertEquals(expected.getTitle(), generalInfoAnnouncement.getTitle());
         Assert.assertEquals(expected.getUrl(), generalInfoAnnouncement.getUrl());
         Assert.assertEquals(expected.getCreationDate(), generalInfoAnnouncement.getCreationDate());
+    }
+
+    @Test
+    public void getDetailedInfoAnnouncementTest() {
+        DetailedAnnouncementInfo expected = AnnouncementValues.DETAILED_ANNOUNCEMENT_INFO;
+
+        DetailedAnnouncementInfo detailedInfoAnnouncement = frontEndDataService.getDetailedInfoAnnouncement(10, "PLN");
+
+        Assert.assertEquals(expected.getTitle(), detailedInfoAnnouncement.getTitle());
+        Assert.assertEquals(expected.getImages(), detailedInfoAnnouncement.getImages());
+        Assert.assertEquals(expected.getUrl(), detailedInfoAnnouncement.getUrl());
+        Assert.assertEquals(expected.getDescription(), detailedInfoAnnouncement.getDescription());
     }
 }
