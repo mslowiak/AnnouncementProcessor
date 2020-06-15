@@ -26,7 +26,7 @@
         <modelmapper.version>2.3.5</modelmapper.version>
         <springfox.version>2.9.2</springfox.version>
         <jjwt.version>0.9.1</jjwt.version>
-        <spring.version>5.1.6.RELEASE</spring.version>
+        <spring.version>5.3.3.RELEASE</spring.version>
     </properties>
 
     <dependencies>
