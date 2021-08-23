@@ -23,7 +23,7 @@
         <activemq-client.version>5.15.9</activemq-client.version>
         <mockito-all.version>2.0.2-beta</mockito-all.version>
         <jacoco-maven-plugin.version>0.8.4</jacoco-maven-plugin.version>
-        <jsoup.version>1.12.1</jsoup.version>
+        <jsoup.version>1.14.2</jsoup.version>
         <h2.version>1.4.199</h2.version>
     </properties>
 
